@@ -13,8 +13,10 @@ Install virtualenv and virtualenvwrapper, using pip.
   pip install virtualenv
   pip install virtualenvwrapper
 
-Go to the virtualenvwrapper homepage, and follow the directions there for
-setting up where your virtualenvs are kept. Mine are in ~/.virtualenvs
+Go to the virtualenvwrapper homepage (
+http://virtualenvwrapper.readthedocs.org/en/latest/), and follow the directions
+there for setting up where your virtualenvs are kept. Mine are in
+~/.virtualenvs
 
 Create a virtualenv for lenin with
   mkvirtualenv lenin
