@@ -65,4 +65,8 @@ pip install pyyaml
 pip install pil (we probably dont really need this, but why not.)
 pip install -U scikit-learn
 
-ok, you should be good to go.
+Now go into the lib/pylearn2 directory and run
+  python setup.py install
+
+It should find its dependencies in our virtualenv, and everything should be
+honky-dory. 
