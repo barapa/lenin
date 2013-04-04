@@ -56,7 +56,9 @@ We want this in our bashrc, to point to the datasets to use with pylearn2
   export PYLEARN2_DATA_PATH=/path/to/data
 Mine is currently pointing to /Users/br/data/deep_learning. We probably want
 to put all our datasets in here, and put all the pylearn2 datasets in there as
-well.
+well. We're not going to be keeping them in the repo, obviously. 
+
+More dependencies for pylearn2:
 
 pip install theano
 pip install pyyaml
