@@ -1,0 +1,64 @@
+Our basic setup will be that pylearn2 is a git submodule that is in our repo.
+This will allow us to easily make changes to it as we please, or keep it up
+to date with the latest from the pylearn2 team. Right now, it is linked to
+their repo. We could also fork it and link it to our own version if we wanted
+to in the future.
+
+All other libraries that we want to use, or dependencies of pylearn2 will be
+kept in the virtualenv.
+
+Here are the directions to get setup.
+
+Install virtualenv and virtualenvwrapper, using pip.
+  pip install virtualenv
+  pip install virtualenvwrapper
+
+Go to the virtualenvwrapper homepage, and follow the directions there for
+setting up where your virtualenvs are kept. Mine are in ~/.virtualenvs
+
+Create a virtualenv for lenin with
+  mkvirtualenv lenin
+
+To see all your virtualenvs, use the command
+  workon
+
+To use the lenin virtualenv, use the command
+  workon lenin
+
+Now, let's get our dependencies in order. At any time to see what is in your
+virtualenv, use
+  lssitepackages
+
+While in a virtualenv any 'pip install' command will install things only for
+the current virtual environment. We are going to play it safe, and say nothing
+comes from anywhere but our virtualenv.
+
+Instructions for installing scipy, numpy, etc, all found here, and given below:
+http://www.lowindata.com/2013/installing-scientific-python-on-mac-os-x/
+
+pip install numpy
+brew install gfortran (YOU PROBABLY ALREADY HAVE THIS)
+pip install scipy
+brew install freetype
+pip install matplotlib
+
+pip install ipython
+
+In that document, there is a cool looking GUI terminal called QT something that
+lets you like look at plots in the terminal. Might be something we could be
+interested in later, but requires some downloading and installing.
+
+Now, to install the dependencies for pylearn2.
+
+We want this in our bashrc, to point to the datasets to use with pylearn2
+  export PYLEARN2_DATA_PATH=/path/to/data
+Mine is currently pointing to /Users/br/data/deep_learning. We probably want
+to put all our datasets in here, and put all the pylearn2 datasets in there as
+well.
+
+pip install theano
+pip install pyyaml
+pip install pil (we probably dont really need this, but why not.)
+pip install -U scikit-learn
+
+ok, you should be good to go.
