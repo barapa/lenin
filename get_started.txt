@@ -65,10 +65,11 @@ pip install pil (we probably dont really need this, but why not.)
 pip install -U scikit-learn
 
 
-I am not sure if we shoud really run this next step or not. I kind of think not
-but am unsure.
 Now go into the lib/pylearn2 directory and run
   python setup.py install
+This installs pylearn2 into our virtualenv. I am slightly confused about what
+is in the virtualenv vs what is being used from our /lib folder, but it seems
+to work like this.
 
 It should find its dependencies in our virtualenv, and everything should be
 honky-dory. 
