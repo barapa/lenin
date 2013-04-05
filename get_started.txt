@@ -1,8 +1,7 @@
 Our basic setup will be that pylearn2 is a git submodule that is in our repo.
-This will allow us to easily make changes to it as we please, or keep it up
-to date with the latest from the pylearn2 team. Right now, it is linked to
-their repo. We could also fork it and link it to our own version if we wanted
-to in the future.
+I have forked it and linked it to our version of the repo, so that we can make
+changes to it as we please (I have already had to adjust the shebangs on top of
+the scripts so they run properly for us).
 
 All other libraries that we want to use, or dependencies of pylearn2 will be
 kept in the virtualenv.
