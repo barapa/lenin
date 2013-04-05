@@ -79,5 +79,7 @@ I worked through this example:
 http://deeplearning.net/software/pylearn2/tutorial/index.html
 
 It will require that you download a dataset, and add another environment
-variable for looking at images. If you successfully run it (which I have), we
-should be pretty good to go wrt having all our dependencies in order.
+variable for looking at images. I used 'open -Wn'.
+
+If you successfully run it (which I have), we should be pretty good to go wrt
+having all our dependencies in order.
