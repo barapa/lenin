@@ -84,7 +84,7 @@ variable for looking at images. I used 'open -Wn'.
 If you successfully run it (which I have), we should be pretty good to go wrt
 having all our dependencies in order.
 
-I (sam) had to add the following to ./virtualenvs/lenin/bin/postactivate:
+I (sam) had to add the following to ~/.virtualenvs/lenin/bin/postactivate:
 
   export $PATH=/path/to/pylearn2/pylearn2/scripts
 
