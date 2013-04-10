@@ -1,3 +1,6 @@
 [submodule "lib/pylearn2"]
 	path = lib/pylearn2
   url = git@github.com:barapa/pylearn2.git
+[submodule "lib/DeepLearnToolbox"]
+	path = lib/DeepLearnToolbox
+	url = git@github.com:barapa/DeepLearnToolbox.git
