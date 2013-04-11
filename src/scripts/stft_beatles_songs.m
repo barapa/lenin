@@ -1,7 +1,10 @@
-%
-%
-%
-function stft_beatles_songs
+% Preprocess the beatles data.
+% 
+% EXPECTATIONS:
+%   - beatles songs to be in /var/data/lenin/beatles
+%   - data/matlab to exist
+%   - to be run from top-level
+function [ beatles_unlabeled ] = stft_beatles_songs
   TOP_DIR = '/var/data/lenin/beatles/mp3s-32k/' ;
   disp(sprintf('[stft_beatles_songs] Preprocessing beatles songs found in %s',...
       TOP_DIR)) ;
