@@ -18,10 +18,6 @@ function stft_beatles_songs
 
     dirname = listings(i).name ;
 
-    if strcmp(dirname, '.') || strcmp(dirname, '..')
-      continue ;
-    end
-
     data_dir = strcat(TOP_DIR, dirname) ;
     data_dir = strcat(data_dir, '/') ;
     new_songs = stft_on_dir(data_dir) ;
