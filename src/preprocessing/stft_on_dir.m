@@ -13,7 +13,7 @@
 % DEPENDENCIES:
 %  audioread package by Dan Ellis
 %
-function [ songs ] = stft_on_dir(data_dir)
+function [ songs ] = stft_on_dir(data_dir, save_dir)
   disp(sprintf('[stft_on_dir] Performing stft on songs in dir %s...', ...
       data_dir)) ;
 
@@ -32,7 +32,7 @@ function [ songs ] = stft_on_dir(data_dir)
     end
 
     filename = strcat(data_dir, listings(i).name) ;
-    songs = [ songs; stft(filename) ] ;
+    stft(filename, listings(i).name, save_dir) ;
 
   end
 
