@@ -8,5 +8,6 @@
 
   path('lib/audioread', path) ;
   path('src/preprocessing/', path) ;
+  path('src/scripts/', path) ;
 
   disp(sprintf('...done')) ;
