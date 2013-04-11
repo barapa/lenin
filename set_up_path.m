@@ -7,6 +7,6 @@
   disp(sprintf('setting up paths...')) ;
 
   path('lib/audioread', path) ;
-  path('src/stft/', path) ;
+  path('src/preprocessing/', path) ;
 
   disp(sprintf('...done')) ;
