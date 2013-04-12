@@ -18,4 +18,3 @@ songs_list = fuf('/var/data/lenin/matlab/*.mat', 'detail');
 songs_list = songs_list(1:total_songs);
 
 dbn = pre_train_dbn(network_params, training_params, songs_list);
-
