@@ -6,7 +6,7 @@
 % The chords that are outputted are valid chords into the chord_label_chord map.
 %
 function [ normalized ] = normalize_chord(chord)
-  SPLIT_PATTERN = '(?<chord>\w+[#]?):' ;
+  SPLIT_PATTERN = '(?<chord>\w+[#]?)' ;
   match = regexp(chord, SPLIT_PATTERN, 'names') ;
   normalized = match.chord ;
 

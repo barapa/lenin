@@ -40,8 +40,13 @@ function [ song ] = stft(filename, pretty_name, opt_save_dir, opt_label_filename
   end
 
   if nargin > 2
-    save_filename = strcat(pretty_name, '.mat') ;
-    disp(sprintf('[stft] Saving STFT output to %s', save_filename)) ;
+    save_filename = regexprep(pretty_name, '.mp3', '') ;
+    save_filename = strcat(save_filename, '.mat') ;
+    if nargin == 4
+      disp(sprintf('[stft] Saving STFT (and labels) output to %s', save_filename)) ;
+    else
+      disp(sprintf('[stft] Saving STFT output to %s', save_filename)) ;
+    end
     save(strcat(opt_save_dir, save_filename), 'song') ;
   end
 
