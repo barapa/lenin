@@ -7,6 +7,7 @@
 % out_filename: Absolute path (string) for name of audio file to write
 % audio_length: (optional) length in frames of output audio. default=100
 function [ ] = dft_frame_to_audio( dft_frame, out_filename, audio_length )
+%TODO (ben): look into making call to inverse the dft non-symmetric. 
   NFFT_POINTS = 1024;
   WINDOW_OVERLAP = 512;
   WINDOW_SIZE = 1024;
