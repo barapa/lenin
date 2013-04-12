@@ -8,6 +8,7 @@
 
   path('lib/audioread', path) ;
   path('src/preprocessing/', path) ;
+  path('src/postprocessing/', path) ;
   path('src/scripts/', path) ;
   path('src/util/', path) ;
 
