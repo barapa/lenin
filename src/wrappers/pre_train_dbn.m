@@ -1,5 +1,9 @@
-function [ dbn ] = pre_train_dbn( network_params,...
-    training_params, files_to_train )
+function [ dbn ] = pre_train_dbn( network_params, training_params,...
+    files_to_train )
+%
+% function [ dbn ] = pre_train_dbn( network_params, training_params,...
+%    files_to_train )
+%
 % pre_train_dbn pretrains a deep belief network and returns the pretrained
 % network.
 %
@@ -56,7 +60,7 @@ opts.alpha = training_params.learning_rate;
 
 % load in first song, just to setup dbn with. Needs to be n x d.
 song = load(files_to_train{1});
-song_data = song.samples'; % convert to nxd matrix
+song_data = song.song.samples'; % convert to nxd matrix
 
 % setup dbn
 dbn = dbnsetup(dbn, song_data, opts);
@@ -64,12 +68,12 @@ dbn = dbnsetup(dbn, song_data, opts);
 % set up the song batch loop
 num_songs = numel(files_to_train);
 rand_song_order = randperm(num_songs);
-num_song_batches = ceil(total_songs / training_params.song_batch_size);
+num_song_batches = ceil(num_songs / training_params.song_batch_size);
 
 fprintf('%s\n', 'Beginning DBN training.');
 
-for batch = 1 : num_song_batches
-    fprintf('training song batch #%i of %i', batch, num_song_batches);
+for b = 1 : num_song_batches
+    fprintf('training song batch #%i of %i', b, num_song_batches);
     
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
@@ -78,7 +82,7 @@ for batch = 1 : num_song_batches
     song_data = {};
     for s = first_ind : last_ind
         song = load(files_to_train{rand_song_order(s)});
-        song_data{end+1} = song.samples'; % convert to n x d
+        song_data{end+1} = song.song.samples'; % convert to n x d
     end
     
     % put all songs in this batch into one data matrix
