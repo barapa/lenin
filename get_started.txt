@@ -1,3 +1,11 @@
+Before running the STFT functions, you must install the following dependencies
+for Dan Ellis' audioread library:
+  mpg123 : brew install mpg123
+  mp3info : brew install mp3info
+
+
+**EVERYTHING BELOW IS DEPRECATED**
+
 Our basic setup will be that pylearn2 is a git submodule that is in our repo.
 I have forked it and linked it to our version of the repo, so that we can make
 changes to it as we please (I have already had to adjust the shebangs on top of

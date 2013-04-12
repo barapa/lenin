@@ -7,7 +7,7 @@ function audiowrite(D,SR,FN)
 [pth,nam,ext] = fileparts(FN);
 
 % Ensure the output directory exists
-mymkdir(pth);
+mkdir(pth);
 
 ext = lower(ext);
 if strcmp(ext,'.mp3')
