@@ -46,7 +46,9 @@ function [ songs ] = stft_on_dir(data_dir, save_dir, opt_label_dir)
     if nargin == 2
       stft(filename, listings(i).name, save_dir) ;
     elseif nargin == 3
-      label_filename = strcat(label_dir, listings(i).name) ;
+      label_name = convert_music_filename_to_label_filename(...
+          listings(i).name) ;
+      label_filename = strcat(opt_label_dir, label_name) ;
       stft(filename, listings(i).name, save_dir, label_filename) ;
     else
       disp(sprinft('[stft_on_dir] called in invalid number of params!')) ;

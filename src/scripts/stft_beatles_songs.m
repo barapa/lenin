@@ -38,7 +38,7 @@ function [ beatles_unlabeled ] = stft_beatles_songs
     data_dir = strcat(TOP_DIR, dirname) ;
     data_dir = strcat(data_dir, '/') ;
     label_dir = strcat(LABEL_DIR, dirname) ;
-    label_dir = strcat(data_dir, '/') ;
+    label_dir = strcat(label_dir, '/') ;
     stft_on_dir(data_dir, SAVE_DIR, label_dir) ;
 
   end
