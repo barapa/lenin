@@ -15,7 +15,7 @@
 function [ beatles_unlabeled ] = stft_beatles_songs
   TOP_DIR = '/var/data/lenin/beatles/mp3s-32k/' ;
   LABEL_DIR = '/var/data/lenin/beatles/chordlabs/' ;
-  SAVE_DIR = 'data/matlab/' ;
+  SAVE_DIR = '/var/data/lenin/matlab/' ;
   disp(sprintf('[stft_beatles_songs] Preprocessing beatles songs found in %s',...
       TOP_DIR)) ;
   disp(sprintf('[stft_beatles_songs] Looking in %s for labels', LABEL_DIR)) ;
