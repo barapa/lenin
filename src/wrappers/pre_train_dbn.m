@@ -73,7 +73,7 @@ num_song_batches = ceil(num_songs / training_params.song_batch_size);
 fprintf('%s\n', 'Beginning DBN training.');
 
 for b = 1 : num_song_batches
-    fprintf('training song batch #%i of %i', b, num_song_batches);
+    fprintf('training song batch #%i of %i\n', b, num_song_batches);
     
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
