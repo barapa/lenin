@@ -16,8 +16,8 @@ function [ ] = dft_frame_to_audio( dft_frame, out_filename, audio_length )
     audio_length = 100;
   end
   
-  rep_dft_frame = repmat(dft_frame, 1, audio_length)
-  inverse_dft = istft(rep_dft_frame, NFFT_POINTS, WINDOW_OVERLAP, WINDOW_SIZE)
-  audiowrite(inverse_dft, SAMPLE_RATE, out_filename)
+  rep_dft_frame = repmat(dft_frame, 1, audio_length);
+  inverse_dft = istft(rep_dft_frame, NFFT_POINTS, WINDOW_OVERLAP, WINDOW_SIZE);
+  audiowrite(inverse_dft, SAMPLE_RATE, out_filename);
 end
 
