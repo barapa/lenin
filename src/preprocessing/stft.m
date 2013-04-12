@@ -30,13 +30,13 @@ function [ song ] = stft(filename, pretty_name, opt_save_dir, opt_label_filename
   song.freqs = freqs ;
   song.timestamps = times ;
 
+
   if nargin > 1
     song.filename = pretty_name ;
   end
 
   if nargin == 4
-    continue ;
-
+    song.labels = label_timestamps(song.timestamps, opt_label_filename) ;
   end
 
   if nargin > 2
