@@ -8,3 +8,4 @@
 %   labels - a 1 X N vector of labels (ints \in [0, 24]).
 %
 function [ labels ] = label_timestamps(timestamps, label_filename)
+  file_d = fopen(label_filename) ;
