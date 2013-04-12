@@ -2,6 +2,7 @@ Before running the STFT functions, you must install the following dependencies
 for Dan Ellis' audioread library:
   mpg123 : brew install mpg123
   mp3info : brew install mp3info
+  lame : brew install lame
 
 
 **EVERYTHING BELOW IS DEPRECATED**
