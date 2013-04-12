@@ -1,9 +1,22 @@
 % Perform an STFT on a particular song.
 %
+% filename - Absolute path (string) to raw audio file.
+% pretty_name - String to save as filename in struct array.
+% opt_save_dir - Optional absolute path (string) to save file. If specified,
+%                output of this function ('song') is saved to save_dir with
+%                the filename pretty_name.
+% opt_label_filename - Optional absolute path (string) to label file. If
+%                      specified, a 'labels' vector will be added to struct
+%                      array. Has same cardinality as timestamps, and gives a
+%                      chord label given the following key:
+%       LABEL KEY:
+%              0 - 11: C ... B major
+%             12 - 23: C ... B minor
+%                  24: NO CHORD
 %
 % DEPENDENCIES:
 %  audioread package by Dan Ellis
-function [ song ] = stft(filename, pretty_name, save_dir)
+function [ song ] = stft(filename, pretty_name, opt_save_dir, opt_label_filename)
   NFFT_POINTS = 1024;
   WINDOW_OVERLAP = 512;
   WINDOW_SIZE = 1024;
@@ -21,10 +34,15 @@ function [ song ] = stft(filename, pretty_name, save_dir)
     song.filename = pretty_name ;
   end
 
+  if nargin == 4
+    continue ;
+
+  end
+
   if nargin > 2
     save_filename = strcat(pretty_name, '.mat') ;
     disp(sprintf('[stft] Saving STFT output to %s', save_filename)) ;
-    save(strcat(save_dir, save_filename), 'song') ;
+    save(strcat(opt_save_dir, save_filename), 'song') ;
   end
 
 
