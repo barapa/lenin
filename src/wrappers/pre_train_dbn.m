@@ -7,7 +7,7 @@ function [ dbn ] = pre_train_dbn( network_params, training_params,...
 % pre_train_dbn pretrains a deep belief network and returns the pretrained
 % network.
 %
-% network_params: Object containing all of the DBN network parameters.'
+% network_params: Object containing all of the DBN network parameters.
 %
 %   network_params.layer_sizes: 
 %       a 1 x n vector of scalars where each scalar value is the number of
@@ -15,11 +15,11 @@ function [ dbn ] = pre_train_dbn( network_params, training_params,...
 %       specified
 %   network_params.gaussian_visible_units:
 %       a 1 indicating the lowest RBM containing the visible inputs should
-%       be a Gaussian-Bernoulli RBM, 0 otherwise.
+%       be a Gaussian-Bernoulli RBM. 0 indicates it is Bernoulli-Bernoulli.
 %
 %
 % training_params: Object containing the training parameters for the
-%                  pre-training phase
+%                  pre-training phase.
 %
 %   training_params.num_epochs:
 %       A scalar. The number of training epochs to perform on each RBM
