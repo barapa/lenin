@@ -7,15 +7,16 @@
 %       timestamps - same cardinality as cols in samples, time of each col in
 %                    seconds.
 %       filename - stub of filename for song.
-% 
+%
 % EXPECTATIONS:
 %   - beatles songs to be in /var/data/lenin/beatles
 %   - data/matlab to exist
 %   - to be run from top-level
+%
 function [ beatles_unlabeled ] = stft_beatles_songs
   TOP_DIR = '/var/data/lenin/beatles/mp3s-32k/' ;
   LABEL_DIR = '/var/data/lenin/beatles/chordlabs/' ;
-  SAVE_DIR = '/var/data/lenin/matlab/' ;
+  SAVE_DIR = '/var/data/lenin/matlab/labeled/' ;
   disp(sprintf('[stft_beatles_songs] Preprocessing beatles songs found in %s',...
       TOP_DIR)) ;
   disp(sprintf('[stft_beatles_songs] Looking in %s for labels', LABEL_DIR)) ;
