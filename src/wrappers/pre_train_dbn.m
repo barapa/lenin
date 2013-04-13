@@ -13,6 +13,9 @@ function [ dbn ] = pre_train_dbn( network_params, training_params,...
 %       a 1 x n vector of scalars where each scalar value is the number of
 %       nodes in that hidden layer. The size of the visible layer is NOT
 %       specified
+%   network_params.gaussian_visible_units:
+%       a 1 indicating the lowest RBM containing the visible inputs should
+%       be a Gaussian-Bernoulli RBM, 0 otherwise.
 %
 %
 % training_params: Object containing the training parameters for the
@@ -51,6 +54,7 @@ fprintf('%s\n', 'Setting up DBN.');
 
 % setup network parameters
 dbn.sizes = network_params.layer_sizes;
+dbn.gaussian_visible_units = network_params.gaussian_visible_units;
 
 % setup training parameters
 opts.numepochs = training_params.num_epochs;
