@@ -18,7 +18,7 @@
 % Outputs:
 %
 %   X_avg : A D x 1 centroid vector of each feature in the dataset.
-%       W : The whitening matrix.
+%       W : A K x D whitening matrix.
 %
 % To whiten a dataset, do the following:
 %

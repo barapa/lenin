@@ -6,10 +6,10 @@
 %      X - a D x N matrix of data to be transformed.
 %  X_avg - a D x 1 centroid vector to make X zero-mean for each feature
 %          separately.
-%      W - A whitening matrix, used to perform the whitening of X.
+%      W - A K x D whitening matrix, used to perform the whitening of X.
 %
 % Outputs:
-%   X_whitened : The whitened data.
+%   X_whitened : A K x N matrix corresponding to the whitened data.
 %
 % NOTE: To generate X_avg and W, use generate_whitening_params.
 %
