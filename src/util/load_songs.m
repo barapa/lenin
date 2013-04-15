@@ -13,6 +13,14 @@
 %                       filename: '17-Julia.mp3'
 %                         labels: [1 x n double]
 %
+% opt_epsilon :     Optional scalar parameter in range (0, 1]. If present, then 
+%                   each song is whitened individually using pca_whiten, with
+%                   opt_epsilon as the epsilon parameter.
+%
+%      opt_k :      Optional dimensionality reduction parameter. If present,
+%                   then songs are transformed from D x N vectors to K x N
+%                   vectors during the pca_whitening stage.
+%
 % Outputs:
 %   song_matrix :   a D x N matrix of songs, where N = n_1 + ... + n_s, where s
 %                   is the number of songs specified in song_files, and n_i is
@@ -27,7 +35,8 @@
 %                   representation, where L is the number of possible
 %                   labels. This is always set to 25.
 %
-function [ song_matrix, song_borders, one_hot_labels ] = load_songs(song_files) 
+function [ song_matrix, song_borders, one_hot_labels ] = ...
+    load_songs(song_files, opt_epsilon, opt_k) 
   song_data = {} ;
   label_data = {} ;
   song_borders = {} ;
@@ -35,7 +44,15 @@ function [ song_matrix, song_borders, one_hot_labels ] = load_songs(song_files)
 
   for i = 1 : length(song_files)
     song = load(song_files{i}) ;
-    song_data{end + 1} = song.song.samples ; % D x N_i matrix
+    samples = song.song.samples ; % D x N_i matrix
+
+    if nargin == 2
+      samples = pca_whiten(samples, opt_epsilon) ;
+    elseif nargin == 3
+      samples = pca_whiten(samples, opt_epsilon, opt_k) ;
+    end
+
+    song_data{end + 1} = samples ;
     label_data{end + 1} = labels_to_one_hot(song.song.labels) ; % L X N_i matrix
     song_borders{end + 1} = running_total ;
     running_total = running_total + size(song.song.samples, 2) ;
