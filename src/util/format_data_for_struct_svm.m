@@ -12,7 +12,7 @@ function [ data ] = format_data_for_struct_svm(data, example_num)
   samples = data.samples ;
   labels = data.labels ;
   name = data.filename ;
-  data = [ ] ;
+  data = {} ;
 
   for i = 1 : length(samples)
 
@@ -28,7 +28,7 @@ function [ data ] = format_data_for_struct_svm(data, example_num)
     frame = write_frame(...
         samples(:, i), labels(:, i) + 1, name, example_num) ;
 
-    data = [ data, frame ] ;
+    data{i} = frame ;
 
   end % for i = 1 : length(samples)
 
