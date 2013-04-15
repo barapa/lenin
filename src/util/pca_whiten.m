@@ -1,6 +1,6 @@
 % function [ X_tilde ] = pca_whiten( X, epsilon, opt_k )
 %
-% Performn PCA whitening on X.
+% Perform PCA whitening on X.
 %
 % Inputs:
 %       X : a D x N matrix of examples (one example per column).
