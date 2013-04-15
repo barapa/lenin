@@ -4,7 +4,9 @@
 %
 % Inputs:
 %       X : a D x N matrix of examples (one example per column).
+%
 %  epison : a scalar in (0, 1], used for regularization.
+%
 %   opt_k : an integer, specifying the number of dimensions to keep in the
 %           transformed data. Default is D.
 %
