@@ -52,10 +52,10 @@
 %   opt_preprocessing_params : Optional object containing the preprocessing
 %                              parameters for the data.
 %
-%     - preprocessing_params.epsilon:
+%     - opt_preprocessing_params.epsilon :
 %         A scalar. The regularization term used using PCA whitening.
 %
-%     - preprocessing_params.opt_k:
+%     - opt_preprocessing_params.k :
 %         A scalar (integer). The number of dimensions to project the data
 %         onto.  If unspecified no dimensionality reduction is done.
 %
@@ -97,17 +97,23 @@ for b = 1 : num_song_batches
     last_ind = min(b * training_params.song_batch_size, num_songs);
     
 
-    fprintf('loading songs') ;
+    fprintf('loading songs\n') ;
     % NOTE: we have to wrap the filenames in another cell array, because is
     % first_ind == last_ind then we don't get a cell array but just a string
     % (or something else who the hell knows), which breaks load_songs which
     % uses cell indexing. Looks weird but does the trick.
-    [ train_x, ~, ~ ] = load_songs(...
-        { files_to_train{rand_song_order(:, first_ind:last_ind)} }) ;
+    if nargin == 3
+      [ train_x, ~, ~ ] = load_songs(...
+          { files_to_train{rand_song_order(:, first_ind:last_ind)} }) ;
+    else
+      [ train_x, ~, ~ ] = load_songs(...
+          { files_to_train{rand_song_order(:, first_ind:last_ind)} }, ...
+          opt_preprocessing_params.epsilon, opt_preprocessing_params.k) ;
+    end
 
     train_x = train_x'; % convert from d x n to n x d matrix.
 
-    fprintf('training network');
+    fprintf('training network\n');
     % train dbn on the current batch of song data
     dbn = dbntrain(dbn, train_x, opts);
     

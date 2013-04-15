@@ -24,5 +24,9 @@ learning_rate = .0001;
 training_params = create_dbn_pre_training_params(num_epochs,...
     song_batch_size, mini_batch_size, momentum, learning_rate);
 
+k = 275 ;
+epsilon = 0.00001 ;
+preprocessing_params = create_dbn_pre_processing_params(epsilon, k) ;
+
 % train the network
 dbn = pre_train_dbn(network_params, training_params, songs_list);
