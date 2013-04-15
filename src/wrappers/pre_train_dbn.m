@@ -1,5 +1,5 @@
-% function [ dbn ] = pre_train_dbn( network_params, training_params, ...
-%     files_to_train, opt_preprocessing_params )
+% function [ dbn, opt_preprocessing_params ] = pre_train_dbn(...
+%     network_params, training_params, files_to_train, opt_preprocessing_params )
 %
 % Pretrain a deep belief network and return the pre-trained network.
 %
@@ -62,8 +62,8 @@
 % Ouputs:
 %   dbn : A DBN object, as used by the framework, already pretrained.
 %
-function [ dbn ] = pre_train_dbn( network_params, training_params, ...
-    files_to_train, opt_preprocessing_params )
+function [ dbn, opt_preprocessing_params ] = pre_train_dbn(...
+    network_params, training_params, files_to_train, opt_preprocessing_params )
 fprintf('%s\n', 'Setting up DBN.');
 
 % setup network parameters
