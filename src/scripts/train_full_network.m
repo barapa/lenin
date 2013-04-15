@@ -7,7 +7,7 @@
 % TODO(ben): replace this with reading from sams variables
 % get list of song data with full path names
 songs_list = fuf('/var/data/lenin/matlab/*.mat', 'detail');
-train_dbn_songs = songs_list(1:5);
+train_dbn_songs = songs_list(1:20);
 train_nn_songs = songs_list(21:25);
 test_nn_songs = songs_list(26:30);
 
@@ -19,8 +19,8 @@ gaussian_vis_layer = 1;
 network_params = create_dbn_network_params(layer_sizes, gaussian_vis_layer);
 
 % training parameters
-num_epochs = 2;
-song_batch_size = 2;
+num_epochs = 10;
+song_batch_size = 3;
 mini_batch_size = 100;
 momentum = .5;
 learning_rate = .0001;
@@ -30,7 +30,7 @@ training_params = create_dbn_pre_training_params(num_epochs,...
 % preprocessing
 epsilon = 0.00001;
 k = 250;
-[ preprocessing_params ] = create_dbn_pre_processing_params(epsilon, k);
+preprocessing_params = create_dbn_pre_processing_params(epsilon, k);
 
 % train the dbn
 dbn = pre_train_dbn(network_params, training_params, train_dbn_songs, preprocessing_params);
