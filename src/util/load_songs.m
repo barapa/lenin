@@ -1,4 +1,5 @@
-% function [ song_matrix, song_borders, one_hot_labels ] = load_songs(song_files)
+% function [ song_matrix, song_borders, one_hot_labels ] = load_songs(...
+% song_files, opt_preprocessing_params)
 %
 % Generates a large D x N matrix on songs, with a corresponding border vector
 % to indicate where a new song begins.
@@ -13,13 +14,16 @@
 %                       filename: '17-Julia.mp3'
 %                         labels: [1 x n double]
 %
-% opt_epsilon :     Optional scalar parameter in range (0, 1]. If present, then 
-%                   each song is whitened individually using pca_whiten, with
-%                   opt_epsilon as the epsilon parameter.
+%   opt_preprocessing_params : Optional object containing the preprocessing
+%                              parameters for the data.
 %
-%      opt_k :      Optional dimensionality reduction parameter. If present,
-%                   then songs are transformed from D x N vectors to K x N
-%                   vectors during the pca_whitening stage.
+%     - opt_preprocessing_params.epsilon :
+%         A scalar in range (0, 1]. The regularization term used using PCA
+%         whitening.
+%
+%     - opt_preprocessing_params.k :
+%         A scalar (integer). The number of dimensions to project the data
+%         onto. Songs are transfromed from D x N vectors to K x N vectors.
 %
 % Outputs:
 %   song_matrix :   a D x N matrix of songs, where N = n_1 + ... + n_s, where s
@@ -36,7 +40,7 @@
 %                   labels. This is always set to 25.
 %
 function [ song_matrix, song_borders, one_hot_labels ] = ...
-    load_songs(song_files, opt_epsilon, opt_k) 
+    load_songs(song_files, opt_preprocessing_params)
   song_data = {} ;
   label_data = {} ;
   song_borders = {} ;
@@ -46,10 +50,9 @@ function [ song_matrix, song_borders, one_hot_labels ] = ...
     song = load(song_files{i}) ;
     samples = song.song.samples ; % D x N_i matrix
 
-    if nargin == 2
-      samples = pca_whiten(samples, opt_epsilon) ;
-    elseif nargin == 3
-      samples = pca_whiten(samples, opt_epsilon, opt_k) ;
+    if nargin == 2 
+      samples = pca_whiten(samples, opt_preprocessing_params.epsilon, ...
+          opt_preprocessing_params.k) ;
     end
 
     song_data{end + 1} = samples ;

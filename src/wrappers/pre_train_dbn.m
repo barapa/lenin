@@ -80,6 +80,11 @@ opts.alpha = training_params.learning_rate;
 song = load(files_to_train{1});
 song_data = song.song.samples'; % convert to nxd matrix
 
+[ song_data, ~, ~ ] = load_songs({files_to_train{1}}, ...
+    opt_preprocessing_params) ;
+
+song_data = song_data' ; % convert from d x n to n x d matrix.
+
 % setup dbn
 dbn = dbnsetup(dbn, song_data, opts);
 
@@ -108,7 +113,7 @@ for b = 1 : num_song_batches
     else
       [ train_x, ~, ~ ] = load_songs(...
           { files_to_train{rand_song_order(:, first_ind:last_ind)} }, ...
-          opt_preprocessing_params.epsilon, opt_preprocessing_params.k) ;
+          opt_preprocessing_params) ;
     end
 
     train_x = train_x'; % convert from d x n to n x d matrix.

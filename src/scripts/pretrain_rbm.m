@@ -29,4 +29,5 @@ epsilon = 0.00001 ;
 preprocessing_params = create_dbn_pre_processing_params(epsilon, k) ;
 
 % train the network
-dbn = pre_train_dbn(network_params, training_params, songs_list);
+dbn = pre_train_dbn(network_params, training_params, songs_list, ...
+    preprocessing_params);
