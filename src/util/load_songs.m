@@ -18,9 +18,21 @@
 %                 is the number of songs specified in song_files, and n_i is
 %                 the second dimension of the samples vector for song i.
 %
-%  song_borders : a S x 1 vector of integers, where S is the number of songs
+%  song_borders : a S x 1 cell array of integers, where S is the number of songs
 %                 specified in song_files. The value S(i) corresponds to the
 %                 first column in song_matrix that corresponds to song i.
 %                 (S(1) always = 1).
 %
 function [ song_matrix, song_borders ] = load_songs(song_files) 
+  song_data = {} ;
+  song_borders = {} ;
+  running_total = 1;
+
+  for i = 1 : length(song_files)
+    song = load(song_files{i}) ;
+    song_data{end + 1} = song.song.samples; % D x N_i matrix
+    song_borders{end + 1} = running_total ;
+    running_total = running_total + size(song.song.samples, 2);
+  end
+
+  song_matrix = horzcat(song_data{:}) ;
