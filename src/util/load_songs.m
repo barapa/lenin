@@ -39,8 +39,13 @@
 %                   representation, where L is the number of possible
 %                   labels. This is always set to 25.
 %
-function [ song_matrix, song_borders, one_hot_labels ] = ...
-    load_songs(song_files, opt_preprocessing_params)
+% opt_preprocessing_params : If this input variable was specified, appends
+%                  X_avg, the centroid of song_matrix, and W, the whitening
+%                  matrix, to this object. These can then be used to whiten
+%                  any test data.
+%
+function [ song_matrix, song_borders, one_hot_labels, ...
+    opt_preprocessing_params] = load_songs(song_files, opt_preprocessing_params)
   song_data = {} ;
   label_data = {} ;
   song_borders = {} ;
@@ -50,11 +55,6 @@ function [ song_matrix, song_borders, one_hot_labels ] = ...
     song = load(song_files{i}) ;
     samples = song.song.samples ; % D x N_i matrix
 
-    if nargin == 2 
-      samples = pca_whiten(samples, opt_preprocessing_params.epsilon, ...
-          opt_preprocessing_params.k) ;
-    end
-
     song_data{end + 1} = samples ;
     label_data{end + 1} = labels_to_one_hot(song.song.labels) ; % L X N_i matrix
     song_borders{end + 1} = running_total ;
@@ -62,4 +62,13 @@ function [ song_matrix, song_borders, one_hot_labels ] = ...
   end
 
   song_matrix = horzcat(song_data{:}) ;
+
+  if nargin == 2
+    [ X_avg, W ] = generate_whitening_params(...
+        song_matrix, opt_preprocessing_params) ;
+    opt_preprocessing_params.X_avg = X_avg;
+    opt_preprocessing_params.W = W;
+    song_matrix = whiten_data(song_matrix, X_avg, W) ;
+  end
+
   one_hot_labels = horzcat(label_data{:}) ;
