@@ -82,6 +82,8 @@ opts.alpha = training_params.learning_rate;
 
 % get the first song
 [ song_data, ~, ~ ] = load_songs(files_to_train(1)) ;
+song_data = whiten_data(song_data, opt_preprocessing_params.X_avg,...
+    opt_preprocessing_params.W);
 
 song_data = song_data' ; % convert from d x n to n x d matrix.
 
