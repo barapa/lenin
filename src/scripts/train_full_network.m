@@ -27,22 +27,26 @@ learning_rate = .0001;
 training_params = create_dbn_pre_training_params(num_epochs,...
     song_batch_size, mini_batch_size, momentum, learning_rate);
 
+% preprocessing
+epsilon = 0.00001;
+k = 250;
+[ preprocessing_params ] = create_dbn_pre_processing_params(epsilon, k);
+
 % train the dbn
-dbn = pre_train_dbn(network_params, training_params, train_dbn_songs);
+dbn = pre_train_dbn(network_params, training_params, train_dbn_songs, preprocessing_params);
 
 % ------------------------------------------------%
 % FEED FORWARD NEURAL NETWORK
 
 % data
-[train_nn_x, train_nn_song_borders, train_nn_y] = load_songs(train_nn_songs);
-[test_nn_x, test_nn_song_borders, test_nn_y] = load_songs(test_nn_songs);
+[train_nn_x, train_nn_song_borders, train_nn_y] = load_songs(train_nn_songs, preprocessing_params);
+[test_nn_x, test_nn_song_borders, test_nn_y] = load_songs(test_nn_songs, preprocessing_params);
 
 % training params
 nn_num_epochs = 2;
 nn_batch_size = 100;
 nn_plot = 1;
-nn_training_params = create_nn_training_params(...
-    nn_num_epochs, nn_batch_size, nn_plot);
+nn_training_params = create_nn_training_params(nn_num_epochs, nn_batch_size, nn_plot);
 
 % train
 activation_function = 0; % 0 for sigm, 1 for tanh_opt
