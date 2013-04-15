@@ -26,10 +26,10 @@
 %                   is the number of songs specified in song_files, and n_i is
 %                   the second dimension of the samples vector for song i.
 %
-%  song_borders :   a S x 1 cell array of integers, where S is the number of songs
-%                   specified in song_files. The value S(i) corresponds to the
-%                   first column in song_matrix that corresponds to song i.
-%                   (S(1) always = 1).
+%  song_borders :   a S x 1 cell array of integers, where S is the number of
+%                   songs specified in song_files. The value S(i) corresponds
+%                   to the first column in song_matrix that corresponds to song
+%                   i.  (S(1) always = 1).
 %
 %  one_hot_labels : an L x N matrix of chord labels ysing a one-hot
 %                   representation, where L is the number of possible

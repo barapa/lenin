@@ -1,6 +1,3 @@
-function [ dbn ] = pre_train_dbn( network_params, training_params,...
-    files_to_train )
-%
 % function [ dbn ] = pre_train_dbn( network_params, training_params,...
 %    files_to_train )
 %
@@ -49,7 +46,9 @@ function [ dbn ] = pre_train_dbn( network_params, training_params,...
 %                        labels: [1 x n double]
 %
 % dbn: A DBN object, as used by the framework, already pretrained.
-
+%
+function [ dbn ] = pre_train_dbn( network_params, training_params,...
+    files_to_train )
 fprintf('%s\n', 'Setting up DBN.');
 
 % setup network parameters
@@ -82,16 +81,17 @@ for b = 1 : num_song_batches
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
     
-    % load in each song in batch
-    song_data = {};
-    for s = first_ind : last_ind
-        song = load(files_to_train{rand_song_order(s)});
-        song_data{end+1} = song.song.samples'; % convert to n x d
-    end
-    
-    % put all songs in this batch into one data matrix
-    train_x = vertcat(song_data{:});
-    
+
+    fprintf('loading songs') ;
+    % NOTE: we have to wrap the filenames in another cell array, because is
+    % first_ind == last_ind then we don't get a cell array but just a string
+    % (or something else who the hell knows), which breaks load_songs which
+    % uses cell indexing. Looks weird but does the trick.
+    [ train_x, ~, ~ ] = load_songs({files_to_train{rand_song_order(:, first_ind:last_ind)}}) ;
+
+    train_x = train_x'; % convert from d x n to n x d matrix.
+
+    fprintf('training network');
     % train dbn on the current batch of song data
     dbn = dbntrain(dbn, train_x, opts);
     
