@@ -1,4 +1,5 @@
-% function [ nn ] = train_nn( dbn, train_x, train_y, training_params, activation_function)
+% function [ nn ] = train_nn( dbn, train_x, train_y, training_params,...
+%    activation_function)
 %
 % Wrapper for training a feed-forward neural network using a pre-trained
 % deep belief network and softmax logitistic regression as the classifier.
@@ -14,7 +15,7 @@
 %    training_params.batchsize: batch size for training
 %    training_params.plot:      include only if you want to plot the
 %                               results of training.
-% activation_function : 
+% activation_function :
 %             the activation function to use in the network. Use 0 for
 %             sigmoid, and 1 for tanh_opt.
 

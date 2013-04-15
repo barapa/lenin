@@ -1,5 +1,5 @@
 % This is an example script to show you how to call the wrapper for training
-% a DBN and NN. 
+% a DBN and NN.
 
 % TODO(ben): replace this with reading from sams variables
 % get list of song data with full path names
