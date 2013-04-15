@@ -53,5 +53,5 @@ nn = train_nn(dbn, train_nn_x, train_nn_y, nn_training_params, activation_functi
 % test
 [err, bad] = nntest(nn, test_nn_x', test_nn_y');
 
-save(dbn, dbn_training_params, dbn_network_params, preprocessing_params,...
+save_rbm_dbn(dbn, dbn_training_params, dbn_network_params, preprocessing_params,...
     train_dbn_songs, train_nn_songs, test_nn_songs, nn, nn_training_params);
