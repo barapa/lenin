@@ -17,6 +17,7 @@
 %   song_matrix : a D x N matrix of songs, where N = n_1 + ... + n_s, where s
 %                 is the number of songs specified in song_files, and n_i is
 %                 the second dimension of the samples vector for song i.
+%
 %  song_borders : a S x 1 vector of integers, where S is the number of songs
 %                 specified in song_files. The value S(i) corresponds to the
 %                 first column in song_matrix that corresponds to song i.
