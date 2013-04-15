@@ -20,7 +20,7 @@ function [ one_hot_labels ] = labels_to_one_hot( labels, total_labels )
 
 
 n = numel(labels);
-default_label_count = 25;
+default_label_count = 25; % (12 minor) + (12 major) + (1 no-chord)
 
 if nargin < 2
     total_labels = default_label_count;
