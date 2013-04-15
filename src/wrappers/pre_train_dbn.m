@@ -1,5 +1,5 @@
-% function [ dbn ] = pre_train_dbn( network_params, training_params,...
-%    files_to_train )
+% function [ dbn ] = pre_train_dbn( network_params, training_params, ...
+%     files_to_train, opt_preprocessing_params )
 %
 % Pretrain a deep belief network and return the pre-trained network.
 %
@@ -76,12 +76,12 @@ opts.batchsize = training_params.mini_batch_size;
 opts.momentum = training_params.momentum;
 opts.alpha = training_params.learning_rate;
 
-% load in first song, just to setup dbn with. Needs to be n x d.
-song = load(files_to_train{1});
-song_data = song.song.samples'; % convert to nxd matrix
+% load in all songs to calculate preprocessing_params, don't save songs
+[ ~, ~, ~, opt_preprocessing_params ] = load_songs( files_to_train,...
+    opt_preprocessing_params);
 
-[ song_data, ~, ~ ] = load_songs({files_to_train{1}}, ...
-    opt_preprocessing_params) ;
+% get the first song
+[ song_data, ~, ~ ] = load_songs(files_to_train(1)) ;
 
 song_data = song_data' ; % convert from d x n to n x d matrix.
 
@@ -103,18 +103,12 @@ for b = 1 : num_song_batches
 
 
     fprintf('loading songs\n') ;
-    % NOTE: we have to wrap the filenames in another cell array, because is
-    % first_ind == last_ind then we don't get a cell array but just a string
-    % (or something else who the hell knows), which breaks load_songs which
-    % uses cell indexing. Looks weird but does the trick.
-    if nargin == 3
-      [ train_x, ~, ~ ] = load_songs(...
-          { files_to_train{rand_song_order(:, first_ind:last_ind)} }) ;
-    else
-      [ train_x, ~, ~ ] = load_songs(...
-          { files_to_train{rand_song_order(:, first_ind:last_ind)} }, ...
-          opt_preprocessing_params) ;
-    end
+    [ train_x, ~, ~ ] = load_songs(...
+        files_to_train(rand_song_order(:, first_ind:last_ind))) ;
+    
+    fprintf('whitening songs\n') ;
+    train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
+          opt_preprocessing_params.W);
 
     train_x = train_x'; % convert from d x n to n x d matrix.
 

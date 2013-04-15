@@ -1,3 +1,5 @@
+% function [ X_whitened ] = whiten_data(X, X_avg, W)
+%
 % Performs PCA whitening on a dataset.
 %
 % Inputs:
