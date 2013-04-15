@@ -26,11 +26,21 @@
 %  X_whitened = W * X ;
 %
 function [ X_avg, W ] = generate_whitening_params( X, preprocessing_params)
+  cov_sample_size = 5000;
+  [D, N] = size(X);
+  
   X_avg = mean(X, 2) ;
   X_hat = repmat(X_avg, 1, size(X, 2)) ;
   X = X - X_hat ;
+  
+  % sampling for large N
+  if N > cov_sample_size
+      X_sample = X(:, randperm(cov_sample_size));
+  else
+      X_sample = X;
+  end
 
-  sigma = X * X' / size(X, 2) ;
+  sigma = X_sample * X_sample' / size(X_sample, 2) ;
   [ U, S, ~ ] = svd(sigma) ;
 
   epsilon = preprocessing_params.epsilon ;

@@ -4,9 +4,9 @@
 % TODO(ben): replace this with reading from sams variables
 % get list of song data with full path names
 songs_list = fuf('/var/data/lenin/matlab/*.mat', 'detail');
-train_dbn_songs = songs_list(1:5);
-train_nn_songs = songs_list(21:25);
-test_nn_songs = songs_list(26:30);
+train_dbn_songs = songs_list(1:100);
+train_nn_songs = songs_list(101:110);
+test_nn_songs = songs_list(111:115);
 
 % DEEP BELIEF NETWORK
 
@@ -16,8 +16,8 @@ gaussian_vis_layer = 1;
 dbn_network_params = create_dbn_network_params(layer_sizes, gaussian_vis_layer);
 
 % training parameters
-num_epochs = 1;
-song_batch_size = 3;
+num_epochs = 10;
+song_batch_size = 5;
 mini_batch_size = 100;
 momentum = .5;
 learning_rate = .0001;
