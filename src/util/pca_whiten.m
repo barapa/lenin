@@ -32,7 +32,9 @@ function [ X_tilde ] = pca_whiten( X, epsilon, opt_k )
   sigma = X_hat * X_hat' / size(X, 2) ;
   [ U, S, ~ ] = svd(sigma) ;
   if nargin == 3
-    X_tilde = diag( 1 ./ sqrt(diag(S(:, 1:opt_k)))) * U(:, 1:opt_k)' * X_hat ;
+    k = opt_k ;
   else
-    X_tilde = diag( 1 ./ sqrt(diag(S) + epsilon)) * U' * X_hat ; 
+    k = size(X, 1) ;
   end
+
+  X_tilde = diag( 1 ./ sqrt(diag(S(:, 1:k)) + epsilon)) * U(:, 1:k)' * X_hat ;
