@@ -1,8 +1,5 @@
-% This is an example script to show you how to call the wrapper for pretraining
-% a DBN. The basic idea is to use the utility functions used below to create
-% the parameter objects for the network and the training, and to pass that
-% along with the list of filenames that hold the data to the training
-% wrapper.
+% This is an example script to show you how to call the wrapper for training
+% a DBN and NN. 
 
 % TODO(ben): replace this with reading from sams variables
 % get list of song data with full path names
