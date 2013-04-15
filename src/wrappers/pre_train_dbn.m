@@ -6,7 +6,7 @@
 % Inputs:
 %   network_params : Object containing all of the DBN network parameters.
 %
-%     - network_params.layer_sizes : 
+%     - network_params.layer_sizes :
 %          a 1 x n vector of scalars where each scalar value is the number of
 %          nodes in that hidden layer. The size of the visible layer is NOT
 %          specified
@@ -24,7 +24,7 @@
 %
 %     - training_params.song_batch_size:
 %         A scalar. The number of songs to concatenate into one and train the
-%         DBN on at a time. This is at a higher level than epochs and 
+%         DBN on at a time. This is at a higher level than epochs and
 %         minibatches.
 %
 %     - training_params.mini_batch_size:
@@ -97,10 +97,10 @@ fprintf('%s\n', 'Beginning DBN training.');
 
 for b = 1 : num_song_batches
     fprintf('training song batch #%i of %i\n', b, num_song_batches);
-    
+
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
-    
+
 
     fprintf('loading songs\n') ;
     % NOTE: we have to wrap the filenames in another cell array, because is
@@ -121,7 +121,7 @@ for b = 1 : num_song_batches
     fprintf('training network\n');
     % train dbn on the current batch of song data
     dbn = dbntrain(dbn, train_x, opts);
-    
+
 end
 
 end
