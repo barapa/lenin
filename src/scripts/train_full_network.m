@@ -4,7 +4,7 @@
 % TODO(ben): replace this with reading from sams variables
 % get list of song data with full path names
 songs_list = fuf('/var/data/lenin/matlab/*.mat', 'detail');
-train_dbn_songs = songs_list(1:20);
+train_dbn_songs = songs_list(1:5);
 train_nn_songs = songs_list(21:25);
 test_nn_songs = songs_list(26:30);
 
@@ -13,15 +13,15 @@ test_nn_songs = songs_list(26:30);
 % network topology
 layer_sizes = [500, 100];
 gaussian_vis_layer = 1;
-network_params = create_dbn_network_params(layer_sizes, gaussian_vis_layer);
+dbn_network_params = create_dbn_network_params(layer_sizes, gaussian_vis_layer);
 
 % training parameters
-num_epochs = 10;
+num_epochs = 1;
 song_batch_size = 3;
 mini_batch_size = 100;
 momentum = .5;
 learning_rate = .0001;
-training_params = create_dbn_pre_training_params(num_epochs,...
+dbn_training_params = create_dbn_pre_training_params(num_epochs,...
     song_batch_size, mini_batch_size, momentum, learning_rate);
 
 % preprocessing
@@ -30,7 +30,8 @@ k = 250;
 preprocessing_params = create_dbn_pre_processing_params(epsilon, k);
 
 % train the dbn
-dbn = pre_train_dbn(network_params, training_params, train_dbn_songs, preprocessing_params);
+[dbn, preprocessing_params] = pre_train_dbn(dbn_network_params,...
+    dbn_training_params, train_dbn_songs, preprocessing_params);
 
 % ------------------------------------------------%
 % FEED FORWARD NEURAL NETWORK
@@ -51,3 +52,6 @@ nn = train_nn(dbn, train_nn_x, train_nn_y, nn_training_params, activation_functi
 
 % test
 [err, bad] = nntest(nn, test_nn_x', test_nn_y');
+
+save(dbn, dbn_training_params, dbn_network_params, preprocessing_params,...
+    train_dbn_songs, train_nn_songs, test_nn_songs, nn, nn_training_params);
