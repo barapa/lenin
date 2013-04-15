@@ -27,7 +27,7 @@
 %
 function [ X_avg, W ] = generate_whitening_params( X, preprocessing_params)
   X_avg = mean(X, 2) ;
-  X_hat = repmat(avg, 1, size(X, 2)) ;
+  X_hat = repmat(X_avg, 1, size(X, 2)) ;
   X = X - X_hat ;
 
   sigma = X * X' / size(X, 2) ;
