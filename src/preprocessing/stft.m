@@ -1,7 +1,9 @@
 % function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
 %     opt_save_dir, opt_label_filename)
 %
-% Perform an STFT on a particular song.
+% Perform an STFT on a particular song. If you are trying to save the file
+% and it already exists, THIS FUNCTION WILL RETURN NULL so that it doesn't
+% have to load it in.
 %
 % filename - Absolute path (string) to raw audio file.
 % pretty_name - String to save as filename in struct array.
@@ -42,10 +44,10 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
         save_filename =  strcat(save_directory, save_filename);
         
         % if it already exists, load it and return it.
-        if exists(save_filename, 'file') == 2
+        if exist(save_filename, 'file') == 2
             disp(sprintf('[stft] STFT %s already exists. Loading it in.', save_filename));
-            s = load(save_filename);
-            song = s.song;
+            %s = load(save_filename);
+            %song = s.song;
             return;
         end
   end      
