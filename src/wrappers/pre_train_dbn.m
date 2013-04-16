@@ -36,8 +36,11 @@
 %         A scalar value between 0 and 1. The momentum used in training the
 %         DBN for updating the weights.
 %
-%     - training_params.learning_rate:
-%         A small scalar value, e.g., 0.05. The learning rate.
+%     - training_params.gaussian_learning_rate:
+%         A small scalar value, e.g., 0.0001. The learning rate for the gaussian layer.
+%
+%     - training_params.binary_learning_rate:
+%         A small scalar value, e.g., 0.5. The learning rate for the binary layers.
 %
 %   files_to_train : A cell array, where each element is a string containing
 %                    the full pathname of a song matlab variable. The loaded
@@ -74,7 +77,8 @@ dbn.gaussian_visible_units = network_params.gaussian_visible_units;
 opts.numepochs = training_params.num_epochs;
 opts.batchsize = training_params.mini_batch_size;
 opts.momentum = training_params.momentum;
-opts.alpha = training_params.learning_rate;
+opts.gaussian_learning_rate = training_params.gaussian_learning_rate;
+opts.binary_learning_rate = training_params.binary_learning_rate;
 
 % load in all songs to calculate preprocessing_params, don't save songs
 [ ~, ~, ~, opt_preprocessing_params ] = load_songs( files_to_train,...
