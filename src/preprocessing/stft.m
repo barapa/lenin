@@ -1,3 +1,6 @@
+% function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
+%     opt_save_dir, opt_label_filename)
+%
 % Perform an STFT on a particular song.
 %
 % filename - Absolute path (string) to raw audio file.
@@ -20,8 +23,33 @@
 %
 % DEPENDENCIES:
 %  audioread package by Dan Ellis
-function [ song ] = stft(filename, pretty_name, window_size, window_overlap,...
+function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
     opt_save_dir, opt_label_filename)
+
+  % Construct filename and check if it already exists. If it does, read it
+  % in and return it. If it doesn't, run it and save it.
+  if nargin > 4
+        % params_directory_name is of the form windowsize_windowOverlap
+        % ex. 1024_512/
+        params_directory_name = [num2str(window_size) '_' num2str(window_overlap) '/'];
+        
+        % remove .mp3 if its there and add .mat regardless
+        save_filename = regexprep(pretty_name, '.mp3', '') ;
+        save_filename = strcat(save_filename, '.mat') ;
+        
+        % put it all together now
+        save_filename = strcat(opt_save_dir, params_directory_name, save_filename);
+        
+        % if it already exists, load it and return it.
+        if exists(save_filename, 'file') == 2
+            disp(sprintf('[stft] STFT %s already exists. Loading it in.', save_filename));
+            s = load(save_filename);
+            song = s.song;
+            return;
+        end
+  end      
+  
+  % STFT does not already exist, so we must create it and save it.
   nfft_points = window_size;
 
   [ raw, sample_rate ] = audioread(filename) ;
@@ -34,7 +62,7 @@ function [ song ] = stft(filename, pretty_name, window_size, window_overlap,...
   song.timestamps = times ;
 
 
-  if nargin > 1
+  if nargin > 3
     song.filename = pretty_name ;
   end
 
@@ -43,15 +71,9 @@ function [ song ] = stft(filename, pretty_name, window_size, window_overlap,...
   end
 
   if nargin > 4
-    save_filename = regexprep(pretty_name, '.mp3', '') ;
-    save_filename = strcat(save_filename, '.mat') ;
-    if nargin == 5
-      disp(sprintf('[stft] Saving STFT (and labels) output to %s', save_filename)) ;
-    else
-      disp(sprintf('[stft] Saving STFT output to %s', save_filename)) ;
-    end
-    save(strcat(opt_save_dir, save_filename), 'song') ;
+    save(save_filename, 'song') ;
   end
+end
 
 
 
