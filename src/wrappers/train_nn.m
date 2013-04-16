@@ -18,9 +18,15 @@
 % activation_function :
 %             the activation function to use in the network. Use 0 for
 %             sigmoid, and 1 for tanh_opt.
+% validation_x : (optional)
+%                a D x N matrix of validation data to see how the network is
+%                performing
+% validation_y : (optional)
+%                a L x N matrix of validation data to see how the network is
+%                performing
 
 function [ nn ] = train_nn( dbn, train_x, train_y, training_params,...
-    activation_function)
+    activation_function, validation_x, validation_y)
 
 [L, N] = size(train_y);
 
@@ -35,7 +41,14 @@ else
 end
 
 % train
-nn = nntrain(nn, train_x', train_y', training_params); % transpose inputs
+if  nargin == 7
+  nn = nntrain(nn, train_x', train_y', training_params, validation_x',...
+    validation_y'); % transpose inputs
+elseif nargin == 5
+  nn = nntrain(nn, train_x', train_y', training_params); % transpose inputs
+else
+  error('Wrong number of arguments');
+end
 
 end
 
