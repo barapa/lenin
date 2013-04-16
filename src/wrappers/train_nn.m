@@ -40,6 +40,9 @@ else
     nn.activation_function = 'tanh_opt';
 end
 
+% set output function to softmax. Defaults to sigm.
+nn.output = 'softmax';
+
 % train
 if  nargin == 7
   nn = nntrain(nn, train_x', train_y', training_params, validation_x',...
