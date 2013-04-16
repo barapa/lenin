@@ -4,7 +4,7 @@
 % TODO(ben): replace this with reading from sams variables
 % get list of song data with full path names
 songs_list = fuf('/var/data/lenin/matlab/*.mat', 'detail');
-train_dbn_songs = songs_list(1:100);
+train_dbn_songs = songs_list(1:50);
 train_nn_songs = songs_list(101:110);
 test_nn_songs = songs_list(111:115);
 
@@ -16,7 +16,7 @@ gaussian_vis_layer = 1;
 dbn_network_params = create_dbn_network_params(layer_sizes, gaussian_vis_layer);
 
 % training parameters
-num_epochs = 10;
+num_epochs = 30;
 song_batch_size = 5;
 mini_batch_size = 100;
 momentum = .5;
@@ -36,12 +36,16 @@ preprocessing_params = create_dbn_pre_processing_params(epsilon, k);
 % ------------------------------------------------%
 % FEED FORWARD NEURAL NETWORK
 
-% data
-[train_nn_x, train_nn_song_borders, train_nn_y] = load_songs(train_nn_songs, preprocessing_params);
-[test_nn_x, test_nn_song_borders, test_nn_y] = load_songs(test_nn_songs, preprocessing_params);
+% load data and whiten
+[train_nn_x, train_nn_song_borders, train_nn_y] = load_songs(train_nn_songs);
+train_nn_x = whiten_data(train_nn_x, preprocessing_params.X_avg,...
+    preprocessing_params.W);
+[test_nn_x, test_nn_song_borders, test_nn_y] = load_songs(test_nn_songs);
+test_nn_x = whiten_data(test_nn_x, preprocessing_params.X_avg,...
+    preprocessing_params.W);
 
 % training params
-nn_num_epochs = 2;
+nn_num_epochs = 100;
 nn_batch_size = 100;
 nn_plot = 1;
 nn_training_params = create_nn_training_params(nn_num_epochs, nn_batch_size, nn_plot);
