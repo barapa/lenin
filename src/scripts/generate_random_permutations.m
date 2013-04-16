@@ -1,25 +1,25 @@
-% Generates num_permutations random permutatiosn of the data found in
-% /var/data/lenin/matlab.
+% Generates num_permutations random permutations of the beatles songs.
 %
-% Saves files in: /var/data/lenin/runs
+% Saves files in: /lenin/data/runs
+% MUST BE RUN FROM TOP LEVEL OF LENIN REPO
 %
 % e.g., /var/data/lenin/runs/01/ will contain:
 %           - labeled_train_filenamess.mat - cell array of filenames to use for
-%                                            training.
+%                                            training. These are only file
+%                                            names and don't contain the
+%                                            directory or fullpath
 %           - test_filenames.mat - cell array of filenames to use for testing
-%                                       (also labeled).
+%                                       (also labeled). Same as above.
 %
 function [ ] = generate_random_permutations(num_permutations)
-  LABELED_DATA_DIR = '/var/data/lenin/matlab/labeled/' ;
+  LABELED_DATA_DIR = '/var/data/lenin/beatles_preprocessed/1024_512/' ;
 
   labeled_files = dir(LABELED_DATA_DIR) ;
   % remove '.' and '..' directories from labeled_files: 
   labeled_files = labeled_files(3 : length(labeled_files) ) ;
   files = {} ;
 
-  % filenames are relative right now, we want to them to be absolute.
   for i = 1 : length(labeled_files)
-    labeled_files(i).name = strcat(LABELED_DATA_DIR, labeled_files(i).name) ;
     files{i} = labeled_files(i).name ;
   end
 
@@ -31,7 +31,7 @@ function [ ] = generate_random_permutations(num_permutations)
 
 
 function write_data(files, index)
-  SAVE_DIR = '/var/data/lenin/runs/' ;
+  SAVE_DIR = 'data/runs/' ;
 
   num_string = num2str(index) ;
   if length(num_string) == 1

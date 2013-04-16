@@ -26,7 +26,7 @@
 %         onto. Songs are transfromed from D x N vectors to K x N vectors.
 %
 % Outputs:
-%   song_matrix :   a D x N matrix of songs, where N = n_1 + ... + n_s, where s
+%  song_matrix :   a D x N matrix of songs, where N = n_1 + ... + n_s, where s
 %                   is the number of songs specified in song_files, and n_i is
 %                   the second dimension of the samples vector for song i.
 %
@@ -39,7 +39,7 @@
 %                   representation, where L is the number of possible
 %                   labels. This is always set to 25.
 %
-% opt_preprocessing_params : If this input variable was specified, appends
+%  opt_preprocessing_params : If this input variable was specified, appends
 %                  X_avg, the centroid of song_matrix, and W, the whitening
 %                  matrix, to this object. These can then be used to whiten
 %                  any test data.
