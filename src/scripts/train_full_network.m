@@ -20,9 +20,11 @@ num_epochs = 30;
 song_batch_size = 5;
 mini_batch_size = 100;
 momentum = .5;
-learning_rate = .0001;
+gaussian_learning_rate = .0001;
+binary_learning_rate = .5;
 dbn_training_params = create_dbn_pre_training_params(num_epochs,...
-    song_batch_size, mini_batch_size, momentum, learning_rate);
+    song_batch_size, mini_batch_size, momentum,...
+    gaussian_learning_rate, binary_learning_rate);
 
 % preprocessing
 epsilon = 0.00001;
