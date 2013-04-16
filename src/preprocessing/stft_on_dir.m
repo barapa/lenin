@@ -1,8 +1,14 @@
 % Preprocesses song data
 %
-% data_dir - Absolute path (string) to top-level data directory.
-% save_dir - Absolute path (string) to directory to save STFTs in.
-% opt_label_dir - Optional absolute path (string) to directory containing label
+% data_dir: Absolute path (string) to top-level data directory.
+% save_dir: Absolute path (string) to directory to save STFTs in. They
+%           will actually be saved in a subdirectory of this that indicates
+%           the parameters of the STFT.
+% window_size: a scalar power to 2 specifying the window size. 
+%              E.g., 1024
+% window_overlap: a scalar representing the overlap between windows.
+%              E.g., 512
+% opt_label_dir: Optional absolute path (string) to directory containing label
 %             file.
 %
 % outputs:
@@ -23,7 +29,8 @@
 %       - data file in data_dir and label file in label_dir have same name,
 %         file extension (audio extenion for data file, .lab for label file).
 %
-function [ songs ] = stft_on_dir(data_dir, save_dir, opt_label_dir)
+function [ songs ] = stft_on_dir(data_dir, save_dir, window_size,...
+    window_overlap, opt_label_dir)
   disp(sprintf('[stft_on_dir] Performing stft on songs in dir %s...', ...
       data_dir)) ;
 
@@ -43,13 +50,13 @@ function [ songs ] = stft_on_dir(data_dir, save_dir, opt_label_dir)
 
     filename = strcat(data_dir, listings(i).name) ;
 
-    if nargin == 2
-      stft(filename, listings(i).name, save_dir) ;
-    elseif nargin == 3
+    if nargin == 4
+      stft(filename, window_size, window_overlap, listings(i).name, save_dir) ;
+    elseif nargin == 5
       label_name = convert_music_filename_to_label_filename(...
           listings(i).name) ;
       label_filename = strcat(opt_label_dir, label_name) ;
-      stft(filename, listings(i).name, save_dir, label_filename) ;
+      stft(filename, window_size, window_overlap, listings(i).name, save_dir, label_filename) ;
     else
       disp(sprinft('[stft_on_dir] called in invalid number of params!')) ;
     end % if nargin == 2
