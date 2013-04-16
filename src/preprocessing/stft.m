@@ -13,17 +13,20 @@
 %              0 - 11: C ... B major
 %             12 - 23: C ... B minor
 %                  24: NO CHORD
+% window_size: a scalar power to 2 specifying the window size. 
+%              E.g., 1024
+% window_overlap: a scalar representing the overlap between windows.
+%              E.g., 512
 %
 % DEPENDENCIES:
 %  audioread package by Dan Ellis
-function [ song ] = stft(filename, pretty_name, opt_save_dir, opt_label_filename)
-  NFFT_POINTS = 1024;
-  WINDOW_OVERLAP = 512;
-  WINDOW_SIZE = 1024;
+function [ song ] = stft(filename, pretty_name, window_size, window_overlap,...
+    opt_save_dir, opt_label_filename)
+  nfft_points = window_size;
 
   [ raw, sample_rate ] = audioread(filename) ;
-  [ ffts, freqs, times ] = spectrogram(raw, WINDOW_SIZE, WINDOW_OVERLAP, ...
-      NFFT_POINTS, sample_rate) ;
+  [ ffts, freqs, times ] = spectrogram(raw, window_size, window_overlap, ...
+      nfft_points, sample_rate) ;
 
   song = {} ;
   song.samples = abs(ffts) ;
