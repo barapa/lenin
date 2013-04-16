@@ -38,14 +38,14 @@ function [ song ] = stft(filename, pretty_name, window_size, window_overlap,...
     song.filename = pretty_name ;
   end
 
-  if nargin == 4
+  if nargin == 6
     song.labels = label_timestamps(song.timestamps, opt_label_filename) ;
   end
 
-  if nargin > 2
+  if nargin > 4
     save_filename = regexprep(pretty_name, '.mp3', '') ;
     save_filename = strcat(save_filename, '.mat') ;
-    if nargin == 4
+    if nargin == 5
       disp(sprintf('[stft] Saving STFT (and labels) output to %s', save_filename)) ;
     else
       disp(sprintf('[stft] Saving STFT output to %s', save_filename)) ;
