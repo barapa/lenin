@@ -5,23 +5,25 @@
 % get list of song data with full path names
 songs_list = fuf('/var/data/lenin/matlab/*.mat', 'detail');
 train_dbn_songs = songs_list(1:80);
-validate_nn_songs = songs_list(101:110);
-test_nn_songs = songs_list(111:120);
+train_nn_inds = randperm(30);
+train_nn_songs = train_dbn_songs(train_nn_inds(1:10));
+validate_nn_songs = songs_list(101:120);
+test_nn_songs = songs_list(121:140);
 
 % DEEP BELIEF NETWORK
 
 % network topology
-layer_sizes = [1000, 500, 200];
+layer_sizes = [1000, 500];
 gaussian_vis_layer = 1;
 dbn_network_params = create_dbn_network_params(layer_sizes, gaussian_vis_layer);
 
 % training parameters
-num_epochs = 20;
-song_batch_size = 10;
-mini_batch_size = 100;
-momentum = .5;
+num_epochs = 40;
+song_batch_size = 5;
+mini_batch_size = 60;
+momentum = .6;
 gaussian_learning_rate = .0001;
-binary_learning_rate = .1;
+binary_learning_rate = .01;
 dbn_training_params = create_dbn_pre_training_params(num_epochs,...
     song_batch_size, mini_batch_size, momentum,...
     gaussian_learning_rate, binary_learning_rate);
@@ -40,7 +42,7 @@ preprocessing_params = create_dbn_pre_processing_params(epsilon, k);
 
 % load data and whiten
 % training data
-[train_nn_x, train_nn_song_borders, train_nn_y] = load_songs(train_dbn_songs);
+[train_nn_x, train_nn_song_borders, train_nn_y] = load_songs(train_nn_songs);
 train_nn_x = whiten_data(train_nn_x, preprocessing_params.X_avg,...
     preprocessing_params.W);
 % validation data
@@ -59,7 +61,7 @@ nn_plot = 1;
 nn_training_params = create_nn_training_params(nn_num_epochs, nn_batch_size, nn_plot);
 
 % train
-activation_function = 0; % 0 for sigm, 1 for tanh_opt
+activation_function = 1; % 0 for sigm, 1 for tanh_opt
 nn = train_nn(dbn, train_nn_x, train_nn_y, nn_training_params, activation_function,...
   validate_nn_x, validate_nn_y);
 
