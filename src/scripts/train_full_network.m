@@ -54,15 +54,29 @@ validate_nn_x = whiten_data(validate_nn_x, preprocessing_params.X_avg,...
 test_nn_x = whiten_data(test_nn_x, preprocessing_params.X_avg,...
     preprocessing_params.W);
 
-% training params
+% FFNN params
 nn_num_epochs = 50;
 nn_batch_size = 100;
+nn_learning_rate = 1;
+nn_activation_fun = 'tanh_opt'; % or 'sigm'
+nn_momentum = .5;
 nn_plot = 1;
-nn_training_params = create_nn_training_params(nn_num_epochs, nn_batch_size, nn_plot);
+nn_output = 'softmax'
+nn_scaling_learning_rate = .999;
+nn_weight_penalty_L2 = .1;
+nn_non_sparsity_penalty = 0; % if this is zero, next param doesnt matter.
+nn_sparsity_target = 0;
+nn_input_zero_masked_fraction = 0;
+nn_dropout_fraction = .3;
+
+nn_training_params = create_nn_training_params(...
+  nn_num_epochs, nn_batch_size, nn_learning_rate, nn_activation_fun,...
+  nn_momentum, nn_plot, nn_output, nn_scaling_learning_rate,...
+  nn_weight_penalty_L2, nn_non_sparsity_penalty, nn_sparsity_target,...
+  nn_input_zero_masked_fraction, nn_dropout_fraction);
 
 % train
-activation_function = 1; % 0 for sigm, 1 for tanh_opt
-nn = train_nn(dbn, train_nn_x, train_nn_y, nn_training_params, activation_function,...
+nn = train_nn(dbn, train_nn_x, train_nn_y, nn_training_params,...
   validate_nn_x, validate_nn_y);
 
 % test
