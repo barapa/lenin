@@ -38,7 +38,8 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
         save_filename = strcat(save_filename, '.mat') ;
         
         % put it all together now
-        save_filename = strcat(opt_save_dir, params_directory_name, save_filename);
+        save_directory = strcat(opt_save_dir, params_directory_name); 
+        save_filename =  strcat(save_directory, save_filename);
         
         % if it already exists, load it and return it.
         if exists(save_filename, 'file') == 2
@@ -71,6 +72,7 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
   end
 
   if nargin > 4
+    mkdir(save_directory);
     save(save_filename, 'song') ;
   end
 end
