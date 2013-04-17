@@ -81,8 +81,10 @@ opts.gaussian_learning_rate = training_params.gaussian_learning_rate;
 opts.binary_learning_rate = training_params.binary_learning_rate;
 
 % load in all songs to calculate preprocessing_params, don't save songs
+disp('Loading songs to train dbn....');
 [ ~, ~, ~, opt_preprocessing_params ] = load_songs( files_to_train,...
     opt_preprocessing_params);
+disp('....done');
 
 % get the first song
 [ song_data, ~, ~ ] = load_songs(files_to_train(1)) ;

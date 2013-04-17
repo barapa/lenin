@@ -64,11 +64,15 @@ function [ song_matrix, song_borders, one_hot_labels,...
   song_matrix = horzcat(song_data{:}) ;
 
   if nargin == 2
+    disp('Generating whitening data parameters');
     [ X_avg, W ] = generate_whitening_params(...
         song_matrix, opt_preprocessing_params) ;
+    disp('...done');
     opt_preprocessing_params.X_avg = X_avg;
     opt_preprocessing_params.W = W;
+    disp('Whitening data');
     song_matrix = whiten_data(song_matrix, X_avg, W) ;
+    disp('...done');
   end
 
   one_hot_labels = horzcat(label_data{:}) ;

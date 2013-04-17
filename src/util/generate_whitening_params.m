@@ -26,7 +26,7 @@
 %  X_whitened = W * X ;
 %
 function [ X_avg, W ] = generate_whitening_params( X, preprocessing_params)
-  cov_sample_size = 7000;
+  cov_sample_size = 5000;
   [D, N] = size(X);
   
   X_avg = mean(X, 2) ;
