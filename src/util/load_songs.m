@@ -44,7 +44,7 @@
 %                  matrix, to this object. These can then be used to whiten
 %                  any test data.
 %
-function [ song_matrix, song_borders, one_hot_labels, ...
+function [ song_matrix, song_borders, one_hot_labels,...
     opt_preprocessing_params] = load_songs(song_files, opt_preprocessing_params)
   song_data = {} ;
   label_data = {} ;
