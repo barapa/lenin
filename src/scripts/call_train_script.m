@@ -1,14 +1,14 @@
 % data
 run = 1;
-window_size = 2048;
-window_overlap = 1024;
+window_size = 1024;
+window_overlap = 512;
 preprocessing_epsilon = .00001;
 preprocessing_k = 256;   
 % dbn
-dbn_train_percentage = 60;
-dbn_layer_sizes = [750, 300];
+dbn_train_percentage = 30;
+dbn_layer_sizes = [50];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 100;
+dbn_num_epochs = 10;
 dbn_song_batch_size = 10;
 dbn_mini_batch_size = 100;
 dbn_momentum = .7;
@@ -16,7 +16,7 @@ dbn_binary_learning_rate = .01;
 dbn_gaussian_learning_rate = .0003;
 % nn
 nn_train_percentage = 30;
-nn_num_epochs = 100;
+nn_num_epochs = 10;
 nn_batch_size = 100;
 nn_learning_rate = 1;
 nn_activation_function = 'tanh_opt';

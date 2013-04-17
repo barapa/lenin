@@ -140,12 +140,12 @@ nn = train_nn(dbn, train_nn_x, train_nn_y, nn_training_params,...
   test_nn_x, test_nn_y);
     
 % calculate and print error
-[err, bad] = nntest(nn, test_nn_x', test_nn_y');
-disp(['Error rate: ' num2str(err)]);
+[error_rate, bad] = nntest(nn, test_nn_x', test_nn_y');
+disp(['Error rate: ' num2str(error_rate)]);
     
 save_rbm_dbn(dbn, dbn_training_params, dbn_network_params,...
     preprocessing_params, dbn_train_file_names, nn_train_file_names,...
-    test_file_names, nn, nn_training_params);
+    test_file_names, nn, nn_training_params, error_rate);
 
 end
 
