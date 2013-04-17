@@ -18,6 +18,9 @@
 % error_rate:      number indicating the error rate on the testing set from
 %                  training the ffnn
 %
+% filename : returned value is the filename of the saved model, without the
+%            path. Example: 'rbm_dbn_20130417T123919.mat'
+%
 function [ filename ] = save_rbm_dbn( dbn, dbn_training_params,...
     dbn_network_params, preprocessing_params, train_dbn_songs,...
     train_nn_songs, test_nn_songs, nn, nn_training_params, error_rate)
@@ -25,12 +28,15 @@ function [ filename ] = save_rbm_dbn( dbn, dbn_training_params,...
 save_dir = '/var/data/lenin/rbm_dbn_models/';
 mkdir(save_dir);
 
-filename = [save_dir, 'rbm_dbn_', datestr(now, 'yyyymmddTHHMMSS')];
+filename = datestr(now, 'yyyymmddTHHMMSS');
+file_path = [save_dir, 'rbm_dbn_', filename];
 
-save(filename,...
+save(file_path,...
     'dbn', 'dbn_training_params', 'dbn_network_params', 'preprocessing_params',...
     'train_dbn_songs', 'train_nn_songs', 'test_nn_songs', 'nn', 'nn_training_params',...
     'error_rate');
+
+filename = [filename '.mat'];
 
 end
 
