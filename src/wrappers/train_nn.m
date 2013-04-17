@@ -29,6 +29,9 @@ nn = dbnunfoldtonn(dbn, L);
 % set the opts params object
 opts.numepochs = training_params.num_epochs;
 opts.batchsize = training_params.batch_size;
+if training_params.plot == 1
+    opts.plot = 1;
+end
 
 % set all the parameters inside the nn
 nn.activation_function = training_params.activation_function;
