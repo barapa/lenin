@@ -1,11 +1,11 @@
 % data
 run = 1;
-window_size = 1024;
-window_overlap = 512;
+window_size = 2048;
+window_overlap = 1024;
 preprocessing_epsilon = .00001;
 preprocessing_k = 256;   
 % dbn
-dbn_train_percentage = 90;
+dbn_train_percentage = 60;
 dbn_layer_sizes = [750, 300];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 100;
