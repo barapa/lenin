@@ -1,11 +1,11 @@
 % data
-run = 1;
+run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
 window_overlap = 512;
 preprocessing_epsilon = .00001;
 preprocessing_k = 256;   
 % dbn
-dbn_train_percentage = 30;
+dbn_train_percentage = 30; % 30, 60, or 90
 dbn_layer_sizes = [50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 10;
@@ -15,11 +15,11 @@ dbn_momentum = .7;
 dbn_binary_learning_rate = .01;
 dbn_gaussian_learning_rate = .0003;
 % nn
-nn_train_percentage = 30;
+nn_train_percentage = 30; % 30, 60, or 90. But keep it low.
 nn_num_epochs = 10;
 nn_batch_size = 100;
 nn_learning_rate = 1;
-nn_activation_function = 'tanh_opt';
+nn_activation_function = 'sigm';
 nn_momentum = .6;
 nn_plot = 1;
 nn_output = 'softmax';
@@ -28,7 +28,7 @@ nn_weight_penalty_L2 = .1;
 nn_non_sparsity_penalty = .1;
 nn_sparsity_target = .05; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .5;
+nn_dropout_fraction = 0;
 
 % train the dbn and nn
 create_train_save_beatles_dbn_nn_model(...
