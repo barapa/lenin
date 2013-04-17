@@ -1,3 +1,12 @@
+% function [ train_file_names, test_file_names ] = load_run_data(...
+%     run_number, percentage_train)
+% 
+% Loads the cell arrays containing the training and testing filenames for
+% each run, given the specified run number and percentage training.
+% 
+% run_number : integer between 1 and 10
+% percentage_train : 30, 60, or 90
+
 function [ train_file_names, test_file_names ] = load_run_data(...
     run_number, percentage_train)
     
