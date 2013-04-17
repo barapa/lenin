@@ -46,7 +46,7 @@ training_params.weight_penalty_L2 = weight_penalty_L2;
 training_params.non_sparsity_penalty = non_sparsity_penalty;
 training_params.sparsity_target = sparsity_target;
 training_params.input_zero_masked_fraction = input_zero_masked_fraction;
-training_params.dropout_fration = dropout_fraction;
+training_params.dropout_fraction = dropout_fraction;
 
 if plot == 1
     training_params.plot = 1;
