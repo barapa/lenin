@@ -15,10 +15,12 @@
 % test_nn_songs:   cell arary of song path_names that were used to test the
 %                  output of the neural net for classification. Can be left
 %                  by passing in an empty cell array.
+% error_rate:      number indicating the error rate on the testing set from
+%                  training the ffnn
 %
 function [ filename ] = save_rbm_dbn( dbn, dbn_training_params,...
     dbn_network_params, preprocessing_params, train_dbn_songs,...
-    train_nn_songs, test_nn_songs, nn, nn_training_params)
+    train_nn_songs, test_nn_songs, nn, nn_training_params, error_rate)
 
 save_dir = '/var/data/lenin/rbm_dbn_models/';
 mkdir(save_dir);
@@ -27,7 +29,8 @@ filename = [save_dir, 'rbm_dbm', datestr(now, 'yyyymmddTHHMMSS')];
 
 save(filename,...
     'dbn', 'dbn_training_params', 'dbn_network_params', 'preprocessing_params',...
-    'train_dbn_songs', 'train_nn_songs', 'test_nn_songs', 'nn', 'nn_training_params');
+    'train_dbn_songs', 'train_nn_songs', 'test_nn_songs', 'nn', 'nn_training_params',...
+    'error_rate');
 
 end
 
