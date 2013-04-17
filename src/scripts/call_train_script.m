@@ -1,3 +1,8 @@
+% FIRST SECTION IS TRAINING THE DBN AND NN AND SAVING THE RESULTS. 
+% SECOND SECTION IS WRITING THE ACTIVATIONS TO FILES FOR SVM TRAINING.
+
+% TRAINING DBN AND NN
+
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
@@ -31,7 +36,7 @@ nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
 nn_dropout_fraction = 0;
 
 % train the dbn and nn
-create_train_save_beatles_dbn_nn_model(...
+model_filename = create_train_save_beatles_dbn_nn_model(...
     run, window_size, window_overlap, preprocessing_epsilon,...
     preprocessing_k, dbn_train_percentage, dbn_layer_sizes,...
     dbn_is_visible_layer_gaussian, dbn_num_epochs, dbn_song_batch_size,...
@@ -40,4 +45,19 @@ create_train_save_beatles_dbn_nn_model(...
     nn_batch_size, nn_learning_rate, nn_activation_function, nn_momentum,...
     nn_plot, nn_output, nn_scaling_learning_rate, nn_weight_penalty_L2,...
     nn_non_sparsity_penalty, nn_sparsity_target,...
-    nn_input_zero_masked_fraction, nn_dropout_fraction)
+    nn_input_zero_masked_fraction, nn_dropout_fraction);
+
+
+
+% CREATE TRAINING AND TESTING DATA FOR SVM.
+% if you didn't capture the model_filename like above, because you are
+% doing the SVM part after you have trained other DBNs, just give this
+% function the filename of the model, including the .mat, but do not
+% include the path. 
+%
+% Look at layers param to this function to see how to select which layers
+% to use.
+convert_trained_dbn_to_svm(model_filename);
+
+
+
