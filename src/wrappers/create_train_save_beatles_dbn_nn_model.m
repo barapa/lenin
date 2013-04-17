@@ -8,7 +8,7 @@
 %                 stft.
 %                 E.g., 512 
 % preprocessing_epsilon:
-%                 whitening parameter
+%                 whitening parameter. .00001 is good.
 % preprocessing_k:
 %                 used for pca whitening. This will be the number of dimensions
 %                 of the visible vectors                
@@ -120,7 +120,7 @@ dbn_training_params = create_dbn_pre_training_params(dbn_num_epochs,...
 % for validation for now, since the only thing we do with the validation
 % set is plot its results.
 [train_nn_x, ~, train_nn_y] = load_songs(nn_train_file_names);
-[test_nn_x, ~, test_nn_y] = load_songs(nn_test_file_names);
+[test_nn_x, ~, test_nn_y] = load_songs(test_file_names);
 
 % whiten the data using params learned from training set
 train_nn_x = white_data(train_nn_x, preprocessing_params.X_avg,...
