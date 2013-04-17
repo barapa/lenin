@@ -5,8 +5,8 @@
 
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
-window_size = 2 ^ 15;
-window_overlap = 2 ^ 14;
+window_size = 1024;
+window_overlap = 512;
 preprocessing_epsilon = .00001;
 preprocessing_k = 275;   
 % dbn
