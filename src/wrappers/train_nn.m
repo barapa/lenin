@@ -44,10 +44,10 @@ nn.dropoutFraction = training_params.dropout_fraction;
 
 % train
 if  nargin == 6
-  nn = nntrain(nn, train_x', train_y', training_params, validation_x',...
+  nn = nntrain(nn, train_x', train_y', opts, validation_x',...
     validation_y'); % transpose inputs
 elseif nargin == 4
-  nn = nntrain(nn, train_x', train_y', training_params); % transpose inputs
+  nn = nntrain(nn, train_x', train_y', opts); % transpose inputs
 else
   error('Wrong number of arguments to train_nn');
 end
