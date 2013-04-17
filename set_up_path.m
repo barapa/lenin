@@ -13,6 +13,7 @@
   path('src/scripts/', path) ;
   path('src/util/', path) ;
   path('src/wrappers', path) ;
+  path('src/svm_hmm', path) ;
   addpath(genpath('lib/DeepLearnToolbox'));
 
   disp(sprintf('...done')) ;
