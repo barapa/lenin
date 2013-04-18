@@ -21,9 +21,9 @@ SVM_HMM_DATA_PATH = '/var/data/lenin/svm_hmm_data/';
 svm_train_model_dir = strcat(SVM_HMM_DATA_PATH, model_name, '/train/');
 svm_test_model_dir = strcat(SVM_HMM_DATA_PATH, model_name, '/test/');
 
-if ~check(SVM_HMM_DATA_PATH, 'dir')
-    mkdir(SVM_HMM_DATA_PATH);
-end
+ensure_dir_exists(SVM_HMM_DATA_PATH);
+ensure_dir_exists(svm_train_model_dir);
+ensure_dir_exists(svm_test_model_dir);
 
 % load in model
 model = load_trained_model(strcat(RBM_MODEL_PATH, model_name));

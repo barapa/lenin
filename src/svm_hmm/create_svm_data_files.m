@@ -32,10 +32,10 @@ dim = size(features{1}, 1);
 % since this can be used iteratively on songs, we open files with 'a' flag
 % to append
 data_file_name = [outfile_dir 'data.dat'];
-data_fid = fopen(data_file_name,'a');
+data_fid = fopen(data_file_name,'a+');
 
 labels_file_name = [outfile_dir 'true_labels.dat'];
-labels_fid = fopen(labels_file_name,'a');
+labels_fid = fopen(labels_file_name,'a+');
 
 
 % for each song

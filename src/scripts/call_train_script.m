@@ -58,7 +58,7 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
 % Look at layers param to this function to see how to select only certain
 % layers from the NN
 model_filename = ['rbm_dbn_' model_filename];
-convert_trained_dbn_to_svm(model_filename);
+convert_trained_dbn_to_svm_efficient(model_filename);
 
 
 
