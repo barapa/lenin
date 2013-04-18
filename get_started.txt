@@ -7,6 +7,14 @@ for Dan Ellis' audioread library:
 
 **EVERYTHING BELOW IS DEPRECATED**
 
+*note: the below paragpraph assumes we have done everything below at least once.
+To get the virtualenv up and running on a new machine, assuming you have
+virtualenv wrapper and create the env for the project. You can then do the
+following command in the top dir of the repo to get all the python dependencies
+installed in the env (assuming you have activated the env).
+  pip install -r requirements.txt
+
+
 Our basic setup will be that pylearn2 is a git submodule that is in our repo.
 I have forked it and linked it to our version of the repo, so that we can make
 changes to it as we please (I have already had to adjust the shebangs on top of
