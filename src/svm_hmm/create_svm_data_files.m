@@ -52,11 +52,11 @@ for song = 1 : num_songs
     song_labels = song_labels + 1;
     for frame = 1 : numel(song_labels)
       if nargin == 5
-        chord_label = sprintf('%d', song_num);
+        song_number = song_num;
       else
-        chord_label = sprintf('%d', song_labels(frame));
+        song_number = song;
       end
-      song_label = sprintf(' qid:%d ', song);
+      song_label = sprintf(' qid:%d ', song_number);
       features_ind_vec = reshape([1:dim; song_features(:,frame)'],1,[]);
       features_str = sprintf('%d:%.9f ', features_ind_vec);
       output_str = [chord_label song_label features_str ' # ' song_names{song}];
