@@ -1,3 +1,4 @@
+% THIS IS DEPRECATED IN FAVOR OF THE MORE MEMORY EFFICIENT VERSION
 % function [ ] = convert_trained_dbn_to_svm( model_name,...
 %     layers)
 % 
