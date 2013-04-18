@@ -51,6 +51,7 @@ for song = 1 : num_songs
     % song labels must start with 1...so add 1 to each
     song_labels = song_labels + 1;
     for frame = 1 : numel(song_labels)
+      chord_label = sprintf('%d', song_labels(frame));
       if nargin == 5
         song_number = song_num;
       else
