@@ -1,6 +1,9 @@
 % function [ ] = create_svm_data_files( outfile_dir, features, labels, song_names )
 %
 % Writes the data file and labels file to the given outfile_dir.
+% This can be called for each song that will end up in the same file, just
+% ensure that they are each in a cell array, even if its only a single
+% song.
 %
 % outfile_dir:  The directory where the data.dat file and true_labels.dat
 %               file will be save
@@ -26,11 +29,13 @@ function [ ] = create_svm_data_files( outfile_dir, features, labels, song_names 
 num_songs = numel(features);
 dim = size(features{1}, 1);
 
+% since this can be used iteratively on songs, we open files with 'a' flag
+% to append
 data_file_name = [outfile_dir 'data.dat'];
-data_fid = fopen(data_file_name,'wt');
+data_fid = fopen(data_file_name,'a');
 
 labels_file_name = [outfile_dir 'true_labels.dat'];
-labels_fid = fopen(labels_file_name,'wt');
+labels_fid = fopen(labels_file_name,'a');
 
 
 % for each song
