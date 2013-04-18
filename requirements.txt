@@ -1,0 +1,11 @@
+PIL==1.1.7
+PyYAML==3.10
+Theano==0.6.0rc3
+ipython==0.13.1
+matplotlib==1.2.1
+numpy==1.7.0
+pylearn2==0.1dev
+requests==1.2.0
+scikit-learn==0.13.1
+scipy==0.11.0
+wsgiref==0.1.2
