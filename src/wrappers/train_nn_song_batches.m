@@ -75,7 +75,7 @@ for b = 1 : num_song_batches
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
     
-    fprintf(['loading song batch #\n' num2str(b)]) ;
+    fprintf(['loading song batch #' num2str(b) '\n']) ;
     [ train_x, ~, train_y ] = load_songs(...
         files_to_train(rand_song_order(:, first_ind:last_ind))) ; 
     

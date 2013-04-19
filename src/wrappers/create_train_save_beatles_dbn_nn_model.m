@@ -136,6 +136,13 @@ nn = train_nn_song_batches( dbn, nn_training_params, nn_train_file_names,...
     preprocessing_params, test_file_names);
     
 % calculate and print error
+fprintf('%s\n', 'Loading testing data');
+[test_nn_x, ~, test_nn_y] = load_songs(test_file_names);
+fprintf('%s', 'Whitening testing data...');
+test_nn_x = whiten_data(test_nn_x, preprocessing_params.X_avg,...
+    preprocessing_params.W);
+fprintf('done\n');
+
 [error_rate, bad] = nntest(nn, test_nn_x', test_nn_y');
 disp(['Error rate: ' num2str(error_rate)]);
     
