@@ -50,7 +50,7 @@ training_params.non_sparsity_penalty = non_sparsity_penalty;
 training_params.sparsity_target = sparsity_target;
 training_params.input_zero_masked_fraction = input_zero_masked_fraction;
 training_params.dropout_fraction = dropout_fraction;
-training_params.song_batch_szie = song_batch_size;
+training_params.song_batch_size = song_batch_size;
 
 if plot == 1
     training_params.plot = 1;
