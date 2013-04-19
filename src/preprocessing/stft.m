@@ -74,7 +74,7 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
   end
 
   if nargin > 4
-    mkdir(save_directory);
+    ensure_dir_exists(save_directory) ;
     save(save_filename, 'song') ;
   end
 end

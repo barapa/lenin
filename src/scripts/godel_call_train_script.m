@@ -10,12 +10,12 @@ global LENIN_DATA_DIR;
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
-window_overlap = 512;
+window_overlap = 256;
 preprocessing_epsilon = .00001;
-preprocessing_k = 512;
+preprocessing_k = 275;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [200 50];
+dbn_layer_sizes = [50 75 50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 50;
 dbn_song_batch_size = 15;
@@ -31,14 +31,14 @@ nn_batch_size = 100;
 nn_learning_rate = .6;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
 nn_momentum = .6;
-nn_plot = 1;
+nn_plot = 0;
 nn_output = 'softmax';
 nn_scaling_learning_rate = 1;
 nn_weight_penalty_L2 = .0001;
 nn_non_sparsity_penalty = .001;
 nn_sparsity_target = .05; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .6;
+nn_dropout_fraction = 0;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...

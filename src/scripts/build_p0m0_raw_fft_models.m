@@ -15,7 +15,7 @@ function [ ] = build_p0m0_raw_fft_models()
   PERCENT_GAP = 30 ;
   MAX_PERCENT = 30 ;
 
-  mkdir(MODEL_DIR) ;
+  ensure_dir_exists(MODEL_DIR) ;
 
   for run = 1 : 1 : 10
 
@@ -30,7 +30,7 @@ function [ ] = build_p0m0_raw_fft_models()
     run_dir = strcat(num_string, '/') ;
     disp(sprintf('[build_p0m0_models] Making dir: %s', ...
         strcat(MODEL_DIR, run_dir))) ;
-    mkdir(MODEL_DIR, run_dir) ;
+    ensure_dir_exists(MODEL_DIR, run_dir) ;
 
     for percent = MIN_PERCENT : PERCENT_GAP : MAX_PERCENT
 
@@ -39,7 +39,7 @@ function [ ] = build_p0m0_raw_fft_models()
       percent_dir = strcat(percent, '/' ) ;
       disp(sprintf('[build_p0m0_models] Making dir: %s', ...
           strcat(percent_parent_dir, percent_dir))) ;
-      mkdir(percent_parent_dir, percent_dir) ;
+      ensure_dir_exists(percent_parent_dir, percent_dir) ;
 
       run_file = strcat(...
           RUN_DIRS, num_string, '/', percent, '/labeled_train_filenames.mat') ;

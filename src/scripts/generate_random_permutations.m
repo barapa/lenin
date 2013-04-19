@@ -40,7 +40,7 @@ function write_data(files, index)
 
   disp(sprintf('[generate_random_permutations] Making dir: %s', ...
       strcat(SAVE_DIR, num_string))) ;
-  mkdir(SAVE_DIR, num_string) ;
+  ensure_dir_exists(SAVE_DIR, num_string) ;
 
   run_dir = strcat(SAVE_DIR, num_string, '/') ;
 
@@ -55,7 +55,7 @@ function write_data(files, index)
 
     disp(sprintf('[generate_random_permutations] Making dir: %s', ...
         strcat(run_dir, int2str(i)))) ;
-    mkdir(run_dir, int2str(i)) ;
+    ensure_dir_exists(run_dir, int2str(i)) ;
     percent_dir = strcat(run_dir, int2str(i), '/') ;
 
     labeled_train_filenames = files(1 : max_index) ;

@@ -26,7 +26,7 @@ function [ filename ] = save_rbm_dbn( dbn, dbn_training_params,...
     train_nn_songs, test_nn_songs, nn, nn_training_params, error_rate)
 
 save_dir = '/var/data/lenin/rbm_dbn_models/';
-mkdir(save_dir);
+ensure_dir_exists(save_dir);
 
 filename = ['rbm_dbn_', datestr(now, 'yyyymmddTHHMMSS')];
 file_path = [save_dir, filename];
