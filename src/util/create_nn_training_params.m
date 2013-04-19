@@ -29,11 +29,14 @@
 %                 training case. Supposedly leads to better results and less
 %                 over fitting. See Hinton paper:
 %                 http://arxiv.org/abs/1207.0580
+% song_batch_size
+%               : Number of songs per training batch
 
 function [ training_params ] = create_nn_training_params( num_epochs,...
   batch_size, learning_rate, activation_function, momentum, plot, output,...
   scaling_learning_rate, weight_penalty_L2, non_sparsity_penalty,...
-  sparsity_target, input_zero_masked_fraction, dropout_fraction)
+  sparsity_target, input_zero_masked_fraction, dropout_fraction,...
+  song_batch_size)
 
 training_params.num_epochs = num_epochs;
 training_params.batch_size = batch_size;
@@ -47,6 +50,7 @@ training_params.non_sparsity_penalty = non_sparsity_penalty;
 training_params.sparsity_target = sparsity_target;
 training_params.input_zero_masked_fraction = input_zero_masked_fraction;
 training_params.dropout_fraction = dropout_fraction;
+training_params.song_batch_szie = song_batch_size;
 
 if plot == 1
     training_params.plot = 1;
