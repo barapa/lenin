@@ -15,30 +15,30 @@ preprocessing_epsilon = .00001;
 preprocessing_k = 512;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [50 50 50];
+dbn_layer_sizes = [100 25];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 100;
+dbn_num_epochs = 5;
 dbn_song_batch_size = 10;
 dbn_mini_batch_size = 100;
-dbn_momentum = .5;
-dbn_binary_learning_rate = .01;
-dbn_gaussian_learning_rate = .0002;
+dbn_momentum = .6;
+dbn_binary_learning_rate = .1;
+dbn_gaussian_learning_rate = .0004;
 % nn
-nn_train_percentage = 30; % 30, 60, or 90. But keep it low.
-nn_num_epochs = 50;
+nn_train_percentage = 30; % 30, 60, or 90. 
+nn_song_batch_size = 10;
+nn_num_epochs = 10;
 nn_batch_size = 100;
-nn_learning_rate = .7;
-nn_activation_function = 'tanh_opt'; % 'tanh_opt' or 'sigm'
-nn_momentum = .5;
+nn_learning_rate = .6;
+nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
+nn_momentum = .6;
 nn_plot = 1;
 nn_output = 'softmax';
-nn_scaling_learning_rate = .99;
-nn_weight_penalty_L2 = .1;
-nn_non_sparsity_penalty = .2;
+nn_scaling_learning_rate = 1;
+nn_weight_penalty_L2 = 0;
+nn_non_sparsity_penalty = 0;
 nn_sparsity_target = .1; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
 nn_dropout_fraction = .5;
-nn_song_batch_size = 10;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...
