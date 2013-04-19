@@ -83,7 +83,7 @@ for b = 1 : num_song_batches
     train_x = whiten_data(train_x, preprocessing_params.X_avg,...
           preprocessing_params.W);
       
-    fprintf('training NN on song batch...') ;
+    fprintf('training NN on song batch %d...\n', b) ;
     if nargin == 5
         nn = nntrain(nn, train_x', train_y', opts, validation_x',...
             validation_y'); % transpose inputs
