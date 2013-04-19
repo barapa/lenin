@@ -4,6 +4,8 @@
 % set environment global vars
 LENIN_DATA_DIR = 'var/data/lenin';
 global LENIN_DATA_DIR;
+% comment the next line out if you want to visualize network weights.
+global DONT_VISUALIZE;
 
 % TRAINING DBN AND NN
 
@@ -17,7 +19,7 @@ preprocessing_k = 275;
 dbn_train_percentage = 30; % 30, 60, or 90
 dbn_layer_sizes = [75 75 50];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 50;
+dbn_num_epochs = 400;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 100;
 dbn_momentum = .6;
