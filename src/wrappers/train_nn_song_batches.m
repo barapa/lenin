@@ -23,15 +23,6 @@
 %                    containing the full pathname of a song matlab
 %                    variable. Structure of matlab var defined above.
 %
-% train_x :   a D x N matrix of training data
-% train_y :   a L x N matrix of training data, where L = # of labels
-% validation_x : (optional)
-%                a D x N matrix of validation data to see how the network is
-%                performing
-% validation_y : (optional)
-%                a L x N matrix of validation data to see how the network is
-%                performing
-
 function [ nn ] = train_nn_song_batches( dbn, training_params,...
     files_to_train, preprocessing_params, files_to_validate)
 
@@ -69,7 +60,7 @@ rand_song_order = randperm(num_songs);
 num_song_batches = ceil(num_songs / training_params.song_batch_size);
 
 % if validation set passed in, load it and whiten it
-if nargin == 6
+if nargin == 5
     fprintf('%s\n', 'Loading validation data');
     [validation_x, ~, validation_y] = load_songs(files_to_validate);
     fprintf('%s\n', 'Whitening validation data');
@@ -93,10 +84,10 @@ for b = 1 : num_song_batches
           preprocessing_params.W);
       
     fprintf('training NN on song batch...') ;
-    if nargin == 6
+    if nargin == 5
         nn = nntrain(nn, train_x', train_y', opts, validation_x',...
             validation_y'); % transpose inputs
-    elseif nargin == 5
+    elseif nargin == 4
         nn = nntrain(nn, train_x', train_y', opts); % transpose inputs
     else
         error('Wrong number of arguments to train_nn');
