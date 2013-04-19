@@ -12,30 +12,30 @@ run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
 window_overlap = 512;
 preprocessing_epsilon = .00001;
-preprocessing_k = 275;   
+preprocessing_k = 512;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [500 250];
+dbn_layer_sizes = [50 50 50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 100;
 dbn_song_batch_size = 10;
 dbn_mini_batch_size = 100;
-dbn_momentum = .7;
+dbn_momentum = .5;
 dbn_binary_learning_rate = .01;
-dbn_gaussian_learning_rate = .0003;
+dbn_gaussian_learning_rate = .0002;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. But keep it low.
-nn_num_epochs = 100;
+nn_num_epochs = 50;
 nn_batch_size = 100;
-nn_learning_rate = 1;
-nn_activation_function = 'sigm';
-nn_momentum = .6;
+nn_learning_rate = .7;
+nn_activation_function = 'tanh_opt'; % 'tanh_opt' or 'sigm'
+nn_momentum = .5;
 nn_plot = 1;
 nn_output = 'softmax';
 nn_scaling_learning_rate = .99;
-nn_weight_penalty_L2 = .001;
-nn_non_sparsity_penalty = .1;
-nn_sparsity_target = .05; % does nothing if above is set to 0
+nn_weight_penalty_L2 = .1;
+nn_non_sparsity_penalty = .2;
+nn_sparsity_target = .1; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
 nn_dropout_fraction = .5;
 
@@ -62,7 +62,8 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
 % Look at layers param to this function to see how to select only certain
 % layers from the NN
 model_filename = ['rbm_dbn_' model_filename];
-convert_trained_dbn_to_svm_efficient(model_filename);
+layers = [2, 3, 4, 5];
+convert_trained_dbn_to_svm_efficient(model_filename, layers);
 
 
 

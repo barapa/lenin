@@ -123,6 +123,11 @@ for b = 1 : num_song_batches
     fprintf('training network\n');
     % train dbn on the current batch of song data
     dbn = dbntrain(dbn, train_x, opts);
+    for i = 1 : numel(dbn.rbm)
+      figure;
+      visualize(dbn.rbm{i}.W');   %  Visualize the RBM weights of first
+      title(['RBM Layer ' num2str(i) ' W weights']);
+    end
 
 end
 
