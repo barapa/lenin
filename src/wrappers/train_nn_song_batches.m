@@ -73,7 +73,7 @@ fprintf('%s\n', 'Beginning NN training.');
 
 for b = 1 : num_song_batches
     % reset learning rate so it is unscaled for every song batch
-    nn.learningRate = trainin_params.learning_rate;
+    nn.learningRate = training_params.learning_rate;
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
     
