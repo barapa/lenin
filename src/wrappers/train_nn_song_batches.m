@@ -89,8 +89,8 @@ for b = 1 : num_song_batches
         files_to_train(rand_song_order(:, first_ind:last_ind))) ; 
     
     fprintf('whitening song batch\n') ;
-    train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
-          opt_preprocessing_params.W);
+    train_x = whiten_data(train_x, preprocessing_params.X_avg,...
+          preprocessing_params.W);
       
     fprintf('training NN on song batch...') ;
     if nargin == 6
