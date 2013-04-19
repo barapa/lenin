@@ -63,7 +63,7 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
 % layers from the NN
 
 %layers = [2, 3, 4, 5];
-convert_trained_dbn_to_svm_efficient(model_filename, layers);
+convert_trained_dbn_to_svm_efficient(model_filename);
 
 
 
