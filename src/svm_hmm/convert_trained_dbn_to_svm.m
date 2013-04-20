@@ -16,7 +16,7 @@ function [ ] = convert_trained_dbn_to_svm( model_name, layers)
 RBM_MODEL_PATH = '/var/data/lenin/rbm_dbn_models/';
 SVM_HMM_DATA_PATH = '/var/data/lenin/svm_hmm_data/';
 
-mkdir(SVM_HMM_DATA_PATH); % in case it doesn't exist
+ensure_dir_exists(SVM_HMM_DATA_PATH); % in case it doesn't exist
 
 % load in model
 model = load_trained_model(strcat(RBM_MODEL_PATH, model_name));
@@ -34,13 +34,13 @@ end
 
 % write training svm data
 svm_train_model_dir = strcat(SVM_HMM_DATA_PATH, model_name, '/train/');
-mkdir(svm_train_model_dir);
+ensure_dir_exists(svm_train_model_dir);
 create_svm_data_files(svm_train_model_dir, train_features, train_labels,...
     train_song_names )
 
 % write testing svm data
 svm_test_model_dir = strcat(SVM_HMM_DATA_PATH, model_name, '/test/');
-mkdir(svm_test_model_dir);
+ensure_dir_exists(svm_test_model_dir);
 create_svm_data_files(svm_test_model_dir, test_features, test_labels,...
     test_song_names )
 

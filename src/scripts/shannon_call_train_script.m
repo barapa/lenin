@@ -17,7 +17,7 @@ preprocessing_epsilon = .00001;
 preprocessing_k = 275;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [50 75 50];
+dbn_layer_sizes = [75 75 50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 400;
 dbn_song_batch_size = 15;
