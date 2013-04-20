@@ -20,6 +20,9 @@
 % song_num:     (optional) integer to include only in the case of passing this
 %               function a single song, so you can tell it what song number it
 %               is.
+% params_str:   A string that will be appended to the filename for the
+%               feature set 'data.dat'. For instance, the string could
+%               indicate the layers chosen.
 
 % The format of the output file is:
 %   -TAG qid:EXNUM FEATNUM:FEATVAL FEATNUM:FEATVAL ... #SONG_NAME
@@ -29,14 +32,14 @@
 %   -SONG_NAME is the name of the song, and appears in the comment
 
 function [ ] = create_svm_data_files( outfile_dir, features, labels,...
-  song_names, song_num)
+  song_names, song_num, params_str)
 
 num_songs = numel(features);
 dim = size(features{1}, 1);
 
 % since this can be used iteratively on songs, we open files with 'a' flag
 % to append
-data_file_name = [outfile_dir 'data.dat'];
+data_file_name = [outfile_dir 'data_' params_str '.dat'];
 data_fid = fopen(data_file_name,'a+');
 
 labels_file_name = [outfile_dir 'true_labels.dat'];
