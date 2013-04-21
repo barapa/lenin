@@ -2,8 +2,13 @@
 Any system running this code needs to set up the following environment vars
 LENIN_DATA_PATH=/path/to/data
 
-Ex. In BR's .bashrc
-LENIN_DATA_PATH=/var/data/lenin
+BR has a preactivate hook in his virtualenvironment that has the following
+in file: /Users/br/.virtualenvs/lenin/bin/preactivate
+
+  export LENIN_DATA_PATH=/var/data/lenin
+
+For computers that might not use the virtual envs, you can just set this in
+bashrc or per session.
 
 ----STFT DEPENDENCIES----
 Before running the STFT functions, you must install the following dependencies
