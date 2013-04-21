@@ -45,13 +45,13 @@ for i = 1 : numel(train_song_names)
     disp('...loading song');
     [song_x, ~, song_y] = load_songs(train_song_names(i)); % load it in
     song_labels = one_hot_to_flat_labels(song_y);
-    disp('...whitening data');
-    song_x_whitened = whiten_data(song_x, model.preprocessing_params.X_avg,...
-        model.preprocessing_params.W);
+    if exist('model.preprocessing_params')
+      disp('...whitening data');
+      song_x = whiten_data(song_x, model.preprocessing_params.X_avg,...
+          model.preprocessing_params.W);
+    end
     disp('...computing activations');
-    [~, nn] = nnpredict(model.nn, song_x_whitened');
-    clear song_x;
-    clear song_x_whitened;
+    [~, nn] = nnpredict(model.nn, song_x');
     song_features = horzcat(nn.a{layers})';
     disp('...writing features to svm_hmm data file');
     create_svm_data_files(svm_train_model_dir, {song_features}, {song_labels},...
@@ -69,13 +69,13 @@ for i = 1 : numel(test_song_names)
     disp('...loading song');
     [song_x, ~, song_y] = load_songs(test_song_names(i)); % load it in
     song_labels = one_hot_to_flat_labels(song_y);
-    disp('...whitening data');
-    song_x_whitened = whiten_data(song_x, model.preprocessing_params.X_avg,...
-        model.preprocessing_params.W);
+    if exist('model.preprocessing_params')
+      disp('...whitening data');
+      song_x = whiten_data(song_x, model.preprocessing_params.X_avg,...
+          model.preprocessing_params.W);
+    end
     disp('...computing activations');
-    [~, nn] = nnpredict(model.nn, song_x_whitened');
-    clear song_x;
-    clear song_x_whitened;
+    [~, nn] = nnpredict(model.nn, song_x');
     song_features = horzcat(nn.a{layers})';
     disp('...writing features to svm_hmm data file');
     create_svm_data_files(svm_test_model_dir, {song_features}, {song_labels},...

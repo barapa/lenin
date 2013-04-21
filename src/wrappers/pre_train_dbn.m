@@ -145,6 +145,10 @@ for b = 1 : num_song_batches
       end
     end % if ~ exist('DONT_VISUALIZE')
 
+end % for b = 1 : num_song_batches
+
+if ~exist('opt_preprocessing_params')
+  opt_preprocessing_params = {} ;
 end
 
 end
