@@ -25,7 +25,7 @@ dbn_gaussian_learning_rate = .00001;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 15;
-nn_num_epochs = 1;
+nn_num_epochs = 10;
 nn_batch_size = 25;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
