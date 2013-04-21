@@ -148,7 +148,8 @@ disp(['Error rate: ' num2str(error_rate)]);
     
 filename_of_model = save_rbm_dbn(dbn, dbn_training_params, dbn_network_params,...
     preprocessing_params, dbn_train_file_names, nn_train_file_names,...
-    test_file_names, nn, nn_training_params, error_rate);
+    test_file_names, nn, nn_training_params, error_rate, run,...
+    nn_train_percentage, dbn_train_percentage);
 
 end
 
