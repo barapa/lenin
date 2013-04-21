@@ -12,35 +12,35 @@ global DONT_VISUALIZE;
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
-window_overlap = 256;
+window_overlap = 512;
 preprocessing_epsilon = .00001;
-preprocessing_k = 275;
+preprocessing_k = 300;
 % dbn
-dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [50 75 50];
+dbn_train_percentage = 60; % 30, 60, or 90
+dbn_layer_sizes = [300 50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 400;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 100;
-dbn_momentum = .6;
-dbn_binary_learning_rate = .1;
-dbn_gaussian_learning_rate = .0004;
+dbn_momentum = .7;
+dbn_binary_learning_rate = .001;
+dbn_gaussian_learning_rate = .00001;
 % nn
-nn_train_percentage = 30; % 30, 60, or 90. 
+nn_train_percentage = 60; % 30, 60, or 90. 
 nn_song_batch_size = 10;
-nn_num_epochs = 50;
+nn_num_epochs = 400;
 nn_batch_size = 100;
-nn_learning_rate = .6;
+nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-nn_momentum = .6;
+nn_momentum = .7;
 nn_plot = 0;
 nn_output = 'softmax';
-nn_scaling_learning_rate = 1;
-nn_weight_penalty_L2 = .0001;
-nn_non_sparsity_penalty = .001;
-nn_sparsity_target = .05; % does nothing if above is set to 0
+nn_scaling_learning_rate = .9999;
+nn_weight_penalty_L2 = 0;
+nn_non_sparsity_penalty = 0;
+nn_sparsity_target = 0; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = 0;
+nn_dropout_fraction = .5;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...
