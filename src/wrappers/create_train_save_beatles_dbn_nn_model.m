@@ -133,7 +133,7 @@ nn_training_params = create_nn_training_params(...
 
 % train
 nn = train_nn_song_batches( dbn, nn_training_params, nn_train_file_names,...
-    preprocessing_params, test_file_names);
+    test_file_names, preprocessing_params);
     
 % calculate and print error
 fprintf('%s\n', 'Loading testing data');

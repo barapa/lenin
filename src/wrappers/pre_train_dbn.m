@@ -81,15 +81,21 @@ opts.gaussian_learning_rate = training_params.gaussian_learning_rate;
 opts.binary_learning_rate = training_params.binary_learning_rate;
 
 % load in all songs to calculate preprocessing_params, don't save songs
-disp('Loading songs to train dbn....');
-[ ~, ~, ~, opt_preprocessing_params ] = load_songs( files_to_train,...
-    opt_preprocessing_params);
-disp('....done');
+if exist('opt_preprocessing_params')
+  disp('Generating whitening parameters....');
+  [ ~, ~, ~, opt_preprocessing_params ] = load_songs( files_to_train,...
+      opt_preprocessing_params);
+  disp('....done');
+end
+
 
 % get the first song
 [ song_data, ~, ~ ] = load_songs(files_to_train(1)) ;
-song_data = whiten_data(song_data, opt_preprocessing_params.X_avg,...
-    opt_preprocessing_params.W);
+
+if exist('opt_preprocessing_params')
+  song_data = whiten_data(song_data, opt_preprocessing_params.X_avg,...
+      opt_preprocessing_params.W);
+end
 
 song_data = song_data' ; % convert from d x n to n x d matrix.
 
@@ -101,28 +107,36 @@ num_songs = numel(files_to_train);
 rand_song_order = randperm(num_songs);
 num_song_batches = ceil(num_songs / training_params.song_batch_size);
 
-fprintf('%s\n', 'Beginning DBN training.');
+disp(sprintf('%s', 'Beginning DBN training.'));
 
 for b = 1 : num_song_batches
-    fprintf('training song batch #%i of %i\n', b, num_song_batches);
+    disp(sprintf('training song batch #%i of %i', b, num_song_batches));
 
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
 
 
-    fprintf('loading songs\n') ;
+    disp('loading songs...') ;
     [ train_x, ~, ~ ] = load_songs(...
         files_to_train(rand_song_order(:, first_ind:last_ind))) ;
+    disp('...done') ;
+
+    if exist('opt_preprocessing_params')
     
-    fprintf('whitening songs\n') ;
-    train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
-          opt_preprocessing_params.W);
+      disp('whitening songs...') ;
+      train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
+            opt_preprocessing_params.W);
+      disp('...done') ;
+
+    end
 
     train_x = train_x'; % convert from d x n to n x d matrix.
 
-    fprintf('training network\n');
+    disp('training network...');
     % train dbn on the current batch of song data
     dbn = dbntrain(dbn, train_x, opts);
+    disp('...done');
+
     if ~exist('DONT_VISUALIZE')
       for i = 1 : numel(dbn.rbm)
         figure;

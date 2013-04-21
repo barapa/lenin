@@ -1,5 +1,5 @@
 % function [ nn ] = train_nn_song_batches( dbn, training_params,...
-%     files_to_train, preprocessing_params, files_to_validate)
+%     files_to_train, files_to_validate, opt_preprocessing_params)
 %
 % Wrapper for training a feed-forward neural network using a pre-trained
 % deep belief network.
@@ -18,13 +18,13 @@
 %                    timestamps: [1 x n double]
 %                      filename: '17-Julia.mp3'
 %                        labels: [1 x n double]
-% preprocessing_params: Params used for whitening.
-% files_to_validate: A cell arary, where each element is a string
+% opt_files_to_validate: Optional a cell arary, where each element is a string
 %                    containing the full pathname of a song matlab
 %                    variable. Structure of matlab var defined above.
+% opt_preprocessing_params: Optional Params used for whitening.
 %
 function [ nn ] = train_nn_song_batches( dbn, training_params,...
-    files_to_train, preprocessing_params, files_to_validate)
+    files_to_train, opt_files_to_validate, opt_preprocessing_params)
 
 % get the first song labels to set up the NN with the right number of
 % labels
@@ -60,16 +60,20 @@ rand_song_order = randperm(num_songs);
 num_song_batches = ceil(num_songs / training_params.song_batch_size);
 
 % if validation set passed in, load it and whiten it
-if nargin == 5
-    fprintf('%s\n', 'Loading validation data');
-    [validation_x, ~, validation_y] = load_songs(files_to_validate);
-    fprintf('%s\n', 'Whitening validation data');
-    validation_x = whiten_data(validation_x, preprocessing_params.X_avg,...
-        preprocessing_params.W);
-    fprintf('done\n');
+if exist('opt_files_to_validate')
+    disp('Loading validation data...') ;
+    [validation_x, ~, validation_y] = load_songs(opt_files_to_validate);
+    disp('...done') ;
+    if exist('opt_preprocessing_params')
+      disp('Whitening validation data...') ;
+      validation_x = whiten_data(validation_x, ...
+          opt_preprocessing_params.X_avg,...
+          opt_preprocessing_params.W);
+      disp('...done') ;
+    end 
 end
 
-fprintf('%s\n', 'Beginning NN training.');
+disp('Beginning NN training...')
 
 for b = 1 : num_song_batches
     % reset learning rate so it is unscaled for every song batch
@@ -77,19 +81,21 @@ for b = 1 : num_song_batches
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
     
-    fprintf(['loading song batch #' num2str(b) '\n']) ;
+    disp(fprintf(['loading song batch #' num2str(b) ]));
     [ train_x, ~, train_y ] = load_songs(...
         files_to_train(rand_song_order(:, first_ind:last_ind))) ; 
     
-    fprintf('whitening song batch\n') ;
-    train_x = whiten_data(train_x, preprocessing_params.X_avg,...
-          preprocessing_params.W);
-      
-    fprintf('training NN on song batch %d...\n', b) ;
     if nargin == 5
+      disp(fprintf('whitening song batch'));
+      train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
+            opt_preprocessing_params.W);
+    end
+      
+    disp(fprintf('training NN on song batch %d...', b)) ;
+    if exist('opt_files_to_validate')
         nn = nntrain(nn, train_x', train_y', opts, validation_x',...
             validation_y'); % transpose inputs
-    elseif nargin == 4
+    elseif nargin == 3
         nn = nntrain(nn, train_x', train_y', opts); % transpose inputs
     else
         error('Wrong number of arguments to train_nn');
