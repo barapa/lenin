@@ -1,14 +1,29 @@
+----ENVIRONMENT VARIABLES----
+Any system running this code needs to set up the following environment vars
+LENIN_DATA_PATH=/path/to/data
+
+BR has a preactivate hook in his virtualenvironment that has the following
+in file: /Users/br/.virtualenvs/lenin/bin/preactivate
+
+  export LENIN_DATA_PATH=/var/data/lenin
+
+For computers that might not use the virtual envs, you can just set this in
+bashrc or per session.
+
+----STFT DEPENDENCIES----
 Before running the STFT functions, you must install the following dependencies
 for Dan Ellis' audioread library:
   mpg123 : brew install mpg123
   mp3info : brew install mp3info
   lame : brew install lame
 
+----GIT SUBMODULES----
 To get the submodules, after cloning the repo, from the top level, you must do:
   git submodule init
   git submodule update
 
 
+------------------------------------------------------
 **EVERYTHING BELOW IS DEPRECATED**
 
 *note: the below paragpraph assumes we have done everything below at least once.
