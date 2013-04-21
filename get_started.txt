@@ -4,6 +4,10 @@ for Dan Ellis' audioread library:
   mp3info : brew install mp3info
   lame : brew install lame
 
+To get the submodules, after cloning the repo, from the top level, you must do:
+  git submodule init
+  git submodule update
+
 
 **EVERYTHING BELOW IS DEPRECATED**
 
