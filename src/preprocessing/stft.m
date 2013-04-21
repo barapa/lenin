@@ -18,7 +18,7 @@
 %              0 - 11: C ... B major
 %             12 - 23: C ... B minor
 %                  24: NO CHORD
-% window_size: a scalar power to 2 specifying the window size. 
+% window_size: a scalar power to 2 specifying the window size.
 %              E.g., 1024
 % window_overlap: a scalar representing the overlap between windows.
 %              E.g., 512
@@ -34,15 +34,15 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
         % params_directory_name is of the form windowsize_windowOverlap
         % ex. 1024_512/
         params_directory_name = [num2str(window_size) '_' num2str(window_overlap) '/'];
-        
+
         % remove .mp3 if its there and add .mat regardless
         save_filename = regexprep(pretty_name, '.mp3', '') ;
         save_filename = strcat(save_filename, '.mat') ;
-        
+
         % put it all together now
-        save_directory = strcat(opt_save_dir, params_directory_name); 
+        save_directory = strcat(opt_save_dir, params_directory_name);
         save_filename =  strcat(save_directory, save_filename);
-        
+
         % if it already exists, load it and return it.
         if exist(save_filename, 'file') == 2
             disp(sprintf('[stft] STFT %s already exists. Loading it in.', save_filename));
@@ -50,8 +50,8 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
             %song = s.song;
             return;
         end
-  end      
-  
+  end
+
   % STFT does not already exist, so we must create it and save it.
   nfft_points = window_size;
 
