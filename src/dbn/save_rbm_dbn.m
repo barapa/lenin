@@ -43,7 +43,7 @@ ensure_dir_exists(save_dir);
 filename = ['rbm_dbn_', datestr(now, 'yyyymmddTHHMMSS')];
 file_path = [save_dir, filename];
 
-if ~exists('notes')
+if ~exist('notes')
   notes = '';
 end
 
