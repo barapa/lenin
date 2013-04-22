@@ -15,18 +15,18 @@ preprocessing_epsilon = .00001;
 preprocessing_k = 300;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [50];
+dbn_layer_sizes = [50 100];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 20;
-dbn_song_batch_size = 15;
+dbn_num_epochs = 100;
+dbn_song_batch_size = 20;
 dbn_mini_batch_size = 25;
-dbn_momentum = .7;
+dbn_momentum = .8;
 dbn_binary_learning_rate = .01;
 dbn_gaussian_learning_rate = .0001;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
-nn_num_epochs = 5;
+nn_num_epochs = 100;
 nn_batch_size = 25;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
@@ -38,7 +38,7 @@ nn_weight_penalty_L2 = 0;
 nn_non_sparsity_penalty = 0;
 nn_sparsity_target = 0; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .4;
+nn_dropout_fraction = .1;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...
