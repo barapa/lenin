@@ -137,11 +137,11 @@ stft_beatles_songs(window_size, window_overlap);
 
 % get full paths to the songs for this run and the stft params
 sae_train_file_names = get_song_data_full_paths(sae_train_song_names,...
-  window_size, window_overlap)
+  window_size, window_overlap);
 nn_train_file_names = get_song_data_full_paths(sae_train_song_names,...
-  window_size, window_overlap)
+  window_size, window_overlap);
 test_file_names = get_song_data_full_paths(test_song_names,...
-  window_size, window_overlap)
+  window_size, window_overlap);
 
 % set up whitening parameters (and stft params for the sake of saving)
 preprocessing_params = create_dbn_pre_processing_params(...
