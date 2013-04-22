@@ -1,6 +1,7 @@
 data/matlab
-keys/
-*.pyc
-*.swp
-*.m~
 .DS_Store
+keys/
+*.m~
+*.pyc
+src/scripts/smrz/
+*.swp
