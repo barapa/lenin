@@ -83,6 +83,3 @@ nn_dropout_fraction = .1;
 
 %layers = [2, 3, 4, 5];
 convert_trained_sae_to_svm_efficient(model_filename);
-
-
-

@@ -34,7 +34,10 @@ function [ nn ] = train_sae_nn_song_batches( sae, sae_sizes, training_params,...
 [L, ~] = size(song_y);
 
 % Use the SDAE to initialize a FFNN
-nn = nnsetup([sae_sizes, L]) % append softmax layer to sizes
+nn = nnsetup([sae_sizes, L]); % append softmax layer to sizes
+for i = 1 : numel(sae_sizes) - 1
+  nn.W{i} = sae.ae{i}.W{1}
+end
 
 % set the opts params object
 opts.numepochs = training_params.num_epochs;
@@ -53,7 +56,8 @@ nn.nonSparsityPenalty = training_params.non_sparsity_penalty;
 nn.sparsityTarget = training_params.sparsity_target;
 nn.inputZeroMaskedFraction = training_params.input_zero_masked_fraction;
 nn.output = training_params.output;
-nn.dropoutFraction = training_params.dropout_fraction;
+%nn.dropoutFraction = training_params.dropout_fraction;
+
 
 % Calculate song batches
 num_songs = numel(files_to_train);
