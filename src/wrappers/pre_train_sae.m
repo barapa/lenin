@@ -73,7 +73,7 @@ for b = 1 : num_song_batches
 
     disp('training SAE...');
     % train dbn on the current batch of song data
-    sae = saetrain(sae, train_x, opts)
+    sae = saetrain(sae, train_x, opts);
     disp('...done training SAE');
 
     if ~exist('DONT_VISUALIZE')

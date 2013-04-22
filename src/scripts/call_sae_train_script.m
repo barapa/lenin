@@ -12,34 +12,34 @@ run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
 window_overlap = 512;
 preprocessing_epsilon = .00001;
-preprocessing_k = 100;
+preprocessing_k = 300;
 
 % sae
 sae_train_percentage = 30; % 30, 60, or 90
-sae_layer_sizes = [50 50];
+sae_layer_sizes = [100 100];
 sae_activation_function = 'sigm';
-sae_num_epochs = 5;
-sae_song_batch_size = 5;
-sae_mini_batch_size = 100;
+sae_num_epochs = 10;
+sae_song_batch_size = 10;
+sae_mini_batch_size = 50;
 sae_learning_rate = 1;
 sae_input_zero_masked_fraction = .5;
 
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
-nn_num_epochs = 5;
-nn_batch_size = 100;
+nn_num_epochs = 25;
+nn_batch_size = 50;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
 nn_momentum = .6;
 nn_plot = 1;
 nn_output = 'softmax';
-nn_scaling_learning_rate = 1;
+nn_scaling_learning_rate = .99;
 nn_weight_penalty_L2 = 0;
 nn_non_sparsity_penalty = 0;
 nn_sparsity_target = 0; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .1;
+nn_dropout_fraction = .5;
 
 % train SAE and NN
 [ filename_of_model ] = create_train_save_SAE_model(...
@@ -70,7 +70,7 @@ nn_dropout_fraction = .1;
     nn_non_sparsity_penalty,...
     nn_sparsity_target,...
     nn_dropout_fraction,...
-    nn_song_batch_size)
+    nn_song_batch_size);
 
 % CREATE TRAINING AND TESTING DATA FOR SVM.
 % if you didn't capture the model_filename like above, because you are

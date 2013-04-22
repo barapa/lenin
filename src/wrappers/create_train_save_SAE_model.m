@@ -138,7 +138,7 @@ stft_beatles_songs(window_size, window_overlap);
 % get full paths to the songs for this run and the stft params
 sae_train_file_names = get_song_data_full_paths(sae_train_song_names,...
   window_size, window_overlap);
-nn_train_file_names = get_song_data_full_paths(sae_train_song_names,...
+nn_train_file_names = get_song_data_full_paths(nn_train_song_names,...
   window_size, window_overlap);
 test_file_names = get_song_data_full_paths(test_song_names,...
   window_size, window_overlap);
@@ -159,7 +159,7 @@ sae_training_params = create_sae_training_params(sae_num_epochs,...
 
 % train sae, saving preprocessing params for later use
 [sae, sae_sizes, preprocessing_params] = pre_train_sae(sae_train_file_names,...
-  sae_network_params, sae_training_params, preprocessing_params)
+  sae_network_params, sae_training_params, preprocessing_params);
 
 % ---- FFNN SETUP AND TRAINING ----
 
@@ -176,7 +176,7 @@ nn_training_params = create_nn_training_params(...
 
 % train
 nn = train_sae_nn_song_batches( sae, sae_sizes, nn_training_params,...
-    nn_train_file_names, test_file_names, preprocessing_params);
+    nn_train_file_names, preprocessing_params, test_file_names);
     
 % calculate and print error
 fprintf('%s\n', 'Loading testing data');
