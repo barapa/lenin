@@ -14,6 +14,9 @@
   path('src/postprocessing/', path) ;
   path('src/preprocessing/', path) ;
   path('src/scripts/', path) ;
+  if exist('src/scripts/smrz') == 7
+    path('src/scripts/smrz/', path) ;
+  end
   path('src/svm_hmm', path) ;
   path('src/util/', path) ;
   path('src/wrappers', path) ;
