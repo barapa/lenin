@@ -31,7 +31,7 @@ sae_sizes = [D network_params.sizes];
 sae = saesetup(sae_sizes);
 
 % for each layer, set up with the given params
-num_layers = numel(encoder_sizes) - 1;
+num_layers = numel(sae_sizes) - 1;
 for i = 1 : num_layers
   sae.ae{i}.activation_function = network_params.activation_function
   sae.ae{i}.learningRate = training_params.learning_rate
