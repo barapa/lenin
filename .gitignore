@@ -3,7 +3,6 @@ data/matlab
 keys/
 *.pyc
 src/scripts/smrz/
-src/scripts/br
 *.swp
 *.m~
 .DS_Store
