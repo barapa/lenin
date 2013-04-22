@@ -13,7 +13,7 @@
 function [ network_params ] = create_sae_network_params(...
   layer_sizes, activation_function)
 
-network_params.layer_sizes = layer_sizes;
+network_params.sizes = layer_sizes;
 network_params.activation_function = activation_function;
 
 end

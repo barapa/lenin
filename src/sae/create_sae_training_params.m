@@ -16,7 +16,7 @@ function [ training_params ] = create_sae_training_params(...
 training_params.num_epochs = num_epochs;
 training_params.song_batch_size = song_batch_size;
 training_params.mini_batch_size = mini_batch_size;
-training_params.learning_rate;
+training_params.learning_rate = learning_rate;
 training_params.input_zero_masked_fraction = input_zero_masked_fraction;
 end
 
