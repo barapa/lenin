@@ -8,6 +8,7 @@ NOTE: Outputs run scripts to data/scripts/$USER/
 NOTE: Scripts generated expect svm_hmm_classify and svm_hmm_learn to be defined
       on path.
 NOTE: Expects /bin/bash to exist and work.
+NOTE: Expects you to be in the lenin virtualenv (see get_started.txt)
 """
 import os
 import sys
