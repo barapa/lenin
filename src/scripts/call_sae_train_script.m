@@ -12,23 +12,23 @@ run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
 window_overlap = 512;
 preprocessing_epsilon = .00001;
-preprocessing_k = 300;
+preprocessing_k = 100;
 
 % sae
 sae_train_percentage = 30; % 30, 60, or 90
-sae_layer_sizes = [100 100];
+sae_layer_sizes = [50 50];
 sae_activation_function = 'sigm';
-sae_num_epochs = 100;
-sae_song_batch_size = 20;
-sae_mini_batch_size = 25;
+sae_num_epochs = 5;
+sae_song_batch_size = 5;
+sae_mini_batch_size = 100;
 sae_learning_rate = 1;
 sae_input_zero_masked_fraction = .5;
 
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
-nn_num_epochs = 100;
-nn_batch_size = 25;
+nn_num_epochs = 5;
+nn_batch_size = 100;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
 nn_momentum = .6;
@@ -50,7 +50,7 @@ nn_dropout_fraction = .1;
     preprocessing_k,...
     sae_train_percentage,...
     sae_layer_sizes,...
-    sae_activation_function,
+    sae_activation_function,...
     sae_num_epochs,...
     sae_song_batch_size,...
     sae_mini_batch_size,...
