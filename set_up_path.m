@@ -13,6 +13,7 @@
   path('src/nn', path) ;
   path('src/postprocessing/', path) ;
   path('src/preprocessing/', path) ;
+  path('src/sae', path) ;
   path('src/scripts/', path) ;
   path('src/svm_hmm', path) ;
   path('src/util/', path) ;
