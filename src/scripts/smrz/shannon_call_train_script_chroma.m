@@ -1,45 +1,40 @@
-% FIRST SECTION IS TRAINING THE DBN AND NN AND SAVING THE RESULTS. 
-% SECOND SECTION IS WRITING THE ACTIVATIONS TO FILES FOR SVM TRAINING.
-
 % set environment global vars
 LENIN_DATA_DIR = 'var/data/lenin';
 global LENIN_DATA_DIR;
-% comment the next line out if you want to visualize network weights.
-% global DONT_VISUALIZE;
 
-% TRAINING DBN AND NN
+% TRAINING DBN AND NN ========================================================
 
-% data
+% data -----------------------------------
 run = 1; % we will just do run #1 to start, and do others on good models
 
-% dbn
+% dbn ------------------------------------
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [25 50];
+dbn_layer_sizes = [1024 128];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 1;
+dbn_num_epochs = 100;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 50;
 dbn_momentum = .7;
 dbn_binary_learning_rate = .001;
-dbn_gaussian_learning_rate = .00001;
+dbn_gaussian_learning_rate = .001;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 15;
-nn_num_epochs = 10;
+nn_num_epochs = 100;
 nn_batch_size = 25;
-nn_learning_rate = .1;
+nn_learning_rate = .001;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
 nn_momentum = .7;
 nn_plot = 1;
 nn_output = 'softmax';
 nn_scaling_learning_rate = .9999;
 nn_weight_penalty_L2 = 0;
-nn_non_sparsity_penalty = 0;
-nn_sparsity_target = 0; % does nothing if above is set to 0
+nn_non_sparsity_penalty = 0.3;
+nn_sparsity_target = 0.7; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .5;
+nn_dropout_fraction = 0;
 
-% train the dbn and nn
+% train the dbn and nn -------------------
 model_filename = create_train_save_chroma_beatles_dbn_nn_model(...
     run,...
     dbn_train_percentage,...
@@ -79,6 +74,3 @@ model_filename = create_train_save_chroma_beatles_dbn_nn_model(...
 
 %layers = [2, 3, 4, 5];
 convert_trained_dbn_to_svm_efficient(model_filename);
-
-
-
