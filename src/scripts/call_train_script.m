@@ -15,14 +15,14 @@ preprocessing_epsilon = .00001;
 preprocessing_k = 300;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [50 100];
+dbn_layer_sizes = [300 300 50];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 100;
-dbn_song_batch_size = 20;
+dbn_num_epochs = 25;
+dbn_song_batch_size = 15;
 dbn_mini_batch_size = 25;
-dbn_momentum = .8;
-dbn_binary_learning_rate = .01;
-dbn_gaussian_learning_rate = .0001;
+dbn_momentum = .75;
+dbn_binary_learning_rate = .001;
+dbn_gaussian_learning_rate = .00001;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
@@ -30,15 +30,15 @@ nn_num_epochs = 100;
 nn_batch_size = 25;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-nn_momentum = .6;
+nn_momentum = .7;
 nn_plot = 1;
 nn_output = 'softmax';
-nn_scaling_learning_rate = 1;
+nn_scaling_learning_rate = .9999;
 nn_weight_penalty_L2 = 0;
 nn_non_sparsity_penalty = 0;
 nn_sparsity_target = 0; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .1;
+nn_dropout_fraction = .5;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...
