@@ -15,7 +15,7 @@
 
 function [ ] = convert_trained_sae_to_svm_efficient( model_name, layers)
 
-RBM_MODEL_PATH = '/var/data/lenin/sae_models/';
+SAE_MODEL_PATH = '/var/data/lenin/sae_models/';
 SVM_HMM_DATA_PATH = '/var/data/lenin/svm_hmm_data/';
 
 svm_train_model_dir = strcat(SVM_HMM_DATA_PATH, model_name, '/train/');
@@ -26,7 +26,7 @@ ensure_dir_exists(svm_train_model_dir);
 ensure_dir_exists(svm_test_model_dir);
 
 % load in model
-model = load_trained_model(strcat(RBM_MODEL_PATH, model_name));
+model = load_trained_model(strcat(SAE_MODEL_PATH, model_name));
 
 % set layers to all if its not specified
 if nargin == 1
