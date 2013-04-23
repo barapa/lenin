@@ -42,13 +42,15 @@ def generate_model_run_script(model_filename, run_script_dir, model_dir):
   input_files = filter(lambda x: 'data' in x, input_files)
 
   for input_file in input_files:
+    layers = input_file.split('.')[0]
     run_script.write("TRAIN_PATH=\"${MODEL_PATH}/train/%s\"\n" % input_file)
     run_script.write(
-        "MODEL_SAVE_PATH=\"${MODEL_PATH}/train/c_%d_e_%f.model\"\n" % (C, E))
+        "MODEL_SAVE_PATH=\"${MODEL_PATH}/train/%s_c_%d_e_%f.model\"\n" %
+        (layers, C, E))
     run_script.write("TEST_PATH=\"${MODEL_PATH}/test/%s\"\n" % input_file)
     run_script.write(
-        "PREDICTIONS_SAVE_PATH=\"${MODEL_PATH}/test/c_%d_e_%f.model\"\n" %
-        (C, E))
+        "PREDICTIONS_SAVE_PATH=\"${MODEL_PATH}/test/%s_c_%d_e_%f.model\"\n" %
+        (layers, C, E))
     run_script.write("\n")
     run_script.write(
         "svm_hmm_learn -c %d -e %f ${TRAIN_PATH} ${MODEL_SAVE_PATH}\n" %
