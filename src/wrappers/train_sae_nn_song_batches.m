@@ -91,7 +91,7 @@ for b = 1 : num_song_batches
     [ train_x, ~, train_y ] = load_songs(...
         files_to_train(rand_song_order(:, first_ind:last_ind))) ; 
     
-    if nargin == 6
+    if nargin > 4
       disp('whitening song batch');
       train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
             opt_preprocessing_params.W);

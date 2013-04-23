@@ -18,16 +18,16 @@ preprocessing_k = 275;
 sae_train_percentage = 30; % 30, 60, or 90
 sae_layer_sizes = [50];
 sae_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-sae_num_epochs = 30;
+sae_num_epochs = 4;
 sae_song_batch_size = 15;
 sae_mini_batch_size = 100;
-sae_learning_rate = .01;
-sae_input_zero_masked_fraction = .5;
+sae_learning_rate = 1;
+sae_input_zero_masked_fraction = .6;
 
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 15;
-nn_num_epochs = 40;
+nn_num_epochs = 5;
 nn_batch_size = 50;
 nn_learning_rate = 1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
@@ -38,8 +38,8 @@ nn_scaling_learning_rate = .98;
 nn_weight_penalty_L2 = 0;
 nn_non_sparsity_penalty = 0;
 nn_sparsity_target = 0; % does nothing if above is set to 0
-nn_input_zero_masked_fraction = .5; % only non-zero for autoencoders
-nn_dropout_fraction = 0;
+nn_input_zero_masked_fraction = .5; % this doesn't do anything
+nn_dropout_fraction = .5;
 
 % train SAE and NN
 [ filename_of_model ] = create_train_save_SAE_model(...
@@ -82,4 +82,4 @@ nn_dropout_fraction = 0;
 % layers from the NN
 
 %layers = [2, 3, 4, 5];
-convert_trained_sae_to_svm_efficient(filename_of_model);
+convert_trained_sae_to_svm_efficient(filename_of_model, [2, 3]);
