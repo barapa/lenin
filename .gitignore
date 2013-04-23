@@ -1,7 +1,10 @@
 data/matlab
 .DS_Store
 keys/
-*.m~
 *.pyc
 src/scripts/smrz/
+src/scripts/br/
+lib/svm_hmm
 *.swp
+*.m~
+.DS_Store
