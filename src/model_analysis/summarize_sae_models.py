@@ -11,18 +11,38 @@ import csv
 LENIN_DATA_PATH = os.environ['LENIN_DATA_PATH']
 SUMMARY_FILE_NAME = 'sae_model_summary.csv'
 SAE_MODELS_DIR = 'sae_models'
-MODEL_FIELDS = ['model_pathname', 'nn_error_rate', 'run', 'window_size',
-    'window_overlap', 'preprocessing_epsilon',
-    'preprocessing_k', 'sae_train_percentage', 'sae_layer_sizes', 
-    'dbn_is_visible_layer_gaussian', 'dbn_num_epochs', 'dbn_song_batch_size',
-    'dbn_mini_batch_size', 'dbn_momentum', 'dbn_binary_learning_rate',
-    'dbn_gaussian_learning_rate', 'nn_train_percentage', 'nn_song_batch_size',
-    'nn_num_epochs', 'nn_batch_size', 'nn_learning_rate',
-    'nn_activation_function', 'nn_momentum', 'nn_output',
-    'nn_scaling_learning_rate', 'nn_weight_penalty_L2',
-    'nn_non_sparsity_penalty', 'nn_sparsity_target',
-    'nn_input_zero_masked_fraction', 'nn_dropout_fraction', 'nn_layer_sizes',
-    'notes']
+MODEL_FIELDS = [
+  'model_pathname',
+  'nn_error_rate',
+  'sae_layer_sizes',
+  'run',
+  'window_size',
+  'window_overlap',
+  'preprocessing_epsilon',
+  'preprocessing_k', 
+  'sae_train_percentage', 
+  'sae_num_epochs',
+  'sae_song_batch_size',
+  'sae_mini_batch_size',
+  'sae_learning_rate',
+  'sae_activation_function',
+  'sae_input_zero_masked_fraction',
+  'nn_train_percentage',
+  'nn_song_batch_size',
+  'nn_num_epochs',
+  'nn_batch_size',
+  'nn_learning_rate',
+  'nn_activation_function',
+  'nn_momentum',
+  'nn_output',
+  'nn_scaling_learning_rate',
+  'nn_weight_penalty_L2',
+  'nn_non_sparsity_penalty',
+  'nn_sparsity_target',
+  'nn_layer_sizes', 
+  'nn_input_zero_masked_fraction',
+  'nn_dropout_fraction',
+  'notes']
 
 def summarize_models_and_save():
   model_paths = get_model_file_paths()
@@ -39,14 +59,14 @@ def summarize_models_and_save():
 def get_model_file_paths():
   '''
   Returns a list of the full paths of all of the .mat files present in the
-  RBM_MODELS_DIR.
+  SAE_MODELS_DIR.
   '''
-  return glob.glob(os.path.join(LENIN_DATA_PATH, RBM_MODELS_DIR, '*.mat'))
+  return glob.glob(os.path.join(LENIN_DATA_PATH, SAE_MODELS_DIR, '*.mat'))
 
 def load_model(model_full_path):
   '''
   Returns a model object, which is a dictionary containing the fields of an
-  RBM model
+  SAE model
   '''
   return scipy.io.loadmat(model_full_path, squeeze_me=True,
       struct_as_record=False)
@@ -67,20 +87,19 @@ def get_model_row_str(model_path, model):
   return [
     model_path,
     get_nn_error_rate(model),
+    get_sae_layer_sizes(model),
     get_run(model),
     get_window_size(model),
     get_window_overlap(model),
     get_preprocessing_epsilon(model),
     get_preprocessing_k(model),
-    get_dbn_train_percentage(model),
-    get_dbn_layer_sizes(model),
-    get_dbn_is_visible_layer_gaussian(model),
-    get_dbn_num_epochs(model),
-    get_dbn_song_batch_size(model),
-    get_dbn_mini_batch_size(model),
-    get_dbn_momentum(model),
-    get_dbn_binary_learning_rate(model),
-    get_dbn_gaussian_learning_rate(model),
+    get_sae_train_percentage(model),
+    get_sae_num_epochs(model),
+    get_sae_song_batch_size(model),
+    get_sae_mini_batch_size(model),
+    get_sae_learning_rate(model),
+    get_sae_activation_function(model),
+    get_sae_input_zero_masked_fraction(model),
     get_nn_train_percentage(model),
     get_nn_song_batch_size(model),
     get_nn_num_epochs(model),
@@ -93,14 +112,18 @@ def get_model_row_str(model_path, model):
     get_nn_weight_penalty_L2(model),
     get_nn_non_sparsity_penalty(model),
     get_nn_sparsity_target(model),
+    get_nn_layer_sizes(model),
     get_nn_input_zero_masked_fraction(model),
     get_nn_dropout_fraction(model),
-    get_nn_layer_sizes(model),
     get_notes(model)]
     
 @handle_missing_field
 def get_nn_error_rate(model):
   return str(model['error_rate'])
+
+@handle_missing_field
+def get_sae_layer_sizes(model):
+  return str(model['sae_network_params'].sizes)
 
 @handle_missing_field
 def get_run(model):
@@ -123,40 +146,32 @@ def get_preprocessing_k(model):
   return str(model['preprocessing_params'].k)
 
 @handle_missing_field
-def get_dbn_train_percentage(model):
-  return str(model['dbn_train_percentage'])
+def get_sae_train_percentage(model):
+  return str(model['sae_train_percentage'])
 
 @handle_missing_field
-def get_dbn_layer_sizes(model):
-  return str(model['dbn'].sizes)
+def get_sae_num_epochs(model):
+  return str(model['sae_training_params'].num_epochs)
 
 @handle_missing_field
-def get_dbn_is_visible_layer_gaussian(model):
-  return str(model['dbn'].gaussian_visible_units)
+def get_sae_song_batch_size(model):
+  return str(model['sae_training_params'].song_batch_size)
 
 @handle_missing_field
-def get_dbn_num_epochs(model):
-  return str(model['dbn_training_params'].num_epochs)
+def get_sae_mini_batch_size(model):
+  return str(model['sae_training_params'].mini_batch_size)
 
 @handle_missing_field
-def get_dbn_song_batch_size(model):
-  return str(model['dbn_training_params'].song_batch_size)
+def get_sae_learning_rate(model):
+  return str(model['sae_training_params'].learning_rate)
 
 @handle_missing_field
-def get_dbn_mini_batch_size(model):
-  return str(model['dbn_training_params'].mini_batch_size)
+def get_sae_input_zero_masked_fraction(model):
+  return str(model['sae_training_params'].input_zero_masked_fraction)
 
 @handle_missing_field
-def get_dbn_momentum(model):
-  return str(model['dbn_training_params'].momentum)
-
-@handle_missing_field
-def get_dbn_binary_learning_rate(model):
-  return str(model['dbn_training_params'].binary_learning_rate)
-
-@handle_missing_field
-def get_dbn_gaussian_learning_rate(model):
-  return str(model['dbn_training_params'].gaussian_learning_rate)
+def get_sae_activation_function(model):
+  return str(model['sae_network_params'].activation_function)
 
 @handle_missing_field
 def get_nn_train_percentage(model):
