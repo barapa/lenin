@@ -16,13 +16,13 @@ preprocessing_k = 275;
 
 % sae
 sae_train_percentage = 30; % 30, 60, or 90
-sae_layer_sizes = [50];
+sae_layer_sizes = [200 50];
 sae_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-sae_num_epochs = 4;
+sae_num_epochs = 20;
 sae_song_batch_size = 15;
-sae_mini_batch_size = 100;
+sae_mini_batch_size = 200;
 sae_learning_rate = 1;
-sae_input_zero_masked_fraction = .6;
+sae_input_zero_masked_fraction = .5;
 
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
@@ -31,7 +31,7 @@ nn_num_epochs = 5;
 nn_batch_size = 50;
 nn_learning_rate = 1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-nn_momentum = .7;
+nn_momentum = .1;
 nn_plot = 1;
 nn_output = 'softmax';
 nn_scaling_learning_rate = .98;
