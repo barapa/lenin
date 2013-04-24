@@ -16,18 +16,18 @@ preprocessing_k = 275;
 
 % sae
 sae_train_percentage = 30; % 30, 60, or 90
-sae_layer_sizes = [200 50];
+sae_layer_sizes = [1000 200];
 sae_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-sae_num_epochs = 20;
-sae_song_batch_size = 15;
-sae_mini_batch_size = 200;
+sae_num_epochs = 50;
+sae_song_batch_size = 10;
+sae_mini_batch_size = 50;
 sae_learning_rate = 1;
 sae_input_zero_masked_fraction = .5;
 
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
-nn_song_batch_size = 15;
-nn_num_epochs = 5;
+nn_song_batch_size = 10;
+nn_num_epochs = 50;
 nn_batch_size = 50;
 nn_learning_rate = 1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
@@ -39,7 +39,7 @@ nn_weight_penalty_L2 = 0;
 nn_non_sparsity_penalty = 0;
 nn_sparsity_target = 0; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = .5; % this doesn't do anything
-nn_dropout_fraction = .5;
+nn_dropout_fraction = 0;
 
 % train SAE and NN
 [ filename_of_model ] = create_train_save_SAE_model(...
