@@ -22,10 +22,11 @@
 %              E.g., 1024
 % window_overlap: a scalar representing the overlap between windows.
 %              E.g., 512
+% nfft
 %
 % DEPENDENCIES:
 %  audioread package by Dan Ellis
-function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
+function [ song ] = stft(filename, window_size, window_overlap, nfft, pretty_name,...
     opt_save_dir, opt_label_filename)
 
   % Construct filename and check if it already exists. If it does, read it
@@ -33,7 +34,8 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
   if nargin > 4
         % params_directory_name is of the form windowsize_windowOverlap
         % ex. 1024_512/
-        params_directory_name = [num2str(window_size) '_' num2str(window_overlap) '/'];
+        params_directory_name = [num2str(window_size) '_' num2str(window_overlap)...
+          '_' num2str(nfft) '/'];
 
         % remove .mp3 if its there and add .mat regardless
         save_filename = regexprep(pretty_name, '.mp3', '') ;
@@ -53,11 +55,9 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
   end
 
   % STFT does not already exist, so we must create it and save it.
-  nfft_points = window_size;
 
   [ raw, sample_rate ] = audioread(filename) ;
-  [ ffts, freqs, times ] = spectrogram(raw, window_size, window_overlap, ...
-      nfft_points, sample_rate) ;
+  [ ffts, freqs, times ] = spectrogram(raw, window_size, window_overlap, nfft, sample_rate) ;
 
   song = {} ;
   song.samples = abs(ffts) ;
@@ -65,15 +65,15 @@ function [ song ] = stft(filename, window_size, window_overlap, pretty_name,...
   song.timestamps = times ;
 
 
-  if nargin > 3
+  if nargin > 4
     song.filename = pretty_name ;
   end
 
-  if nargin == 6
+  if nargin == 7
     song.labels = label_timestamps(song.timestamps, opt_label_filename) ;
   end
 
-  if nargin > 4
+  if nargin > 5
     ensure_dir_exists(save_directory) ;
     save(save_filename, 'song') ;
   end

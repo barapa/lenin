@@ -5,6 +5,7 @@
 %              E.g., 1024
 % window_overlap: a scalar representing the overlap between windows.
 %              E.g., 512
+% nfft: a scalar representing the length of the stft vector
 % For each song, creates a struct array that has the fields:
 %
 %       samples - the STFT (each column is a frame, each row a freq)
@@ -17,7 +18,7 @@
 %   - beatles songs to be in /var/data/lenin/beatles
 %   - to be run from top-level
 %
-function [ beatles_unlabeled ] = stft_beatles_songs(window_size, window_overlap)
+function [ beatles_unlabeled ] = stft_beatles_songs(window_size, window_overlap, nfft)
   TOP_DIR = '/var/data/lenin/beatles/mp3s-32k/' ;
   LABEL_DIR = '/var/data/lenin/beatles/chordlabs/' ;
   SAVE_DIR = '/var/data/lenin/beatles_preprocessed/' ;
@@ -44,7 +45,7 @@ function [ beatles_unlabeled ] = stft_beatles_songs(window_size, window_overlap)
     data_dir = strcat(data_dir, '/') ;
     label_dir = strcat(LABEL_DIR, dirname) ;
     label_dir = strcat(label_dir, '/') ;
-    stft_on_dir(data_dir, SAVE_DIR, window_size, window_overlap, label_dir) ;
+    stft_on_dir(data_dir, SAVE_DIR, window_size, window_overlap, nfft, label_dir) ;
 
   end
 

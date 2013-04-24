@@ -8,6 +8,7 @@
 %              E.g., 1024
 % window_overlap: a scalar representing the overlap between windows.
 %              E.g., 512
+% nfft: a scalar representing the length of the fft
 % opt_label_dir: Optional absolute path (string) to directory containing label
 %             file.
 %
@@ -30,7 +31,7 @@
 %         file extension (audio extenion for data file, .lab for label file).
 %
 function [ songs ] = stft_on_dir(data_dir, save_dir, window_size,...
-    window_overlap, opt_label_dir)
+    window_overlap, nfft, opt_label_dir)
   disp(sprintf('[stft_on_dir] Performing stft on songs in dir %s...', ...
       data_dir)) ;
 
@@ -50,13 +51,13 @@ function [ songs ] = stft_on_dir(data_dir, save_dir, window_size,...
 
     filename = strcat(data_dir, listings(i).name) ;
 
-    if nargin == 4
-      stft(filename, window_size, window_overlap, listings(i).name, save_dir) ;
-    elseif nargin == 5
+    if nargin == 5
+      stft(filename, window_size, window_overlap, nfft, listings(i).name, save_dir) ;
+    elseif nargin == 6
       label_name = convert_music_filename_to_label_filename(...
           listings(i).name) ;
       label_filename = strcat(opt_label_dir, label_name) ;
-      stft(filename, window_size, window_overlap, listings(i).name, save_dir, label_filename) ;
+      stft(filename, window_size, window_overlap, nfft, listings(i).name, save_dir, label_filename) ;
     else
       disp(sprinft('[stft_on_dir] called in invalid number of params!')) ;
     end % if nargin == 2

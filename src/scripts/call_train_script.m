@@ -9,21 +9,26 @@ LENIN_DATA_DIR = 'var/data/lenin';
 
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
-window_size = 1024;
-window_overlap = 512;
+window_size = 2^13;
+window_overlap = 2^12;
+nfft = 2^10; % this will be double the size of the input vector
 preprocessing_epsilon = .00001;
-preprocessing_k = 10;
+preprocessing_k = 300; % Cannot be larger than nfft / 2 + 1
+if preprocessing_k > nfft / 2 + 1
+    preprocessing_k = nfft / 2 + 1;
+end
+
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [10 10];
+dbn_layer_sizes = [400 100];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 25;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 25;
 dbn_momentum = .8;
-dbn_binary_learning_rate = .01;
-dbn_gaussian_learning_rate = .0001;
-dbn_cdk = 5;
+dbn_binary_learning_rate = .001;
+dbn_gaussian_learning_rate = .00001;
+dbn_cdk = 1;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
@@ -43,7 +48,7 @@ nn_dropout_fraction = .5;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...
-    run, window_size, window_overlap, preprocessing_epsilon,...
+    run, window_size, window_overlap, nfft, preprocessing_epsilon,...
     preprocessing_k, dbn_train_percentage, dbn_layer_sizes,...
     dbn_is_visible_layer_gaussian, dbn_num_epochs, dbn_song_batch_size,...
     dbn_mini_batch_size, dbn_momentum, dbn_binary_learning_rate,...

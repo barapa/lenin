@@ -9,10 +9,14 @@ LENIN_DATA_DIR = 'var/data/lenin';
 
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
-window_size = 1024;
-window_overlap = 512;
+window_size = 2^13;
+window_overlap = 2^12;
+nfft = 2^10;
 preprocessing_epsilon = .00001;
 preprocessing_k = 275;
+if preprocessing_k > nfft / 2 + 1
+    preprocessing_k = nfft / 2 + 1;
+end
 
 % sae
 sae_train_percentage = 30; % 30, 60, or 90
@@ -46,6 +50,7 @@ nn_dropout_fraction = 0;
     run,...
     window_size,...
     window_overlap,...
+    nfft,...
     preprocessing_epsilon,...
     preprocessing_k,...
     sae_train_percentage,...

@@ -6,17 +6,18 @@
 % 
 % window_size : window size of fsft
 % window_overlap : window overlap of fsft
+% nfft:
 % 
 % full_path : the full path string of the directory containing the files
 % 
-% ex. get_full_data_path_for_preprocessing_params(1024, 512) will return
-% '/var/data/lenin/beatles_preprocessed/1024_512/'
+% ex. get_full_data_path_for_preprocessing_params(1024, 512, 512) will return
+% '/var/data/lenin/beatles_preprocessed/1024_512_512/'
 
 function [ full_path ] = get_full_data_path_for_preprocessing_params(...
-    window_size, window_overlap )
+    window_size, window_overlap, nfft )
 
 PARENT_DIR = '/var/data/lenin/beatles_preprocessed/' ;
-child_dir = [num2str(window_size) '_' num2str(window_overlap) '/'];
+child_dir = [num2str(window_size) '_' num2str(window_overlap) '_' num2str(nfft) '/'];
 
 full_path = strcat(PARENT_DIR, child_dir);
 

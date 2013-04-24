@@ -9,14 +9,15 @@
 % song_names : cell array of the song names, as found in the run files.
 % window_size : window size. See stft code.
 % window_overlap: window overlap. See stft code.
+% nfft:
 % 
 % full_song_paths : cell array of the full pathnames to the songs. This
 %                   can be used to load in the actual song data files.
 
 function [ full_song_paths ] = get_song_data_full_paths(...
-    song_names, window_size, window_overlap )
+    song_names, window_size, window_overlap, nfft )
     full_song_paths = cell(size(song_names));
-    data_dir = get_full_data_path_for_preprocessing_params(window_size, window_overlap);
+    data_dir = get_full_data_path_for_preprocessing_params(window_size, window_overlap, nfft);
     for i = 1 : numel(song_names)
         full_song_paths{i} = strcat(data_dir, song_names{i});
     end
