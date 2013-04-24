@@ -20,15 +20,15 @@ end
 
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [200 100];
+dbn_layer_sizes = [50 50 50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 25;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 25;
 dbn_momentum = .7;
-dbn_binary_learning_rate = .0001;
-dbn_gaussian_learning_rate = .000001;
-dbn_cdk = 2;
+dbn_binary_learning_rate = .001;
+dbn_gaussian_learning_rate = .0001;
+dbn_cdk = 1;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
@@ -44,7 +44,7 @@ nn_weight_penalty_L2 = 0;
 nn_non_sparsity_penalty = 0;
 nn_sparsity_target = 0; % does nothing if above is set to 0
 nn_input_zero_masked_fraction = 0; % only non-zero for autoencoders
-nn_dropout_fraction = .5;
+nn_dropout_fraction = .6;
 
 % train the dbn and nn
 model_filename = create_train_save_beatles_dbn_nn_model(...
@@ -68,7 +68,7 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
 % Look at layers param to this function to see how to select only certain
 % layers from the NN
 
-layers = 1:4;
+layers = 2:5;
 left_frames = 2;
 right_frames =0;
 convert_trained_dbn_to_svm_efficient(...
