@@ -23,6 +23,7 @@ dbn_mini_batch_size = 25;
 dbn_momentum = .8;
 dbn_binary_learning_rate = .01;
 dbn_gaussian_learning_rate = .0001;
+cdk = 25;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;

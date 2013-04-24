@@ -79,6 +79,7 @@ opts.batchsize = training_params.mini_batch_size;
 opts.momentum = training_params.momentum;
 opts.gaussian_learning_rate = training_params.gaussian_learning_rate;
 opts.binary_learning_rate = training_params.binary_learning_rate;
+opts.cdk = training_params.cdk;
 
 % load in all songs to calculate preprocessing_params, don't save songs
 if exist('opt_preprocessing_params')
