@@ -12,10 +12,10 @@ run = 1; % we will just do run #1 to start, and do others on good models
 window_size = 1024;
 window_overlap = 512;
 preprocessing_epsilon = .00001;
-preprocessing_k = 300;
+preprocessing_k = 10;
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [50 100];
+dbn_layer_sizes = [10 10];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 100;
 dbn_song_batch_size = 20;
@@ -23,7 +23,7 @@ dbn_mini_batch_size = 25;
 dbn_momentum = .8;
 dbn_binary_learning_rate = .01;
 dbn_gaussian_learning_rate = .0001;
-cdk = 25;
+dbn_cdk = 1;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
@@ -47,7 +47,7 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
     preprocessing_k, dbn_train_percentage, dbn_layer_sizes,...
     dbn_is_visible_layer_gaussian, dbn_num_epochs, dbn_song_batch_size,...
     dbn_mini_batch_size, dbn_momentum, dbn_binary_learning_rate,...
-    dbn_gaussian_learning_rate, nn_train_percentage, nn_num_epochs,...
+    dbn_gaussian_learning_rate, dbn_cdk, nn_train_percentage, nn_num_epochs,...
     nn_batch_size, nn_learning_rate, nn_activation_function, nn_momentum,...
     nn_plot, nn_output, nn_scaling_learning_rate, nn_weight_penalty_L2,...
     nn_non_sparsity_penalty, nn_sparsity_target,...
