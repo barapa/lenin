@@ -23,11 +23,11 @@ dbn_mini_batch_size = 25;
 dbn_momentum = .8;
 dbn_binary_learning_rate = .01;
 dbn_gaussian_learning_rate = .0001;
-dbn_cdk = 1;
+dbn_cdk = 5;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
-nn_num_epochs = 100;
+nn_num_epochs = 10;
 nn_batch_size = 25;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
