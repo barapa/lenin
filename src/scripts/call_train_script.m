@@ -13,22 +13,22 @@ window_size = 2^12;
 window_overlap = 2^11;
 nfft = 2^10; % this will be double the size of the input vector
 preprocessing_epsilon = .00001;
-preprocessing_k = 300; % Cannot be larger than nfft / 2 + 1
+preprocessing_k = 2^10; % Cannot be larger than nfft / 2 + 1
 if preprocessing_k > nfft / 2 + 1
     preprocessing_k = nfft / 2 + 1;
 end
 
 % dbn
 dbn_train_percentage = 30; % 30, 60, or 90
-dbn_layer_sizes = [400 100];
+dbn_layer_sizes = [200 100];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 25;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 25;
-dbn_momentum = .8;
-dbn_binary_learning_rate = .001;
-dbn_gaussian_learning_rate = .00001;
-dbn_cdk = 10;
+dbn_momentum = .7;
+dbn_binary_learning_rate = .0001;
+dbn_gaussian_learning_rate = .000001;
+dbn_cdk = 2;
 % nn
 nn_train_percentage = 30; % 30, 60, or 90. 
 nn_song_batch_size = 10;
@@ -68,8 +68,11 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
 % Look at layers param to this function to see how to select only certain
 % layers from the NN
 
-%layers = [2, 3, 4, 5];
-convert_trained_dbn_to_svm_efficient(model_filename);
+layers = 1:4;
+left_frames = 2;
+right_frames =0;
+convert_trained_dbn_to_svm_efficient(...
+    model_filename, 1:4, left_frames, right_frames );
 
 
 

@@ -87,4 +87,7 @@ nn_dropout_fraction = 0;
 % layers from the NN
 
 %layers = [2, 3, 4, 5];
-convert_trained_sae_to_svm_efficient(filename_of_model, [2, 3]);
+left_frames = 2;
+right_frames = 0;
+convert_trained_sae_to_svm_efficient(...
+    filename_of_model, [2, 3], left_frames, right_frames);

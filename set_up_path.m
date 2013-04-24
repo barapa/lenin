@@ -8,6 +8,7 @@ disp(sprintf('setting up paths...')) ;
   path('lib/audioread', path) ;
   path('lib/fuf', path) ;
   addpath(genpath('lib/DeepLearnToolbox'));
+  addpath(genpath('lib/shift/'));
   path('src/dbn', path) ;
   path('src/nn', path) ;
   path('src/postprocessing/', path) ;
