@@ -71,7 +71,8 @@ for i = 1 : numel(train_song_names)
     
     disp('...writing features to svm_hmm data file');
     create_svm_data_files(svm_train_model_dir, {song_features}, {song_labels},...
-        train_song_names(i), i, layers_to_str(layers));
+        train_song_names(i), i, [layers_to_str(layers) '_',...
+        left_right_frames_to_string(left_frame_number, right_frame_number)]);
 end
 disp('Completed computing SVM data for training songs...');
 
@@ -100,7 +101,8 @@ for i = 1 : numel(test_song_names)
     
     disp('...writing features to svm_hmm data file');
     create_svm_data_files(svm_test_model_dir, {song_features}, {song_labels},...
-        test_song_names(i), i, layers_to_str(layers));
+        test_song_names(i), i, [layers_to_str(layers) '_',...
+        left_right_frames_to_string(left_frame_number, right_frame_number)]);
 end
 disp('Completed computing SVM data for training songs...');
 
