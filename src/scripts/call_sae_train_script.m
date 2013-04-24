@@ -9,8 +9,8 @@ LENIN_DATA_DIR = 'var/data/lenin';
 
 % data
 run = 1; % we will just do run #1 to start, and do others on good models
-window_size = 2^13;
-window_overlap = 2^12;
+window_size = 2^12;
+window_overlap = 2^11;
 nfft = 2^10;
 preprocessing_epsilon = .00001;
 preprocessing_k = 275;
