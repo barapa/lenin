@@ -1,6 +1,6 @@
 function [ training_params ] = create_dbn_pre_training_params(...
     num_epochs, song_batch_size, mini_batch_size, momentum,...
-    gaussian_learning_rate, binary_learning_rate )
+    gaussian_learning_rate, binary_learning_rate, cdk )
 % function [ training_params ] = create_dbn_pre_training_params(...
 %    num_epochs, song_batch_size, mini_batch_size, momentum, learning_rate )
 %
@@ -14,6 +14,7 @@ training_params.mini_batch_size = mini_batch_size;
 training_params.momentum = momentum;
 training_params.gaussian_learning_rate = gaussian_learning_rate;
 training_params.binary_learning_rate = binary_learning_rate;
+training_params.cdk = cdk;
 
 end
 

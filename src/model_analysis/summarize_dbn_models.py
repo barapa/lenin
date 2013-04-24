@@ -22,7 +22,7 @@ MODEL_FIELDS = ['model_pathname', 'nn_error_rate', 'run', 'window_size',
     'nn_scaling_learning_rate', 'nn_weight_penalty_L2',
     'nn_non_sparsity_penalty', 'nn_sparsity_target',
     'nn_input_zero_masked_fraction', 'nn_dropout_fraction', 'nn_layer_sizes',
-    'notes']
+    'notes', 'dbn_cdk']
 
 def summarize_models_and_save():
   model_paths = get_model_file_paths()
@@ -96,7 +96,8 @@ def get_model_row_str(model_path, model):
     get_nn_input_zero_masked_fraction(model),
     get_nn_dropout_fraction(model),
     get_nn_layer_sizes(model),
-    get_notes(model)]
+    get_notes(model),
+    get_dbn_cdk(model)]
     
 @handle_missing_field
 def get_nn_error_rate(model):
@@ -221,6 +222,10 @@ def get_nn_layer_sizes(model):
 @handle_missing_field
 def get_notes(model):
   return str.replace(str(model['notes']), ',', ';') # replace commas with semicolons
+
+@handle_missing_field
+def get_dbn_cdk(model):
+  return str(model['dbn_cdk'])
 
 def main():
   summarize_models_and_save()
