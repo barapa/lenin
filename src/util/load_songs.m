@@ -2,7 +2,8 @@
 % song_files, opt_preprocessing_params)
 %
 % Generates a large D x N matrix on songs, with a corresponding border vector
-% to indicate where a new song begins.
+% to indicate where a new song begins. This function does not whiten the
+% data.
 %
 % Inputs:
 %  song_files :     A cell array, where each element is a string containing
@@ -70,9 +71,6 @@ function [ song_matrix, song_borders, one_hot_labels,...
     disp('...done');
     opt_preprocessing_params.X_avg = X_avg;
     opt_preprocessing_params.W = W;
-    disp('Whitening data');
-    song_matrix = whiten_data(song_matrix, X_avg, W) ;
-    disp('...done');
   end
 
   one_hot_labels = horzcat(label_data{:}) ;
