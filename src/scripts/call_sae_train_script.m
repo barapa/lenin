@@ -22,7 +22,7 @@ end
 sae_train_percentage = 30; % 30, 60, or 90
 sae_layer_sizes = [1000 200];
 sae_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
-sae_num_epochs = 50;
+sae_num_epochs = 1;
 sae_song_batch_size = 10;
 sae_mini_batch_size = 50;
 sae_learning_rate = 1;
