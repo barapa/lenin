@@ -1,16 +1,21 @@
+% some weird seeding stuff
+seed = 1234;
+randn('state', seed );
+rand('twister', seed + 1 );
 
+% Parameters for network and training
 run = 1;
 dbn_train_percentage = 60;
-maxepoch = 5;
+maxepoch = 250;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
-layersizes = [500, 50]; % do not include output or input layer
+layersizes = [400, 200, 50]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'
-layertypes = {'logistic', 'logistic', 'softmax'}; % do not include input layer
-                                                  % bud DO include output
-                                                  % layer
+layertypes = {'logistic', 'logistic', 'logistic', 'softmax'}; % do not include input layer
+                                                              % bud DO include output
+                                                              % layer
 errtype = 'class'; 
 %report classification error (in addition to the quantity actually being
 % optimized, i.e. the log-likelihood). Would change if tried an
@@ -37,11 +42,6 @@ mattype = 'gn'; %Gauss-Newton.
 decay = 0.95; %
 jacket = 0; % this is for GPU stuff, which we can't do
 
-
-% some weird seeding stuff
-seed = 1234;
-randn('state', seed );
-rand('twister', seed + 1 );
 
 % set up the music data
 [train_song_names, test_song_names] = load_run_data(run, dbn_train_percentage);
