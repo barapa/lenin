@@ -64,6 +64,7 @@ nn
 num_songs = numel(files_to_train);
 rand_song_order = randperm(num_songs);
 num_song_batches = ceil(num_songs / training_params.song_batch_size);
+opts.num_song_batches = num_song_batches;
 
 % if validation set passed in, load it and whiten it
 if exist('opt_files_to_validate')
@@ -99,10 +100,12 @@ for b = 1 : num_song_batches
       
     fprintf('training NN on song batch %d...', b) ;
     if exist('opt_files_to_validate')
-        nn = nntrain(nn, train_x', train_y', opts, validation_x',...
+        [ nn, ~, opts ]  = nntrain(nn, train_x', train_y', opts,...
+            validation_x',...
             validation_y'); % transpose inputs
     else
-        nn = nntrain(nn, train_x', train_y', opts); % transpose inputs
+        % transpose inputs
+        [ nn, ~, opts]  = nntrain(nn, train_x', train_y', opts);
     end
     fprintf('done\n') ;
 end 
