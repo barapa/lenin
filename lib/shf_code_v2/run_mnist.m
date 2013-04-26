@@ -76,7 +76,7 @@ arch = [1200 1200 10];
 activations = {'ReLU', 'ReLU', 'softmax'};
 objfun = 'softmax-entropy';
 corruption = 0.5;
-verbose = 5;
+verbose = 1;
 
 % Pack parameters
 params.type = type;

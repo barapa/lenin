@@ -25,7 +25,7 @@ arch = [62];
 activations = {'softmax'};
 objfun = 'softmax-entropy';
 corruption = 0.2;
-verbose = 5;
+verbose = 1;
 
 % Pack parameters
 params.type = type;
