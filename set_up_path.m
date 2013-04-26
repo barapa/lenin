@@ -22,5 +22,8 @@ disp(sprintf('setting up paths...')) ;
   path('src/svm_hmm', path) ;
   path('src/util/', path) ;
   path('src/wrappers', path) ;
+  path('lib/shf_code_v2', path);
+  path('lib/shf_code_v2/code', path);
+
 
 disp(sprintf('...done')) ;
