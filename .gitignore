@@ -1,5 +1,6 @@
 data/matlab
 lib/HessianFree/models
+lib/shf_code_v2/data
 var_data
 .DS_Store
 keys/
