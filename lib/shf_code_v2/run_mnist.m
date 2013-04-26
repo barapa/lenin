@@ -70,7 +70,7 @@ test = standard(test, scaleparams);
 % Set experiment parameters
 type = 'classification';
 maxepoch = 500;
-gradbatchsize = 1000;
+gradbatchsize = 10000;
 batchsize = 100;
 arch = [1200 1200 10];
 activations = {'ReLU', 'ReLU', 'softmax'};

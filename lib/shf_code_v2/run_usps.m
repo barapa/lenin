@@ -29,14 +29,14 @@ test = standard(test, scaleparams);
 
 % Set experiment parameters
 type = 'classification';
-maxepoch = 1000;
+maxepoch = 10;
 gradbatchsize = 1000;
 batchsize = 100;
-arch = [500 500 10];
-activations = {'ReLU', 'ReLU', 'softmax'};
+arch = [500 10];
+activations = {'ReLU', 'softmax'};
 objfun = 'softmax-entropy';
 corruption = 0.5;
-verbose = 5;
+verbose = 1;
 
 % Pack parameters
 params.type = type;
