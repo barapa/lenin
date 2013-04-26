@@ -1,4 +1,4 @@
-function nnet_music
+function nnet_chroma
 
 run = 1;
 dbn_train_percentage = 60;
@@ -14,7 +14,7 @@ test_file_names = append_chroma_paths(test_song_names);
 [train_data, train_borders, train_one_hot_labels] = load_songs(train_file_names);
 [test_data, test_borders, test_one_hot_labels] = load_songs(test_file_names);
 
-numchunks = 4
+numchunks = 4;
 numchunks_test = 4;
 
 % only keep 20,000 frames of training data and 10,000 testing data
@@ -49,13 +49,13 @@ maxepoch = 300;
 
 runName = 'Chroma_60';
 
-runDesc = ['seed = ' num2str(seed) ', First try with stft beatles music' ];
+runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
 
 %next try using autodamp = 0 for rho computation.  both for version 6 and
 %versions with rho and cg-backtrack computed on the training set
 
 layersizes = [400, 200, 50];
-layertypes = {'logistic', 'logistic', 'logistic', 'softmax'}
+layertypes = {'logistic', 'logistic', 'logistic', 'softmax'};
 %layersizes = [400 200 100 50 25 6 25 50 100 200 400];
 %Note that the code layer uses linear units
 %layertypes = {'logistic', 'logistic', 'logistic', 'logistic', 'logistic',...
@@ -87,7 +87,7 @@ jacket = 0;
 errtype = 'class'; %report the L2-norm error (in addition to the quantity actually being optimized, i.e. the log-likelihood)
 
 %standard L_2 weight-decay:
-weightcost = 2e-5
+weightcost = 2e-5;
 %weightcost = 0
 
 
