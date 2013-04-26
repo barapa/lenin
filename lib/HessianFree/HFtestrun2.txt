@@ -1,0 +1,181 @@
+
+
+==================== New Run ====================
+
+Start time: 25-Apr-2013 10:42:27
+
+Description: seed = 1234, enter anything else you want to remember here
+
+Initial constant values:
+------------------------
+
+layersizes: 784  400  200  100   50   25    6   25   50  100  200  400  784
+rms: 0
+weightcost: 2e-05
+hybridmode: 1
+autodamp: 1
+initlambda: 45
+drop: 0.66667
+boost: 1.5
+numchunks: 4
+mattype: gn
+errtype: L2
+decay: 0.95
+
+=================================================
+
+maxiters = 250; miniters = 1
+CG steps used: 13, total is: 13
+ch magnitude : 3.5517
+Chose iters : 11
+rho = 0.82456
+Number of reductions : 0, chosen rate: 1
+New lambda: 30
+epoch: 1, Log likelihood: -385.1431, error rate: 107.224
+TEST Log likelihood: -385.2478, error rate: 107.3
+Error rate difference (test - train): 0.075969
+
+maxiters = 250; miniters = 1
+CG steps used: 13, total is: 26
+ch magnitude : 1.8935
+Chose iters : 13
+rho = 0.99707
+Number of reductions : 0, chosen rate: 1
+New lambda: 20
+epoch: 2, Log likelihood: -233.4099, error rate: 42.8824
+TEST Log likelihood: -233.4826, error rate: 42.9459
+Error rate difference (test - train): 0.063565
+
+maxiters = 250; miniters = 1
+CG steps used: 13, total is: 39
+ch magnitude : 1.3155
+Chose iters : 13
+rho = 1.0609
+Number of reductions : 0, chosen rate: 1
+New lambda: 13.3333
+epoch: 3, Log likelihood: -174.8558, error rate: 24.1712
+TEST Log likelihood: -174.907, error rate: 24.2286
+Error rate difference (test - train): 0.057394
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 51
+ch magnitude : 1.0612
+Chose iters : 12
+rho = 1.0661
+Number of reductions : 0, chosen rate: 1
+New lambda: 8.8889
+epoch: 4, Log likelihood: -148.75, error rate: 18.928
+TEST Log likelihood: -148.7816, error rate: 18.9814
+Error rate difference (test - train): 0.053388
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 63
+ch magnitude : 0.88578
+Chose iters : 12
+rho = 1.0574
+Number of reductions : 0, chosen rate: 1
+New lambda: 5.9259
+epoch: 5, Log likelihood: -136.7804, error rate: 17.4767
+TEST Log likelihood: -136.7963, error rate: 17.5274
+Error rate difference (test - train): 0.050737
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 75
+ch magnitude : 0.75596
+Chose iters : 7
+rho = 1.0596
+Number of reductions : 0, chosen rate: 1
+New lambda: 3.9506
+epoch: 6, Log likelihood: -131.109, error rate: 17.072
+TEST Log likelihood: -131.1171, error rate: 17.1213
+Error rate difference (test - train): 0.049289
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 87
+ch magnitude : 0.66522
+Chose iters : 9
+rho = 1.0521
+Number of reductions : 0, chosen rate: 1
+New lambda: 2.6337
+epoch: 7, Log likelihood: -128.2684, error rate: 16.9546
+TEST Log likelihood: -128.2747, error rate: 17.0034
+Error rate difference (test - train): 0.048796
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 99
+ch magnitude : 0.60195
+Chose iters : 9
+rho = 1.0549
+Number of reductions : 0, chosen rate: 1
+New lambda: 1.7558
+epoch: 8, Log likelihood: -126.7624, error rate: 16.9177
+TEST Log likelihood: -126.768, error rate: 16.9663
+Error rate difference (test - train): 0.048621
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 111
+ch magnitude : 0.55275
+Chose iters : 12
+rho = 1.0423
+Number of reductions : 0, chosen rate: 1
+New lambda: 1.1706
+epoch: 9, Log likelihood: -125.9341, error rate: 16.9053
+TEST Log likelihood: -125.9397, error rate: 16.9538
+Error rate difference (test - train): 0.048582
+
+maxiters = 250; miniters = 1
+CG steps used: 12, total is: 123
+ch magnitude : 0.51195
+Chose iters : 12
+rho = 1.0496
+Number of reductions : 0, chosen rate: 1
+New lambda: 0.78037
+epoch: 10, Log likelihood: -125.468, error rate: 16.9007
+TEST Log likelihood: -125.4731, error rate: 16.9493
+Error rate difference (test - train): 0.04856
+
+maxiters = 250; miniters = 1
+CG steps used: 13, total is: 136
+ch magnitude : 0.47879
+Chose iters : 13
+rho = 1.03
+Number of reductions : 0, chosen rate: 1
+New lambda: 0.52025
+epoch: 11, Log likelihood: -125.2005, error rate: 16.8987
+TEST Log likelihood: -125.205, error rate: 16.9472
+Error rate difference (test - train): 0.048521
+
+maxiters = 250; miniters = 1
+CG steps used: 14, total is: 150
+ch magnitude : 0.45667
+Chose iters : 14
+rho = 1.05
+Number of reductions : 0, chosen rate: 1
+New lambda: 0.34683
+epoch: 12, Log likelihood: -125.0413, error rate: 16.8969
+TEST Log likelihood: -125.0455, error rate: 16.9454
+Error rate difference (test - train): 0.048496
+
+maxiters = 250; miniters = 1
+CG steps used: 18, total is: 168
+ch magnitude : 0.46039
+Chose iters : 18
+rho = 1.0612
+Number of reductions : 0, chosen rate: 1
+New lambda: 0.23122
+epoch: 13, Log likelihood: -124.936, error rate: 16.8935
+TEST Log likelihood: -124.9392, error rate: 16.942
+Error rate difference (test - train): 0.04846
+
+maxiters = 250; miniters = 1
+CG steps used: 20, total is: 188
+ch magnitude : 0.59278
+Chose iters : 20
+rho = 1.3197
+Number of reductions : 0, chosen rate: 1
+New lambda: 0.15415
+epoch: 14, Log likelihood: -124.8106, error rate: 16.8786
+TEST Log likelihood: -124.8132, error rate: 16.9269
+Error rate difference (test - train): 0.048348
+
+maxiters = 250; miniters = 1
