@@ -9,6 +9,7 @@ disp(sprintf('setting up paths...')) ;
   path('lib/fuf', path) ;
   addpath(genpath('lib/DeepLearnToolbox'));
   addpath(genpath('lib/shift/'));
+  path('lib/HessianFree', path);
   path('src/dbn', path) ;
   path('src/nn', path) ;
   path('src/postprocessing/', path) ;
