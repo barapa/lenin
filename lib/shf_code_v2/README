@@ -1,0 +1,102 @@
+Code for 'Training Neural Networks with Dropout Stochastic Hessian-Free Optimization'
+-------------------------------------------------------------------------------------
+
+Written by Ryan Kiros
+Version 2.0, updated March 30 / 2013
+Questions/comments/bugs: rkiros@ualberta.ca OR use the ICLR 2013 discussion
+
+Permission is granted for anyone to copy, use, modify, or distribute this
+program and accompanying programs and documents for any purpose, provided
+this copyright notice is retained and prominently displayed, along with
+a note saying that the original programs are available from our web page.
+If you make extensive use of this code, as is or otherwise, please include
+a citation of this work.
+
+The programs and documents are distributed without any warranty, express or
+implied.  As the programs were written for research purposes only, they have
+not been tested to the degree that would be advisable in any important
+application.  All use of these programs is entirely at the user's own risk.
+
+Much of this code was developed from James Martens' code accompanying his
+paper 'Deep learning via Hessian-free optimization'
+
+
+To reproduce the experiments:
+
+    - run the script 'run_XXXX.m' where 'XXXX' is the name of the dataset.
+      All data has been included in the data directory.
+
+
+To set up the code on your own data:
+
+    - It's usually helpful to scale your data. There is an included function 
+      'standard.m' that will subtract the mean and divide the variance:
+
+          [train_scaled, scaleparams] = standard(train)
+          test_scaled = standard(test, scaleparams)
+
+    - Open the script 'set_params.m' to set the architecture, losses etc.
+      Descriptions of all parameters are included.
+
+
+To train a neural net for classification:
+
+    - Run the function
+
+          [theta, results] = train_hf(train, train_labels, test, test_labels, params);
+
+    - Where train is a 'm x n' matrix of 'm' datapoints and 'n' features and
+      train_labels is a 'm x k' matrix of '1 of k' class encodings. Similarily
+      for test and test_labels. params is the output of 'set_params.m'
+    - Set test and test_labels to '[]' if held-out data is not present
+    - theta is the flattened vector of network parameters and results is a
+      structure containing train and test errors after each epoch as well
+      as the values of the damping strength 'lambda'.
+    - To compute the network outputs, use the map function:
+
+          out = map(theta, X, params)
+
+    - Where X is the data to run through the network.
+
+
+To train a deep denoysing autoencoder:
+
+    - Run the function
+
+          [theta, results] = train_hf(train, train, test, test, params);
+
+    - Where train is a 'm x n' matrix of 'm' datapoints and 'n' features and 
+      simialrily for test. params is the output of 'set_params.m'
+    - Set test to '[]' if held-out data is not present
+    - To compute the network outputs, use the map function:
+
+          [recon, code] = map(theta, X, params)
+
+    - Where 'recon' is the reconstruction of X and 'code' is the coding layer
+      features.
+    - A sample script 'autoencoder_ex.m' is given that trains a deep autoencoder
+      on the USPS dataset.
+
+
+NOTES:
+
+    - The code containers two main functions: a main outer function (train_hf) and
+      an inner function (hf) that is used to compute objectives, gradients and 
+      GV products. The inner function is repeatedly called from the outer function
+      as necessary.
+
+    - It's important to use some held-out data to set the amount of input
+      corruption used. You could also tweak the amount of hidden layer dropout 
+      although I've never bothered to do this.
+
+    - Training uses max-norm weight clipping with sqrt(#features). This works as 
+      a good default but it can be modified in the 'maxnorm.m' script.
+
+    - On rare occasions the proposed update direction may be rejected. When this 
+      happens, an 'R' will print. This might happen early in training when the 
+      damping strength gets smaller. It should not be cause for concern unless it 
+      starts happening really frequently over several epochs. (This should almost 
+      never be an issue if your data has been scaled appropriately)
+
+
+
