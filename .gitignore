@@ -1,4 +1,5 @@
 data/matlab
+lib/HessianFree/models
 var_data
 .DS_Store
 keys/
