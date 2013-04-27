@@ -28,7 +28,7 @@ function [y, acts, code] = get_activations(theta, X, params)
     dropout = params.dropout;
 
     [m, n] = size(X);
-    [W, b] = unpacknet(theta, layers, n);
+    [W, b] = unpacknet(theta, layers, n); % n here is the number of dimensions
     no_layers = length(layers);
 
     % Drop the input weights

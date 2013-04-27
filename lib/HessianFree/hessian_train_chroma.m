@@ -5,15 +5,15 @@ rand('twister', seed + 1 );
 
 % Parameters for network and training
 run = 1;
-dbn_train_percentage = 60;
-maxepoch = 250;
+dbn_train_percentage = 90;
+maxepoch = 100;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
-layersizes = [400, 200, 50]; % do not include output or input layer
+layersizes = [200, 50]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'
-layertypes = {'logistic', 'logistic', 'logistic', 'softmax'}; % do not include input layer
+layertypes = {'logistic', 'logistic', 'softmax'}; % do not include input layer
                                                               % bud DO include output
                                                               % layer
 errtype = 'class'; 
@@ -25,8 +25,8 @@ weightcost = 2e-5; %standard L_2 weight-decay. Can set to 0.
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
-left_frames_network = 2;
-right_frames_network = 0;
+left_frames_network = 3;
+right_frames_network = 2;
 
 % Don't need to touch these                                                  
 resumeFile = []; % set to resume from a previous model
@@ -108,10 +108,11 @@ full_path_name  = save_hf_model( model_name,...
     maxepoch,...
     rms,...
     mattype,...
-    decay);
+    decay,...
+    {});
 
 layers_for_svm = 1:numel(layersizes);
-left_frames_svm = 0;
-right_frames_svm = 0;
+left_frames_svm = 2;
+right_frames_svm = 1;
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
     right_frames_svm);
