@@ -4,7 +4,7 @@ generate_run_scripts.py: generate SVM_HMM run scripts for all models found in
     get_started.txt for more information).
 
     DBN run scripts: data/scripts/$USER/runs/dbn
-    HF  run scripts: data/scripts/$USER/runs/hf 
+    SHF run scripts: data/scripts/$USER/runs/shf 
     SAE run scripts: data/scripts/$USER/runs/sae
 
 NOTE: Expects to be run from the top-level of the repository.
@@ -13,6 +13,7 @@ NOTE: Scripts generated expect svm_hmm_classify and svm_hmm_learn to be defined
       on path.
 NOTE: Expects /bin/bash to exist and work.
 NOTE: Expects you to be in the lenin virtualenv (see get_started.txt)
+NOTE: Expects LENIN_DATA_PATH to be defined.
 """
 import os
 import sys
@@ -77,9 +78,9 @@ def get_new_models(model_type, model_dir, run_script_dir):
   removing the models referenced from scripts in run_script_dir.
 
   Params:
-    model_type - 'sae', 'hf', or 'rbm_dbn'
+    model_type - 'sae', 'shf', or 'rbm_dbn'
     model_dir - svm_hmm directory.
-    run_script_dir - hf run scripts directory.
+    run_script_dir - run scripts directory.
 
   Returns a list of tuples of pairs (model_name, model_file_name) for
   convenience.
@@ -89,7 +90,7 @@ def get_new_models(model_type, model_dir, run_script_dir):
   if model_type == 'rbm_dbn':
     all_models_of_type = convert_dbn_to_model_name(all_models_of_type)
   else:
-    all_models_of_type = convert_sae_or_hf_to_model_name(all_models_of_type)
+    all_models_of_type = convert_sae_or_shf_to_model_name(all_models_of_type)
   all_scripts = os.listdir(run_script_dir)
   all_run_scripts = remove_non_run_scripts(all_scripts)
   existing_models_of_type = convert_run_to_model_name(all_run_scripts)
@@ -115,7 +116,7 @@ def convert_dbn_to_model_name(dbn_files):
   return map(lambda x: x.split('_')[2].split('.')[0], dbn_files)
 
 
-def convert_sae_or_hf_to_model_name(sae_files):
+def convert_sae_or_shf_to_model_name(sae_files):
   """
   Convert sae model filenames (e.g. sae_20130422T000749.mat) into just model
   names (e.g. 20130422T000749).
@@ -174,14 +175,14 @@ def check_environs():
   ensure_dir_exists("sae", run_script_dir)
   sae_script_dir = "%s/sae" % run_script_dir
 
-  ensure_dir_exists("hf", run_script_dir)
-  hf_script_dir = "%s/hf" % run_script_dir
+  ensure_dir_exists("shf", run_script_dir)
+  shf_script_dir = "%s/shf" % run_script_dir
 
-  return model_dir, dbn_script_dir, sae_script_dir, hf_script_dir
+  return model_dir, dbn_script_dir, sae_script_dir, shf_script_dir
 
 
 if __name__ == '__main__':
-  svm_dir, dbn_script_dir, sae_script_dir, hf_script_dir = check_environs()
+  svm_dir, dbn_script_dir, sae_script_dir, shf_script_dir = check_environs()
 
   dbn_models_and_files = get_new_models('rbm_dbn', svm_dir, dbn_script_dir)
   for model, filename in dbn_models_and_files:
@@ -191,7 +192,7 @@ if __name__ == '__main__':
   for model, filename in sae_models_and_files:
     write_model_run_script(model, filename, sae_script_dir, svm_dir)
 
-  hf_models_and_files = get_new_models('hf', svm_dir, hf_script_dir)
-  for model, filename in hf_models_and_files:
-    write_model_run_script(model, filename, hf_script_dir, svm_dir)
+  shf_models_and_files = get_new_models('shf', svm_dir, shf_script_dir)
+  for model, filename in shf_models_and_files:
+    write_model_run_script(model, filename, shf_script_dir, svm_dir)
 
