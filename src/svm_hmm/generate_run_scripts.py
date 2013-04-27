@@ -69,12 +69,43 @@ def write_model_run_script(
   run_script.close()
 
 
+def get_new_sae_models(model_dir, run_script_dir):
+  """
+  Get model names (e.g. '20130422T00749') and model filenames (e.g.
+  'sae_20130422T000749.mat') for SAE models that don't have run scripts
+  already generated. This is done by getting all SAE models in model_dir
+  (svm_hmm_data) and removing the models referenced from scripts in
+  run_script_dir.
+
+  Params:
+    model_dir - svm_hmm directory.
+    run_script_dir - sae run scripts directory.
+
+  Returns a list of tuples of pairs (model_name, model_file_name) for
+  convenience.
+  """
+  all_models = os.listdir(model_dir)
+  all_sae_models = filter(lambda x: 'sae' in x, all_models)
+  all_sae_models = convert_sae_to_model_name(all_sae_models)
+  all_scripts = os.listdir(run_script_dir)
+  all_run_scripts = remove_non_run_scripts(all_scripts)
+  existing_sae_models = convert_run_to_model_name(all_run_scripts)
+  new_models = filter(lambda x: x not in existing_sae_models, all_sae_models)
+  new_model_filenames = map(lambda x: "sae_%s.mat" % x, new_models)
+  return zip(new_models, new_model_filenames)
+
+
 def get_new_dbn_models(model_dir, run_script_dir):
   """
-  Get model names (e.g. '20130422T00749') for DBN models that
-  don't have run scripts already generated. This is done by getting all DBN
-  models in model_dir (svm_hmm_data) and removing the models referenced from
-  scripts in run_script_dir.
+  Get model names (e.g. '20130422T00749') and model filenames (e.g.
+  'rbm_dbn_20130422T000749.mat') for DBN models that don't have run scripts
+  already generated. This is done by getting all DBN models in model_dir
+  (svm_hmm_data) and removing the models referenced from scripts in
+  run_script_dir.
+
+  Params:
+    model_dir - svm_hmm directory.
+    run_script_dir - dbn run scripts directory.
 
   Returns a list of tuples of pairs (model_name, model_file_name) for
   convenience.
@@ -103,6 +134,14 @@ def convert_dbn_to_model_name(dbn_files):
   model names (e.g. 20130422T000749).
   """
   return map(lambda x: x.split('_')[2].split('.')[0], dbn_files)
+
+
+def convert_sae_to_model_name(sae_files):
+  """
+  Convert sae model filenames (e.g. sae_20130422T000749.mat) into just model
+  names (e.g. 20130422T000749).
+  """
+  return map(lambda x: x.split('_')[1].split('.')[0], sae_files)
 
 
 def convert_run_to_model_name(run_files):
@@ -153,13 +192,20 @@ def check_environs():
   ensure_dir_exists("dbn", run_script_dir)
   dbn_run_script_dir = "%s/dbn" % run_script_dir
 
-  return model_dir, dbn_run_script_dir
+  ensure_dir_exists("sae", run_script_dir)
+  sae_run_script_dir = "%s/sae" % run_script_dir
+
+  return model_dir, dbn_run_script_dir, sae_run_script_dir
 
 
 if __name__ == '__main__':
-  svm_dir, dbn_run_script_dir = check_environs()
+  svm_dir, dbn_script_dir, sae_script_dir = check_environs()
 
-  dbn_models_and_files = get_new_dbn_models(svm_dir, dbn_run_script_dir)
+  dbn_models_and_files = get_new_dbn_models(svm_dir, dbn_script_dir)
   for model, filename in dbn_models_and_files:
-    write_model_run_script(model, filename, dbn_run_script_dir, svm_dir)
+    write_model_run_script(model, filename, dbn_script_dir, svm_dir)
+
+  sae_models_and_files = get_new_sae_models(svm_dir, sae_script_dir)
+  for model, filename in sae_models_and_files:
+    write_model_run_script(model, filename, sae_script_dir, svm_dir)
 
