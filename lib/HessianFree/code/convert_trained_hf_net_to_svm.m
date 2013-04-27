@@ -16,7 +16,7 @@
 % right_frames: the number of right frames to append to each feature vector
 
 function [ ] = convert_trained_hf_net_to_svm( model_name, layers,...
-    left_frames, right_frames)
+    left_frames, right_frames, max_songs_train)
 
 HF_MODEL_DIR = ['/var/data/lenin/hessian_free_models/' model_name '/final/'];
 
@@ -53,6 +53,12 @@ end
 % TRAINING
 % do each song individually so we don't thrash
 train_song_names = model.train_song_names;
+% use max songs train if given
+if exist('max_songs_train', 'var')
+    if max_songs_train < numel(train_song_names)
+        train_song_names = train_song_names(1:max_songs_train);
+    end
+end
 disp('Computing SVM data for training songs...');
 for i = 1 : numel(train_song_names) 
     disp(['Computing SVM data for training song #' num2str(i)]);
