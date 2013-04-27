@@ -3,8 +3,12 @@ generate_run_scripts.py: generate SVM_HMM run scripts for all models found in
     $LENIN_DATA_PATH (this path should be something like /var/data/lenin, see
     get_started.txt for more information).
 
+    DBN run scripts: data/scripts/$USER/runs/dbn
+    HF  run scripts: data/scripts/$USER/runs/hf 
+    SAE run scripts: data/scripts/$USER/runs/sae
+
 NOTE: Expects to be run from the top-level of the repository.
-NOTE: Outputs run scripts to data/scripts/$USER/
+NOTE: Outputs run scripts to data/scripts/$USER/runs
 NOTE: Scripts generated expect svm_hmm_classify and svm_hmm_learn to be defined
       on path.
 NOTE: Expects /bin/bash to exist and work.
@@ -24,10 +28,11 @@ E = 1.0
 
 BASH='/bin/bash'
 
-def generate_model_run_script(model_filename, run_script_dir, model_dir):
-  # Transform data filename (e.g. rbm_dbn_20130422000749.mat) into just a model
-  # name (e.g. 20130422000749.mat).
-  model_name = model_filename.split("_")[2].split(".")[0]
+def write_model_run_scripts(model_filename, run_script_dir, model_dir):
+  """
+  Write run scripts for a list of models (model_filenames) and save them to
+  the directory specified in run_script_dir.
+  """
   print "Generating run script for model %s. Saving file in %s" % \
       (model_name, run_script_dir)
   run_script_filename = "%s/run_%s.sh" % (run_script_dir, model_name)
@@ -55,55 +60,100 @@ def generate_model_run_script(model_filename, run_script_dir, model_dir):
     run_script.write(
         "svm_hmm_learn -c %d -e %f ${TRAIN_PATH} ${MODEL_SAVE_PATH}\n" %
         (C, E))
-    run_script.write(
-        "svm_hmm_classify ${TEST_PATH} ${MODEL_SAVE_PATH} ${PREDICTIONS_SAVE_PATH}\n")
+    run_script.write("svm_hmm_classify ${TEST_PATH} " + \
+        "${MODEL_SAVE_PATH} ${PREDICTIONS_SAVE_PATH}\n")
     run_script.write("\n")
 
   run_script.close()
 
-if __name__ == '__main__':
+
+def get_new_dbn_models(model_dir, run_script_dir):
+  """
+  Get a list of model names (e.g. '20130422T00749') for DBN models that
+  don't have run scripts already generated. This is done by getting all DBN
+  models in model_dir (svm_hmm_data) and removing the models referenced from
+  scripts in run_script_dir.
+  """
+  all_models = os.listdir(model_dir)
+  all_dbn_models = filter(lambda x: 'rbm_dbn' in x, all_models)
+  all_dbn_models = convert_dbn_to_model_name(all_dbn_models)
+  all_scripts = os.listdir(run_script_dir)
+  all_run_scripts = remove_non_run_scripts(all_scripts) 
+  existing_dbn_models = convert_run_to_model_name(all_run_scripts)
+  return filter(lambda x: x not in existing_dbn_models, all_dbn_models)
+
+
+def remove_non_run_scripts(existing_models):
+  """
+  Filter out non-run scripts. Just a precaution.
+  """
+  return filter(lambda x: 'run' in x and '.sh' in x, existing_models)
+
+
+def convert_dbn_to_model_name(dbn_files):
+  """
+  Convert dbn model filenames (e.g. rbm_dbn_20130422T000749.mat) into just
+  model names (e.g. 20130422T000749).
+  """
+  return map(lambda x: x.split('_')[2].split('.')[0], dbn_files)
+
+
+def convert_run_to_model_name(run_files):
+  """
+  Convert run script names (e.g., run_20130422T000749.sh) into just model
+  names (e.g. 20130422T000749).
+  """
+  return map(lambda x: x.split("_")[1].split(".")[0], run_files)
+
+
+def ensure_dir_exists(directory, path=None):
+  """
+  Ensures that a passed-in directory exists. If it doesn't already exist, makes
+  the directory and notifies user of doing so.
+  """
+  full_path = "%s/%s" % (path, directory)
+  if path is None:
+    path = '.'
+  if directory not in os.listdir(path):
+    print "making dir: %s" % full_path
+    os.mkdir("%s" % full_path)
+
+
+def check_environs():
+  """
+  Ensures that all the appropriate directories already exist, and if not,
+  makes them.
+  """
   try:
     top_dir = os.environ["LENIN_DATA_PATH"]
   except:
     print "$LENIN_DATA_PATH not set! Nothing to do...."
     sys.exit(1)
 
-  ROOT = os.getcwd()
-  
   model_dir = "%s/svm_hmm_data" % top_dir
-  models = os.listdir(model_dir)
+
+  ROOT = os.getcwd()
+  ensure_dir_exists("src")
+  ensure_dir_exists("scripts", "src")
 
   user = os.environ["USER"]
-  run_script_dir = "src/scripts/%s" % user
+  ensure_dir_exists(user, "src/scripts")
+  user_script_dir = "src/scripts/%s" % user
 
-  if "src" not in os.listdir("."):
-    os.mkdir("src")
+  ensure_dir_exists("runs", user_script_dir)
+  run_script_dir = "%s/runs" % user_script_dir
 
-  if "scripts" not in os.listdir("src/"):
-    os.mkdir("src/scripts")
+  ensure_dir_exists("dbn", run_script_dir)
+  dbn_run_script_dir = "%s/dbn" % run_script_dir
 
-  if user not in os.listdir("src/scripts"):
-    os.mkdir(run_script_dir)
+  return model_dir, dbn_run_script_dir
 
-  existing_models = os.listdir(run_script_dir)
 
-  # Filter out non-run scripts in scripts dir:
-  existing_models = \
-      filter(lambda x: 'run' in x and '.sh' in x, existing_models)
+if __name__ == '__main__':
+  svm_files_dir, dbn_run_script_dir = check_environs()
 
-  # convert run script names (e.g., run_20130422T000749.sh) into just model
-  # names (e.g. 20130422T000749).
-  existing_models = \
-      map(lambda x: x.split("_")[1].split(".")[0], existing_models)
-
-  # convert just model names (e.g., 20130422T000749) into svm_hmm data filenames
-  # (e.g. rbm_dbn_20130422T000749.mat).
-  existing_models = \
-      map(lambda x: "rbm_dbn_%s.mat" % x, existing_models)
-
-  # Remove any models from models that have run scripts already generated.
-  models = filter(lambda x: x not in existing_models, models)
-
-  map(lambda x: \
-      generate_model_run_script(x, run_script_dir, model_dir), models)
+  dbn_models = get_new_dbn_models(svm_files_dir, dbn_run_script_dir)
+  print dbn_models
+  #map(lambda x: \
+  #    generate_model_run_script(x, dbn_run_script_dir, model_dir), dbn_models)
 

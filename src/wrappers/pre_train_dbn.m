@@ -138,13 +138,13 @@ for b = 1 : num_song_batches
     dbn = dbntrain(dbn, train_x, opts);
     disp('...done');
 
-    if ~exist('DONT_VISUALIZE')
-      for i = 1 : numel(dbn.rbm)
-        figure;
-        visualize(dbn.rbm{i}.W');   %  Visualize the RBM weights of first
-        title(['RBM Layer ' num2str(i) ' W weights']);
-      end
-    end % if ~ exist('DONT_VISUALIZE')
+%    if ~exist('DONT_VISUALIZE')
+%      for i = 1 : numel(dbn.rbm)
+%        figure;
+%        visualize(dbn.rbm{i}.W');   %  Visualize the RBM weights of first
+%        title(['RBM Layer ' num2str(i) ' W weights']);
+%      end
+%    end % if ~ exist('DONT_VISUALIZE')
 
 end % for b = 1 : num_song_batches
 
