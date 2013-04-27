@@ -21,17 +21,19 @@ import sys
 # These are paramters for the SVM_HMM model.
 # C is the cost of slack (higher means we use less slack, and solutions take
 # longer to be found).
-C = 10
+C = 100
 # E (epsilon) is the convergence parameter for the
 # quadratic program that is being solved.
-E = 1.0
+E = 0.1
 
 BASH='/bin/bash'
 
-def write_model_run_scripts(model_filename, run_script_dir, model_dir):
+def write_model_run_script(
+    model_name, model_filename, run_script_dir, svm_dir):
   """
-  Write run scripts for a list of models (model_filenames) and save them to
-  the directory specified in run_script_dir.
+  Write run script for a particular model (model_name) and save it to
+  the directory specified in run_script_dir. svm_dir tells us where the
+  svm data lives, as well as where to write out model and prediction files.
   """
   print "Generating run script for model %s. Saving file in %s" % \
       (model_name, run_script_dir)
@@ -41,9 +43,9 @@ def write_model_run_scripts(model_filename, run_script_dir, model_dir):
   run_script.write("#!%s\n" % BASH)
   run_script.write("\n")
   run_script.write("MODEL_NAME=\"%s\"\n" % model_filename)
-  run_script.write("MODEL_PATH=\"%s/${MODEL_NAME}\"\n" % model_dir)
+  run_script.write("MODEL_PATH=\"%s/${MODEL_NAME}\"\n" % svm_dir)
 
-  input_files = os.listdir("%s/%s/train" % (model_dir, model_filename))
+  input_files = os.listdir("%s/%s/train" % (svm_dir, model_filename))
   input_files = filter(lambda x: 'data' in x, input_files)
 
   for input_file in input_files:
@@ -69,10 +71,13 @@ def write_model_run_scripts(model_filename, run_script_dir, model_dir):
 
 def get_new_dbn_models(model_dir, run_script_dir):
   """
-  Get a list of model names (e.g. '20130422T00749') for DBN models that
+  Get model names (e.g. '20130422T00749') for DBN models that
   don't have run scripts already generated. This is done by getting all DBN
   models in model_dir (svm_hmm_data) and removing the models referenced from
   scripts in run_script_dir.
+
+  Returns a list of tuples of pairs (model_name, model_file_name) for
+  convenience.
   """
   all_models = os.listdir(model_dir)
   all_dbn_models = filter(lambda x: 'rbm_dbn' in x, all_models)
@@ -80,7 +85,9 @@ def get_new_dbn_models(model_dir, run_script_dir):
   all_scripts = os.listdir(run_script_dir)
   all_run_scripts = remove_non_run_scripts(all_scripts) 
   existing_dbn_models = convert_run_to_model_name(all_run_scripts)
-  return filter(lambda x: x not in existing_dbn_models, all_dbn_models)
+  new_models = filter(lambda x: x not in existing_dbn_models, all_dbn_models)
+  new_model_filenames = map(lambda x: "rbm_dbn_%s.mat" % x, new_models)
+  return zip(new_models, new_model_filenames)
 
 
 def remove_non_run_scripts(existing_models):
@@ -150,10 +157,9 @@ def check_environs():
 
 
 if __name__ == '__main__':
-  svm_files_dir, dbn_run_script_dir = check_environs()
+  svm_dir, dbn_run_script_dir = check_environs()
 
-  dbn_models = get_new_dbn_models(svm_files_dir, dbn_run_script_dir)
-  print dbn_models
-  #map(lambda x: \
-  #    generate_model_run_script(x, dbn_run_script_dir, model_dir), dbn_models)
+  dbn_models_and_files = get_new_dbn_models(svm_dir, dbn_run_script_dir)
+  for model, filename in dbn_models_and_files:
+    write_model_run_script(model, filename, dbn_run_script_dir, svm_dir)
 
