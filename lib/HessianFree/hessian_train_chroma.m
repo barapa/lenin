@@ -44,26 +44,33 @@ jacket = 0; % this is for GPU stuff, which we can't do
 
 
 % set up the music data
-[train_song_names, test_song_names] = load_run_data(run, dbn_train_percentage);
+[train_song_names, test_song_names, validation_song_names] =...
+  load_run_data(run, dbn_train_percentage);
 
 train_file_names = append_chroma_paths(train_song_names);
 test_file_names = append_chroma_paths(test_song_names);
+validation_file_names = append_chroma_paths(validation_song_names);
 
 % load in all songs
 % train_data is D x N
 % one_hot_labels is L x N
 [train_data, train_borders, train_one_hot_labels] = load_songs(train_file_names);
-[test_data, test_borders, test_one_hot_labels] = load_songs(test_file_names);
+[validation_data, validation_borders, validation_one_hot_labeled] =...
+  load_songs(validation_file_names);
+%[test_data, test_borders, test_one_hot_labels] = load_songs(test_file_names);
 
 % standardize data
 [train_data, standardize_params] = standardize(train_data);
-test_data = standardize(test_data, standardize_params);
+validation_data = standardize(validation_data, standardize_params);
+%test_data = standardize(test_data, standardize_params);
 
 % append left and right frames
 train_data = construct_features_with_left_and_right_frames(train_data,...
     left_frames_network, right_frames_network);
-test_data = construct_features_with_left_and_right_frames(test_data,...
-    left_frames_network, right_frames_network);
+validation_data = construct_features_with_left_and_right_frames(...
+  validation_data, left_frames_network, right_frames_network);
+%test_data = construct_features_with_left_and_right_frames(test_data,...
+%    left_frames_network, right_frames_network);
 
 % get training and testing set to be the right number of frames so it
 % doesnt break the algorithm wrt batch sizes
@@ -71,21 +78,22 @@ total_train_frames = size(train_data, 2);
 total_train_frames = total_train_frames - mod(total_train_frames, numchunks);
 train_frames_to_keep = randperm(total_train_frames); 
 
-total_test_frames = size(test_data, 2);
-total_test_frames = total_test_frames - mod(total_test_frames, numchunks_test);
-test_frames_to_keep = randperm(total_test_frames); 
+total_validation_frames = size(validation_data, 2);
+total_validation_frames = total_validation_frames -...
+  mod(total_validation_frames, numchunks_test);
+validation_frames_to_keep = randperm(total_validation_frames); 
 
 % take subset of data
 train_data = train_data(:, train_frames_to_keep);
 train_one_hot_labels = train_one_hot_labels(:, train_frames_to_keep);
-test_data = test_data(:, test_frames_to_keep);
-test_one_hot_labels = test_one_hot_labels(:, test_frames_to_keep);
+validation_data = validation_data(:, validation_frames_to_keep);
+validation_one_hot_labels = validation_one_hot_labels(:, validation_frames_to_keep);
 
 
 [paramsp layersizes, layertypes model_name] = ...
     hessian_free_train( runDesc, paramsp, Win, bin,...
     resumeFile, maxepoch, train_data, train_one_hot_labels,...
-    numchunks, test_data, test_one_hot_labels, numchunks_test,...
+    numchunks, validation_data, validation_one_hot_labels, numchunks_test,...
     layersizes, layertypes, mattype, rms, errtype, hybridmode,...
     weightcost, decay, jacket);
 
