@@ -140,6 +140,8 @@ drop = 2/3;
 
 boost = 1/drop;
 
+best_test_err = inf;
+
 
 %In addition to maxiters the variable below is something you should manually
 %adjust.  It is quite problem specific.  Fortunately after only 1 'epoch'
@@ -214,6 +216,7 @@ layersizes = [size(indata,1) layersizes size(outdata,1)];
 save_params.layersizes = layersizes;
 save_params.layertypes = layertypes;
 save_params.numchunks = numchunks;
+save_params.numchunks_test = numchunks_test;
 save_params.runDesc = runDesc;
 save_params.errtype = errtype;
 save_params.weightcost = weightcost;
@@ -1505,7 +1508,8 @@ for epoch = epoch:maxepoch
     end
 
     % if this is the best so far on the validation error, save it
-    if err_test == min(err_record)
+    best_test_err = min(best_test_err, err_test)
+    if err_test == best_test_err
       saved_model_path = save_hf_model(...
         save_params.model_name,...
         save_params.train_song_names,...
@@ -1515,6 +1519,8 @@ for epoch = epoch:maxepoch
         paramsp,...
         save_params.layersizes,...
         save_params.layertypes,...
+        save_params.run,...
+        save_params.train_percentage,...
         save_params.numchunks,...
         save_params.numchunks_test,...
         save_params.runDesc,...
@@ -1533,8 +1539,8 @@ for epoch = epoch:maxepoch
         err_test,...
         errrecord,...
         save_params.preprocessing_params,...
-        save_params.is_chroma)
-      end
+        save_params.is_chroma);
+    end
 
     paramsp = tmp;
     ch = tmp2;
