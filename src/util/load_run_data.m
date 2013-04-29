@@ -39,6 +39,7 @@ test_data = load(strcat(full_path, test_file));
 test_file_names = test_data.test_filenames;
 
 validation_data = load(strcat(full_path, validation_file));
-validation_file_names = validation_data.validation_filenames'
+% made a mistake in saving them, so there is an added layer of indirection. whoops.
+validation_file_names = validation_data.validation_filenames.validation_filenames;
 
 end
