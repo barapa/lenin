@@ -32,21 +32,21 @@ function [acts, y] = get_hessian_activations(theta, X, layersizes, layertypes)
     [W, b] = unpacknet_hessian(theta, layers); 
     no_layers = numel(layers);
 
-    % Run data through network
+    %cts{i} Run data through network
     acts = cell(1, no_layers);
     acts{1} = [X ones(m, 1)];
     for i = 1:no_layers-1
 
         switch layertypes{i}
             case 'logistic'
-                acts{i + 1} = [1 ./ (1 + exp(-(acts{i} * [W{i}; b{i}]))) ones(m, 1)];
-            case 'ReLU'
+                acts{i + 1} = [1 ./ (1 + exp(-(acts{i} * [W{i}, b{i}]'))) ones(m, 1)];
+            case 'ReL'
                 error('No ReLU nodes available');
                 %acts{i + 1} = [max(acts{i} * [W{i}; b{i}], 0) ones(m, 1)];
             case 'linear'
-                acts{i + 1} = [acts{i} * [W{i}; b{i}] ones(m, 1)];
+                acts{i + 1} = [acts{i} * [W{i}, b{i}]' ones(m, 1)];
             case 'softmax'
-                layerinput = acts{i} * [W{i}; b{i}];
+                layerinput = acts{i} * [W{i}, b{i}]';
                 acts{i + 1} = exp(bsxfun(@minus, layerinput, max(layerinput, [], 2)));
                 acts{i + 1} = [bsxfun(@rdivide, acts{i + 1}, sum(acts{i + 1}, 2)) ones(m, 1)];
             otherwise

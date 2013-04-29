@@ -31,7 +31,7 @@ train_data = construct_features_with_left_and_right_frames(...
   train_data, model.left_frames_network, model.right_frames_network);
 test_data = construct_features_with_left_and_right_frames(...
   test_data, model.left_frames_network, model.right_frames_network);
-train_data = construct_features_with_left_and_right_frames(...
+validation_data = construct_features_with_left_and_right_frames(...
   validation_data, model.left_frames_network, model.right_frames_network);
 
 % classify inputs and count the error rates
@@ -42,8 +42,8 @@ test_preds = classify_input(model.paramsp, test_data, model.layersizes,...
 validation_preds = classify_input(model.paramsp, validation_data,...
   model.layersizes, model.layertypes);
 
-train_err = mean(all(train_preds == train_one_hot_labels, 1));
-test_err = mean(all(test_preds == test_one_hot_labels, 1));
-validation_err = mean(all(validation_preds == validation_one_hot_labels, 1));
+train_err = 1 - mean(all(train_preds == train_one_hot_labels, 1));
+test_err = 1 - mean(all(test_preds == test_one_hot_labels, 1));
+validation_err = 1 - mean(all(validation_preds == validation_one_hot_labels, 1));
 
 end
