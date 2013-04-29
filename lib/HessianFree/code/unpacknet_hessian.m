@@ -1,12 +1,14 @@
 function [W,b] = unpacknet_hessian(theta, layersizes)
 
-    % Unpack weights into network architecture
-    ind = 1;
-    no_layers = numel(layersizes); 
-    
-    for i = 1 : no_layers - 1
-        wsize = layersizes(i) * layersizes(i+1);
-        bsize = layersizes(i+1);
-        W{i} = reshape(theta(ind:ind - 1 + wsize), [layersizes(i), layersizes(i+1)]);   ind = ind + wsize;
-        b{i} = reshape(theta(ind:ind - 1 + bsize), [1, layersizes(i+1)]);               ind = ind + bsize;
+    num_layers = numel(layersizes); 
+    W = cell(num_layers, 1);
+    b = cell(num_layers, 1);
+
+    cur = 0;
+    for i = 1:numlayers
+        W{i} = reshape( M((cur+1):(cur + layersizes(i)*layersizes(i+1)), 1), [layersizes(i+1) layersizes(i)] );
+        cur = cur + layersizes(i)*layersizes(i+1);
+        b{i} = reshape( M((cur+1):(cur + layersizes(i+1)), 1), [layersizes(i+1) 1] );
+        cur = cur + layersizes(i+1);
     end
+end
