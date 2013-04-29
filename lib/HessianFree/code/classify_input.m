@@ -29,3 +29,4 @@ function [predictions] = classify_input(theta, input, layersizes, layertypes)
 
   predictions = predictions'; % NxK -> KxN
 
+end
