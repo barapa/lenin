@@ -1,6 +1,6 @@
 function [W,b] = unpacknet_hessian(theta, layersizes)
 
-    num_layers = numel(layersizes); 
+    num_layers = numel(layersizes) - 1; 
     W = cell(num_layers, 1);
     b = cell(num_layers, 1);
 
