@@ -7,7 +7,7 @@ rand('twister', seed + 1 );
 is_chroma = 1;
 run = 1;
 dbn_train_percentage = 30;
-maxepoch = 5;
+maxepoch = 35;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
@@ -23,7 +23,7 @@ errtype = 'class';
 % autoencoder.
 
 weightcost = 2e-5; %standard L_2 weight-decay. Can set to 0.
-initlambda = 45; % should be set so rho after first epoch is between .75 and .95
+initlambda = 1; % should be set so rho after first epoch is between .75 and .95
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
@@ -110,6 +110,9 @@ save_params = create_save_params(...
     numchunks, validation_data, validation_one_hot_labels, numchunks_test,...
     layersizes, layertypes, mattype, rms, errtype, hybridmode,...
     weightcost, decay, jacket, initlambda, save_params);
+
+[train_err, validation_err, test_err] = get_class_error_rates(model_name)
+save_error_rates(model_name, train_err, test_err, validation_err);
 
 
 %layers_for_svm = 1:numel(layersizes);

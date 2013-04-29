@@ -1,3 +1,6 @@
+% Takes a model in a final folder, and computes the error rates on its training,
+% testing and validation set. 
+
 function [train_err, validation_err, test_err] = get_class_error_rates(model_name)
 
 model = load_hf_model(model_name);
