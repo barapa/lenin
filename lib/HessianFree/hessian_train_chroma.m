@@ -4,6 +4,7 @@ randn('state', seed );
 rand('twister', seed + 1 );
 
 % Parameters for network and training
+is_chroma = 1;
 run = 1;
 dbn_train_percentage = 90;
 maxepoch = 100;
@@ -55,7 +56,7 @@ validation_file_names = append_chroma_paths(validation_song_names);
 % train_data is D x N
 % one_hot_labels is L x N
 [train_data, train_borders, train_one_hot_labels] = load_songs(train_file_names);
-[validation_data, validation_borders, validation_one_hot_labeled] =...
+[validation_data, validation_borders, validation_one_hot_labels] =...
   load_songs(validation_file_names);
 %[test_data, test_borders, test_one_hot_labels] = load_songs(test_file_names);
 
@@ -117,7 +118,8 @@ full_path_name  = save_hf_model( model_name,...
     rms,...
     mattype,...
     decay,...
-    {});
+    {},...
+    is_chroma);
 
 layers_for_svm = 1:numel(layersizes);
 left_frames_svm = 2;

@@ -18,16 +18,17 @@ stft_beatles_songs(window_size, window_overlap, nfft);
 % Parameters for network and training
 run = 1;
 dbn_train_percentage = 30;
-maxepoch = 450;
+maxepoch = 200;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) 'stft' ];
-layersizes = [500, 200, 50]; % do not include output or input layer
+layersizes = [2000, 1000, 800, 500, 200, 50]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'
-layertypes = {'logistic', 'logistic', 'logistic', 'softmax'}; % do not include input layer
-                                                              % bud DO include output
-                                                              % layer
+layertypes = {'logistic', 'logistic', 'logistic', 'logistic',...
+              'logistic', 'logistic', 'softmax' }; % do not include input layer
+                                       % bud DO include output
+                                       % layer
 errtype = 'class'; 
 %report classification error (in addition to the quantity actually being
 % optimized, i.e. the log-likelihood). Would change if tried an
@@ -37,8 +38,8 @@ weightcost = 2e-5; %standard L_2 weight-decay. Can set to 0.
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
-left_frames_network = 2;
-right_frames_network = 2;
+left_frames_network = 3;
+right_frames_network = 0;
 
 % Don't need to touch these                                                  
 resumeFile = []; % set to resume from a previous model
