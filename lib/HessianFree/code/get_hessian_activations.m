@@ -11,6 +11,8 @@
 %         A vector containing the sizes of every layer of the network,
 %         including the input and output layer. This is already returned by
 %         the hessian_free_call function.
+% layertypes:
+%         A 1 x L-1 cell array of strings indicating the type of layers
 %
 % acts:   A 1 x L cell array, where L is the number of layers, INCLUDING
 %         the input layer, of the activations at each layer.

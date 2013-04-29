@@ -69,7 +69,7 @@ for i = 1 : numel(train_song_names)
     % standardize data
     song_x = standardize(song_x, model.standardize_params);
     % add left and right frames for the NETWORK, not the svm, as defined in
-    % the modek
+    % the model
     song_x = construct_features_with_left_and_right_frames(song_x,...
     model.left_frames_network, model.right_frames_network);
     
@@ -80,7 +80,7 @@ for i = 1 : numel(train_song_names)
     
     song_features = horzcat(activations{layers})';
     
-    % add left and right frames as specified
+    % add left and right frames as specified for the SVM
     song_features = construct_features_with_left_and_right_frames(...
         song_features, left_frames, right_frames);
     
@@ -105,7 +105,7 @@ for i = 1 : numel(test_song_names)
     % standardize data
     song_x = standardize(song_x, model.standardize_params);
     % add left and right frames for the NETWORK, not the svm, as defined in
-    % the modek
+    % the model
     song_x = construct_features_with_left_and_right_frames(song_x,...
     model.left_frames_network, model.right_frames_network);
     
