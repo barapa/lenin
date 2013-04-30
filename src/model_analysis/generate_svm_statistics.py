@@ -80,9 +80,9 @@ def ensure_results_file_exists():
   results_file = None
   results_file_full_name = "%s/%s" % (RESULTS_FILE_DIR, RESULTS_FILE_NAME)
 
-  if RESULTS_FILE_NAME not in os.listdir(RESULTS_FILE_DIR)
+  if RESULTS_FILE_NAME not in os.listdir(RESULTS_FILE_DIR):
     print "making results file for first time, writing header."
-    results_file = open(results_file_full_name, 'r')
+    results_file = open(results_file_full_name, 'w')
     results_file.write(HEADER)
   else:
     print "results file already exists, will be appending."
@@ -91,9 +91,58 @@ def ensure_results_file_exists():
   return results_file
 
 
+def write_new_models(new_models, results_file):
+  for model in new_models:
+    print 'working on %s' % model
+    model_path = "/var/data/lenin/%s/test" % model
+    listings = os.listdir(model_path)
+    listings = filter(lambda x: 'model' in x, listings)
+    true_labels_filename = "%s/true_labels.dat" % model_path
+    true_labels_file = open(true_labels_filename, 'r')
+    true_labels = true_labels_file.readlines()
+    true_labels_file.close()
+    for prediction_type in listings:
+      prediction_filename = "%s/%s" % (model_path, prediction_type)
+      prediction_file = open(prediction_filename, 'r')
+      predictions = prediction_file.readlines()
+      prediction_file.close()
+      hit_count = 0
+      for prediction, truth in zip(predictions, true_labels):
+        if prediction == truth:
+          hit_count += 1
+      accuracy = float(hit_count) / len(predictions)
+      print 'model: %s accuracy: %f, prediction_type: %s, hit count: %d, label count: %d' % \
+          (model.split('/')[1], accuracy, prediction_type, hit_count, len(predictions))
+
+
+
+
+
 if __name__ == "__main__":
   results_file = ensure_results_file_exists()
-  existing_models = get_existing_models(results_file)
-  new_models = get_new_models(existing_models)
+  #existing_models = get_existing_models(results_file)
+  #new_models = get_new_models(existing_models)
+  new_models = [ \
+    # CHROMA svms:
+    'svm_hmm_data/rbm_dbn_20130426T114047.mat',
+    'svm_hmm_data/rbm_dbn_20130426T115242.mat',
+    'svm_hmm_data/rbm_dbn_20130426T113045.mat',
+    'svm_hmm_data/rbm_dbn_20130426T121558.mat',
+    'svm_hmm_data/rbm_dbn_20130426T125949.mat',
+    'svm_hmm_data/rbm_dbn_20130426T120405.mat',
+    'svm_hmm_data/rbm_dbn_20130426T122544.mat',
+    'svm_hmm_data/rbm_dbn_20130426T123710.mat',
+    'svm_hmm_data/rbm_dbn_20130426T111902.mat',
+    'svm_hmm_data/rbm_dbn_20130426T124818.mat',
+    'svm_hmm_data/rbm_dbn_20130428T042207.mat',
+    'svm_hmm_data/rbm_dbn_20130428T024456.mat',
+    'svm_hmm_data/rbm_dbn_20130428T010049.mat',
+    'svm_hmm_data/rbm_dbn_20130427T235546.mat',
+    'svm_hmm_data/rbm_dbn_20130427T224935.mat',
+    'svm_hmm_data/rbm_dbn_20130427T214046.mat',
+    'svm_hmm_data/rbm_dbn_20130427T203641.mat',
+    'svm_hmm_data/rbm_dbn_20130427T192740.mat',
+    'svm_hmm_data/rbm_dbn_20130427T183023.mat',
+    'svm_hmm_data/rbm_dbn_20130427T174436.mat']
   write_new_models(new_models, results_file)
   results_file.close()
