@@ -1,17 +1,18 @@
 % function [ train_file_names, test_file_names ] = load_run_data(...
 %     run_number, percentage_train)
 % 
-% Loads the cell arrays containing the training and testing filenames for
-% each run, given the specified run number and percentage training.
+% Loads the cell arrays containing the training, testing and validation
+% filenames for each run, given the specified run number and percentage training.
 % 
 % run_number : integer between 1 and 10
 % percentage_train : 30, 60, or 90
 
-function [ train_file_names, test_file_names ] = load_run_data(...
-    run_number, percentage_train)
+function [ train_file_names, test_file_names, validation_file_names] =...
+  load_run_data(run_number, percentage_train)
     
 train_file = 'labeled_train_filenames.mat';
 test_file = 'test_filenames.mat';
+validation_file = 'validation_filenames.mat'
 
 RUNS_DIR = 'data/runs/';
 NUMBERED_RUN_DIRS = {'01/', '02/', '03/', '04/', '05/', '06/', '07/',...
@@ -36,5 +37,9 @@ train_file_names = train_data.labeled_train_filenames;
 
 test_data = load(strcat(full_path, test_file));
 test_file_names = test_data.test_filenames;
+
+validation_data = load(strcat(full_path, validation_file));
+% made a mistake in saving them, so there is an added layer of indirection. whoops.
+validation_file_names = validation_data.validation_filenames.validation_filenames;
 
 end
