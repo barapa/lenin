@@ -6,8 +6,8 @@ rand('twister', seed + 1 );
 % Parameters for network and training
 is_chroma = 1;
 run = 1;
-dbn_train_percentage = 30;
-maxepoch = 35;
+dbn_train_percentage = 90;
+maxepoch = 50;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
@@ -27,8 +27,8 @@ initlambda = 1; % should be set so rho after first epoch is between .75 and .95
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
-left_frames_network = 2;
-right_frames_network = 0;
+left_frames_network = 4;
+right_frames_network = 4;
 
 % Don't need to touch these                                                  
 resumeFile = []; % set to resume from a previous model
