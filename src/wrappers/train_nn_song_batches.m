@@ -71,7 +71,19 @@ if exist('opt_files_to_validate')
           opt_preprocessing_params.X_avg,...
           opt_preprocessing_params.W);
       disp('...done') ;
-    end 
+      if opt_preprocessing_params.data_include_left > 0 || ...
+          opt_preprocessing_params.data_include_right > 0
+
+        disp(sprintf('adding %d left and %d right frames',...
+            opt_preprocessing_params.data_include_left,...
+            opt_preprocessing_params.data_include_right))
+
+        validation_x = construct_features_with_left_and_right_frames(...
+            validation_x,...
+            opt_preprocessing_params.data_include_left,...
+            opt_preprocessing_params.data_include_right);
+      end
+    end
 end
 
 disp('Beginning NN training...')
@@ -81,17 +93,31 @@ for b = 1 : num_song_batches
     nn.learningRate = training_params.learning_rate;
     first_ind = (b - 1) * training_params.song_batch_size + 1;
     last_ind = min(b * training_params.song_batch_size, num_songs);
-   
+
     disp(['loading song batch #' num2str(b)]);
     [ train_x, ~, train_y ] = load_songs(...
-        files_to_train(rand_song_order(:, first_ind:last_ind))) ; 
-    
+        files_to_train(rand_song_order(:, first_ind:last_ind))) ;
+
     if nargin == 5
       disp('whitening song batch');
       train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
             opt_preprocessing_params.W);
+
+      if opt_preprocessing_params.data_include_left > 0 || ...
+          opt_preprocessing_params.data_include_right > 0
+
+        disp(sprintf('adding %d left and %d right frames',...
+            opt_preprocessing_params.data_include_left,...
+            opt_preprocessing_params.data_include_right))
+
+        train_x = construct_features_with_left_and_right_frames(...
+            train_x,...
+            opt_preprocessing_params.data_include_left,...
+            opt_preprocessing_params.data_include_right);
+      end
+
     end
-      
+
     fprintf('training NN on song batch %d...', b) ;
     if exist('opt_files_to_validate')
         [ nn, ~, opts ] = nntrain(nn, train_x', train_y', opts,...
@@ -99,11 +125,11 @@ for b = 1 : num_song_batches
             validation_y'); % transpose inputs
     elseif nargin == 3
         % transpose inputs
-        [ nn, ~, opts ] = nntrain(nn, train_x', train_y', opts); 
+        [ nn, ~, opts ] = nntrain(nn, train_x', train_y', opts);
     else
         error('Wrong number of arguments to train_nn');
     end
     fprintf('done\n') ;
-end 
+end
 end
 
