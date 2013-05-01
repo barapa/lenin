@@ -28,7 +28,7 @@ function [ nn ] = train_nn_song_batches( dbn, training_params,...
 
 % get the first song labels to set up the NN with the right number of
 % labels
-[ ~, ~, song_y ] = load_songs(files_to_train(1)) ;
+[ ~, ~, song_y ] = load_songs(files_to_train(1), opt_preprocessing_params) ;
 
 [L, ~] = size(song_y);
 
@@ -63,7 +63,8 @@ opts.num_song_batches = num_song_batches;
 % if validation set passed in, load it and whiten it
 if exist('opt_files_to_validate')
     disp('Loading validation data...') ;
-    [validation_x, ~, validation_y] = load_songs(opt_files_to_validate);
+    [validation_x, ~, validation_y] = load_songs(opt_files_to_validate,...
+        opt_preprocessing_params);
     disp('...done') ;
     if exist('opt_preprocessing_params')
       if (isfield(opt_preprocessing_params, 'X_avg'))  
@@ -98,7 +99,8 @@ for b = 1 : num_song_batches
 
     disp(['loading song batch #' num2str(b)]);
     [ train_x, ~, train_y ] = load_songs(...
-        files_to_train(rand_song_order(:, first_ind:last_ind))) ;
+        files_to_train(rand_song_order(:, first_ind:last_ind)),...
+        opt_preprocessing_params) ;
 
     if exist('opt_preprocessing_params')
 
@@ -138,6 +140,9 @@ for b = 1 : num_song_batches
 end
 
 % return the nn that was saved as the best so far
-nn = load_trained_model(['/var/data/lenin/rbm_dbn_models/' save_params.model_filename]);
+nn = load_trained_model(...
+    ['/var/data/lenin/rbm_dbn_models/'...
+     save_params.model_filename ...
+     '.mat']);
 end
 

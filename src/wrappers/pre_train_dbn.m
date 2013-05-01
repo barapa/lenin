@@ -91,11 +91,13 @@ end
 
 
 % get the first song
-[ song_data, ~, ~ ] = load_songs(files_to_train(1)) ;
+[ song_data, ~, ~ ] = load_songs(files_to_train(1), opt_preprocessing_params) ;
 
 if exist('opt_preprocessing_params')
-  song_data = whiten_data(song_data, opt_preprocessing_params.X_avg,...
-      opt_preprocessing_params.W);
+  if isfield(opt_preprocessing_params, 'X_avg')
+    song_data = whiten_data(song_data, opt_preprocessing_params.X_avg,...
+        opt_preprocessing_params.W);
+  end
 
   if opt_preprocessing_params.data_include_left > 0 || ...
       opt_preprocessing_params.data_include_right > 0
@@ -133,15 +135,18 @@ for b = 1 : num_song_batches
 
     disp('loading songs...') ;
     [ train_x, ~, ~ ] = load_songs(...
-        files_to_train(rand_song_order(:, first_ind:last_ind))) ;
+        files_to_train(rand_song_order(:, first_ind:last_ind)),...
+        opt_preprocessing_params) ;
     disp('...done') ;
 
     if exist('opt_preprocessing_params')
 
-      disp('whitening songs...') ;
-      train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
-            opt_preprocessing_params.W);
-      disp('...done') ;
+      if isfield(opt_preprocessing_params, 'X_avg')
+        disp('whitening songs...') ;
+        train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
+              opt_preprocessing_params.W);
+        disp('...done') ;
+      end
 
       if opt_preprocessing_params.data_include_left > 0 || ...
           opt_preprocessing_params.data_include_right > 0

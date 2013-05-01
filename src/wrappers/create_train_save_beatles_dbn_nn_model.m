@@ -181,9 +181,6 @@ dbn_training_params = create_dbn_pre_training_params(...
     dbn_train_file_names,...
     preprocessing_params);
 
-preprocessing_params.data_include_left = data_include_left;
-preprocessing_params.data_include_right = data_include_right;
-
 % ---- FFNN SETUP AND TRAINING ----
 
 % load data for training and testing. We will use same data for testing as
