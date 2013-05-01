@@ -1,4 +1,4 @@
-function [ ] = shannon_call_train_script(run)
+function [ ] = small_network(run)
 % FIRST SECTION IS TRAINING THE DBN AND NN AND SAVING THE RESULTS. 
 % SECOND SECTION IS WRITING THE ACTIVATIONS TO FILES FOR SVM TRAINING.
 
@@ -11,6 +11,8 @@ global DONT_VISUALIZE;
 disp(sprintf('RUN %d ------------------------------------------------', run));
 
 % TRAINING DBN AND NN
+data_include_left = 2;
+data_include_right = 0;
 
 % data
 %run = 1; % we will just do run #1 to start, and do others on good models
@@ -19,23 +21,21 @@ window_overlap = 2^12;
 nfft = 2^10;
 preprocessing_epsilon = .00001;
 preprocessing_k = 2^8; % Cannot be larger than nfft / 2 + 1
-data_include_left = 2;
-data_include_right = 0;
 
 % dbn
 dbn_train_percentage = 60; % 30, 60, or 90
 dbn_layer_sizes = [300 200 100];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 100;
-dbn_song_batch_size = 30;
-dbn_mini_batch_size = 100;
+dbn_song_batch_size = 15;
+dbn_mini_batch_size = 25;
 dbn_momentum = .75;
 dbn_binary_learning_rate = .001;
 dbn_gaussian_learning_rate = .00001;
 dbn_cdk = 1;
 % nn
 nn_train_percentage = 60; % 30, 60, or 90. 
-nn_song_batch_size = 50;
+nn_song_batch_size = 30;
 nn_num_epochs = 200;
 nn_batch_size = 25;
 nn_learning_rate = .1;

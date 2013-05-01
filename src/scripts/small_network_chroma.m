@@ -1,4 +1,4 @@
-function [ ] = shannon_call_train_script_chroma(run)
+function [ ] = small_network_chroma(run)
 % set environment global vars
 LENIN_DATA_DIR = 'var/data/lenin';
 global LENIN_DATA_DIR;
