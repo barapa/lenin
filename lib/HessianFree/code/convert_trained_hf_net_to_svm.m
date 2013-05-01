@@ -71,7 +71,7 @@ for i = 1 : numel(train_song_names)
     % add left and right frames for the NETWORK, not the svm, as defined in
     % the model
     song_x = construct_features_with_left_and_right_frames(song_x,...
-    model.left_frames_network, model.right_frames_network);
+        model.left_frames_network, model.right_frames_network);
     
     disp('...computing activations');
     
@@ -107,7 +107,7 @@ for i = 1 : numel(test_song_names)
     % add left and right frames for the NETWORK, not the svm, as defined in
     % the model
     song_x = construct_features_with_left_and_right_frames(song_x,...
-    model.left_frames_network, model.right_frames_network);
+        model.left_frames_network, model.right_frames_network);
     
     disp('...computing activations');
     
