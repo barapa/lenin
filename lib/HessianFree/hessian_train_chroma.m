@@ -7,14 +7,14 @@ rand('twister', seed + 1 );
 is_chroma = 1;
 run = 1;
 dbn_train_percentage = 90;
-maxepoch = 50;
+maxepoch = 300;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
-layersizes = [200, 50]; % do not include output or input layer
+layersizes = [800, 800, 400, 200, 50]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'
-layertypes = {'logistic', 'logistic', 'softmax'}; % do not include input layer
+layertypes = {'logistic', 'logistic', 'logistic', 'logistic', 'logistic', 'softmax'}; % do not include input layer
                                                               % bud DO include output
                                                               % layer
 errtype = 'class'; 
@@ -23,12 +23,12 @@ errtype = 'class';
 % autoencoder.
 
 weightcost = 2e-5; %standard L_2 weight-decay. Can set to 0.
-initlambda = 1; % should be set so rho after first epoch is between .75 and .95
+initlambda = 80; % should be set so rho after first epoch is between .75 and .95
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
-left_frames_network = 4;
-right_frames_network = 4;
+left_frames_network = 10;
+right_frames_network = 6;
 
 % Don't need to touch these                                                  
 resumeFile = []; % set to resume from a previous model
