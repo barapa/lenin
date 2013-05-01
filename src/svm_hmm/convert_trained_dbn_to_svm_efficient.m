@@ -102,9 +102,11 @@ for i = 1 : numel(test_song_names)
     [song_x, ~, song_y] = load_songs(test_song_names(i)); % load it in
     song_labels = one_hot_to_flat_labels(song_y);
     if isfield(model, 'preprocessing_params')
-      disp('...whitening data');
-      song_x = whiten_data(song_x, model.preprocessing_params.X_avg,...
-          model.preprocessing_params.W);
+      if isfield(model.preprocessing_params, 'X_avg')
+          disp('...whitening data');
+          song_x = whiten_data(song_x, model.preprocessing_params.X_avg,...
+              model.preprocessing_params.W);
+      end
 
       if model.preprocessing_params.data_include_left > 0 || ...
         model.preprocessing_params.data_include_right > 0

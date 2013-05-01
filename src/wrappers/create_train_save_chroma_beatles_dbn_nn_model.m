@@ -169,4 +169,4 @@ save_params = create_dbn_save_params(...
     preprocessing_params) ;
 
 model_filename = save_params.model_filename;
-compute_and_save_test_error_rate_on_saved_dbn_model(model_filename);
+[error_rate, ~] = compute_and_save_test_error_rate_on_saved_dbn_model(model_filename);

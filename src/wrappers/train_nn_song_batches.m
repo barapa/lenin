@@ -66,11 +66,13 @@ if exist('opt_files_to_validate')
     [validation_x, ~, validation_y] = load_songs(opt_files_to_validate);
     disp('...done') ;
     if exist('opt_preprocessing_params')
-      disp('Whitening validation data...') ;
-      validation_x = whiten_data(validation_x, ...
+      if (isfield(opt_preprocessing_params, 'X_avg'))  
+        disp('Whitening validation data...') ;
+        validation_x = whiten_data(validation_x, ...
           opt_preprocessing_params.X_avg,...
           opt_preprocessing_params.W);
-      disp('...done') ;
+        disp('...done') ;
+      end
       if opt_preprocessing_params.data_include_left > 0 || ...
           opt_preprocessing_params.data_include_right > 0
 
