@@ -43,7 +43,12 @@ data_file_name = [outfile_dir 'data_' params_str '.dat'];
 data_fid = fopen(data_file_name,'a+');
 
 labels_file_name = [outfile_dir 'true_labels.dat'];
-labels_fid = fopen(labels_file_name,'a+');
+% overwrite existing contents of true labels if this is the first song.
+if song_num == 1
+  labels_fid = fopen(labels_file_name,'w+');
+else
+  labels_fid = fopen(labels_file_name,'a+');
+end
 
 
 % for each song

@@ -54,7 +54,8 @@ disp('Computing SVM data for training songs...');
 for i = 1 : numel(train_song_names) 
     disp(['Computing SVM data for training song #' num2str(i)]);
     disp('...loading song');
-    [song_x, ~, song_y] = load_songs(train_song_names(i)); % load it in
+    [song_x, ~, song_y] = load_songs(train_song_names(i),...
+      model.preprocessing_params); % load it in
     song_labels = one_hot_to_flat_labels(song_y);
     if isfield(model, 'preprocessing_params')
       if isfield(model.preprocessing_params, 'X_avg')
@@ -99,7 +100,7 @@ disp('Computing SVM data for testing songs...');
 for i = 1 : numel(test_song_names) 
     disp(['Computing SVM data for testing song #' num2str(i)]);
     disp('...loading song');
-    [song_x, ~, song_y] = load_songs(test_song_names(i)); % load it in
+    [song_x, ~, song_y] = load_songs(test_song_names(i), model.preprocessing_params); % load it in
     song_labels = one_hot_to_flat_labels(song_y);
     if isfield(model, 'preprocessing_params')
       if isfield(model.preprocessing_params, 'X_avg')

@@ -7,7 +7,8 @@ model = load_trained_model(model_path);
 
 
 disp('Loading testing data...') ;
-[ test_nn_x, ~, test_nn_y ] = load_songs(model.test_nn_songs) ;
+[ test_nn_x, ~, test_nn_y ] = load_songs(model.test_nn_songs,...
+  model.preprocessing_params) ;
 disp('...done');
 
 % if its not chroma model, we need to whiten
