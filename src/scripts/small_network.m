@@ -1,4 +1,4 @@
-function [ ] = shannon_call_train_script(run)
+function [ ] = small_network(run)
 % FIRST SECTION IS TRAINING THE DBN AND NN AND SAVING THE RESULTS. 
 % SECOND SECTION IS WRITING THE ACTIVATIONS TO FILES FOR SVM TRAINING.
 
