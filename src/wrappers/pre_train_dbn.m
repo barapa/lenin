@@ -96,6 +96,20 @@ end
 if exist('opt_preprocessing_params')
   song_data = whiten_data(song_data, opt_preprocessing_params.X_avg,...
       opt_preprocessing_params.W);
+
+  if opt_preprocessing_params.data_include_left > 0 || ...
+      opt_preprocessing_params.data_include_right > 0
+
+    disp(sprintf('adding %d left and %d right frames',...
+        opt_preprocessing_params.data_include_left,...
+        opt_preprocessing_params.data_include_right))
+
+    song_data = construct_features_with_left_and_right_frames(...
+        song_data,...
+        opt_preprocessing_params.data_include_left,...
+        opt_preprocessing_params.data_include_right);
+  end
+
 end
 
 song_data = song_data' ; % convert from d x n to n x d matrix.
@@ -123,13 +137,25 @@ for b = 1 : num_song_batches
     disp('...done') ;
 
     if exist('opt_preprocessing_params')
-    
+
       disp('whitening songs...') ;
       train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
             opt_preprocessing_params.W);
       disp('...done') ;
 
-    end
+      if opt_preprocessing_params.data_include_left > 0 || ...
+          opt_preprocessing_params.data_include_right > 0
+
+        disp(sprintf('adding %d left and %d right frames',...
+            opt_preprocessing_params.data_include_left,...
+            opt_preprocessing_params.data_include_right))
+
+        train_x = construct_features_with_left_and_right_frames(...
+            train_x,...
+            opt_preprocessing_params.data_include_left,...
+            opt_preprocessing_params.data_include_right);
+      end % if add left and right frames
+    end % if exist('opt_preprocessing_params')
 
     train_x = train_x'; % convert from d x n to n x d matrix.
 

@@ -72,6 +72,9 @@ def get_model_row_str(model_path, model):
     get_window_overlap(model),
     get_preprocessing_epsilon(model),
     get_preprocessing_k(model),
+    get_dbn_cdk(model),
+    get_data_include_left(model),
+    get_data_include_right(model),
     get_dbn_train_percentage(model),
     get_dbn_layer_sizes(model),
     get_dbn_is_visible_layer_gaussian(model),
@@ -96,8 +99,7 @@ def get_model_row_str(model_path, model):
     get_nn_input_zero_masked_fraction(model),
     get_nn_dropout_fraction(model),
     get_nn_layer_sizes(model),
-    get_notes(model),
-    get_dbn_cdk(model)]
+    get_notes(model)]
     
 @handle_missing_field
 def get_nn_error_rate(model):
@@ -226,6 +228,14 @@ def get_notes(model):
 @handle_missing_field
 def get_dbn_cdk(model):
   return str(model['dbn_cdk'])
+
+@handle_missing_field
+def get_data_include_left(model):
+  return str(model['preprocessing_params'].data_include_left)
+
+@handle_missing_field
+def get_data_include_right(model):
+  return str(model['preprocessing_params'].data_include_right)
 
 def main():
   summarize_models_and_save()
