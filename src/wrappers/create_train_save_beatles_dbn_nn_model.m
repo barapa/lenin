@@ -207,7 +207,7 @@ nn_training_params = create_nn_training_params(...
     nn_dropout_fraction,...
     nn_song_batch_size);
 
-notes = 'stft'
+notes = 'stft';
 is_chroma = 0;
 save_params = create_dbn_save_params(...
   dbn,...
@@ -229,33 +229,10 @@ save_params = create_dbn_save_params(...
 % train
 nn = train_nn_song_batches( dbn, nn_training_params, nn_train_file_names,...
     validation_file_names, save_params, preprocessing_params);
+
+
+model_filename = save_params.model_filename;
+compute_and_save_test_error_rate_on_saved_dbn_model(model_filename);
     
-% calculate and print error
-fprintf('%s\n', 'Loading testing data');
-[test_nn_x, ~, test_nn_y] = load_songs(test_file_names);
-fprintf('%s', 'Whitening testing data...');
-test_nn_x = whiten_data(test_nn_x, preprocessing_params.X_avg,...
-    preprocessing_params.W);
-fprintf('done\n');
-
-if preprocessing_params.data_include_left > 0 || ...
-    preprocessing_params.data_include_right > 0
-
-  disp(sprintf('adding %d left and %d right frames',...
-      preprocessing_params.data_include_left,...
-      preprocessing_params.data_include_right))
-
-  test_nn_x = construct_features_with_left_and_right_frames(...
-     test_nn_x,...
-     preprocessing_params.data_include_left,...
-     preprocessing_params.data_include_right);
-end
-
-[error_rate, bad] = nntest(nn, test_nn_x', test_nn_y');
-disp(['Error rate: ' num2str(error_rate)]);
-    
-save_dbn_test_class_error_rate(error_rate, save_params.model_filename);
-model_filename = save_params.model_filename
-
 end
 

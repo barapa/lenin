@@ -134,5 +134,8 @@ for b = 1 : num_song_batches
     end
     fprintf('done\n') ;
 end
+
+% return the nn that was saved as the best so far
+nn = load_trained_model(['/var/data/lenin/rbm_dbn_models/' save_params.model_filename]);
 end
 

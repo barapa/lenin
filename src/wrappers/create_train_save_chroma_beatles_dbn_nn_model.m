@@ -145,7 +145,7 @@ preprocessing_params = {};
 preprocessing_params.data_include_left = data_include_left;
 preprocessing_params.data_include_right = data_include_right;
 
-notes = 'chroma'
+notes = 'chroma';
 is_chroma = 1;
 save_params = create_dbn_save_params(...
   dbn,...
@@ -168,26 +168,5 @@ save_params = create_dbn_save_params(...
     nn_train_song_filenames, validation_song_filenames, save_params,...
     preprocessing_params) ;
 
-disp('Loading testing data...') ;
-[ test_nn_x, ~, test_nn_y ] = load_songs(test_song_filenames) ;
-disp('...done');
-
-if data_include_left > 0 || ...
-    data_include_right > 0
-
-  disp(sprintf('adding %d left and %d right frames',...
-      data_include_left,...
-      data_include_right))
-
-  test_nn_x = construct_features_with_left_and_right_frames(...
-     text_nn_x,...
-     data_include_left,...
-     data_include_right);
-end
-
-
-[ error_rate, errors ] = nntest(nn, test_nn_x', test_nn_y') ;
-disp(sprintf('Neural Network Softmax Error Rate: %s', num2str(error_rate))) ;
-
-save_dbn_test_class_error_rate(error_rate, save_params.model_filename);
-model_filename = save_params.model_filename
+model_filename = save_params.model_filename;
+compute_and_save_test_error_rate_on_saved_dbn_model(model_filename);
