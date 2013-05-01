@@ -24,7 +24,7 @@
 % opt_preprocessing_params: Optional Params used for whitening.
 %
 function [ nn ] = train_nn_song_batches( dbn, training_params,...
-    files_to_train, opt_files_to_validate, opt_preprocessing_params)
+    files_to_train, opt_files_to_validate, save_params, opt_preprocessing_params)
 
 % get the first song labels to set up the NN with the right number of
 % labels
@@ -98,13 +98,16 @@ for b = 1 : num_song_batches
     [ train_x, ~, train_y ] = load_songs(...
         files_to_train(rand_song_order(:, first_ind:last_ind))) ;
 
-    if nargin == 5
-      disp('whitening song batch');
-      train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
-            opt_preprocessing_params.W);
+    if exist('opt_preprocessing_params')
 
-      if opt_preprocessing_params.data_include_left > 0 || ...
-          opt_preprocessing_params.data_include_right > 0
+      if isfield(opt_preprocessing_params, 'X_avg')
+        disp('whitening song batch');
+
+        train_x = whiten_data(train_x, opt_preprocessing_params.X_avg,...
+              opt_preprocessing_params.W);
+      end
+
+      if isfield(opt_preprocessing_params, 'data_include_left')
 
         disp(sprintf('adding %d left and %d right frames',...
             opt_preprocessing_params.data_include_left,...
@@ -122,7 +125,7 @@ for b = 1 : num_song_batches
     if exist('opt_files_to_validate')
         [ nn, ~, opts ] = nntrain(nn, train_x', train_y', opts,...
             validation_x',...
-            validation_y'); % transpose inputs
+            validation_y', save_params); % transpose inputs
     elseif nargin == 3
         % transpose inputs
         [ nn, ~, opts ] = nntrain(nn, train_x', train_y', opts);
