@@ -232,7 +232,7 @@ nn = train_nn_song_batches( dbn, nn_training_params, nn_train_file_names,...
 
 
 filename_of_model = save_params.model_filename;
-compute_and_save_test_error_rate_on_saved_dbn_model(model_filename);
+compute_and_save_test_error_rate_on_saved_dbn_model(filename_of_model);
     
 end
 

@@ -57,7 +57,7 @@ for i = 1 : numel(train_song_names)
     [song_x, ~, song_y] = load_songs(train_song_names(i)); % load it in
     song_labels = one_hot_to_flat_labels(song_y);
     if isfield(model, 'preprocessing_params')
-      if isfield(model.preprocessing_params, 'X-arg')
+      if isfield(model.preprocessing_params, 'X_avg')
         disp('...whitening data');
         song_x = whiten_data(song_x, model.preprocessing_params.X_avg,...
             model.preprocessing_params.W);
