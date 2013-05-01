@@ -21,20 +21,20 @@ data_include_left = 2;
 data_include_right = 0;
 
 % dbn
-dbn_train_percentage = 90; % 30, 60, or 90
-dbn_layer_sizes = [300 200 100];
+dbn_train_percentage = 30; % 30, 60, or 90
+dbn_layer_sizes = [10 10];
 dbn_is_visible_layer_gaussian = 1;
-dbn_num_epochs = 100;
-dbn_song_batch_size = 15;
-dbn_mini_batch_size = 25;
+dbn_num_epochs = 1;
+dbn_song_batch_size = 30;
+dbn_mini_batch_size = 100;
 dbn_momentum = .75;
 dbn_binary_learning_rate = .001;
 dbn_gaussian_learning_rate = .00001;
 dbn_cdk = 1;
 % nn
-nn_train_percentage = 90; % 30, 60, or 90. 
-nn_song_batch_size = 30;
-nn_num_epochs = 200;
+nn_train_percentage = 30; % 30, 60, or 90. 
+nn_song_batch_size = 50;
+nn_num_epochs = 10;
 nn_batch_size = 25;
 nn_learning_rate = .1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'

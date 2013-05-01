@@ -3,6 +3,6 @@
 save_dir = '/var/data/lenin/rbm_dbn_models/';
 ensure_dir_exists(save_dir);
 
-file_path = [save_dir, filename];
+file_path = [save_dir, model_filename];
 
 save(file_path, 'test_class_error_rate', '-append');

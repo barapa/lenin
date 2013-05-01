@@ -189,5 +189,5 @@ end
 [ error_rate, errors ] = nntest(nn, test_nn_x', test_nn_y') ;
 disp(sprintf('Neural Network Softmax Error Rate: %s', num2str(error_rate))) ;
 
-save_dbn_error_rates(error_rate, save_params.model_filename);
+save_dbn_test_class_error_rate(error_rate, save_params.model_filename);
 model_filename = save_params.model_filename
