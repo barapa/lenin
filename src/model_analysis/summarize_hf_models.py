@@ -9,9 +9,46 @@ import glob
 import csv
 
 LENIN_DATA_PATH = os.environ['LENIN_DATA_PATH']
-SUMMARY_FILE_NAME = 'hf_model_summary.csv'
+SUMMARY_FILE_NAME = 'hf_model_summary.tsv'
 HF_MODELS_DIR = 'hessian_free_models'
 FINAL_MODELS_DIR = 'final'
+COLUMN_NAMES_ORDERED =\
+  ['model_name',
+   'runDesc',
+   'is_chroma',
+   'run',
+   'test_class_err',
+   'validation_class_err',
+   'train_class_err',
+   'layersizes',
+   'layertypes',
+   'left_frames_network',
+   'right_frames_network',
+   'dbn_train_percentage',
+   'decay',
+   'weightcost',
+   'train_ll',
+   'validation_ll',
+   'mattype',
+   'maxepoch',
+   'numchunks_test',
+   'numchunks',
+   'errtype',
+   'rms']
+DELIMITER = '\t'
+
+def summarize_models_and_save():
+  model_paths = get_model_full_paths()
+  summary_file = open(os.path.join(LENIN_DATA_PATH, SUMMARY_FILE_NAME), 'wb')
+  writer = csv.DictWriter(summary_file, fieldnames=COLUMN_NAMES_ORDERED,
+      delimiter=DELIMITER, extrasaction='ignore')
+  writer.writeheader()
+
+  for model_path in model_paths:
+    model = load_model(model_path)
+    writer.writerow(model)
+
+  summary_file.close()
 
 def get_model_full_paths():
   model_dirs = get_model_dirs()
@@ -21,7 +58,7 @@ def get_model_full_paths():
   model_paths = [item for sublist in model_paths for item in sublist]
   return model_paths
 
-  
+
 def get_model_dirs():
   '''
   Returns a list of the full paths of the directories of each model
@@ -47,3 +84,16 @@ def get_model_path_from_dir(model_dir):
 def load_model(model_full_path):
   return scipy.io.loadmat(model_full_path, squeeze_me=True,
       struct_as_record=False)
+
+def handle_missing_field(function):
+  def handle_problems(model):
+    try:
+      return function(model)
+    except Exception:
+      return 'null'
+
+def main():
+  summarize_models_and_save()
+
+if __name__ == '__main__':
+  main()

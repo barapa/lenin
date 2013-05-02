@@ -18,7 +18,7 @@ window_size = 2^13;
 window_overlap = 2^12;
 nfft = 2^10;
 preprocessing_epsilon = .00001;
-preprocessing_k = 2^8; % Cannot be larger than nfft / 2 + 1
+preprocessing_k = 300; % Cannot be larger than nfft / 2 + 1
 data_include_left = 2;
 data_include_right = 0;
 
@@ -30,7 +30,7 @@ dbn_num_epochs = 100;
 dbn_song_batch_size = 30;
 dbn_mini_batch_size = 100;
 dbn_momentum = .75;
-dbn_binary_learning_rate = .001;
+dbn_binary_learning_rate = .0001;
 dbn_gaussian_learning_rate = .00001;
 dbn_cdk = 1;
 % nn
@@ -38,7 +38,7 @@ nn_train_percentage = 60; % 30, 60, or 90.
 nn_song_batch_size = 50;
 nn_num_epochs = 200;
 nn_batch_size = 25;
-nn_learning_rate = .1;
+nn_learning_rate = 1;
 nn_activation_function = 'sigm'; % 'tanh_opt' or 'sigm'
 nn_momentum = .7;
 nn_plot = 1;
