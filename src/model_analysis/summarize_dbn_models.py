@@ -103,8 +103,6 @@ def get_model_row_str(model_path, model):
     get_data_include_left(model),
     get_data_include_right(model),
     get_dbn_cdk(model),
-    get_data_include_left(model),
-    get_data_include_right(model),
     get_dbn_train_percentage(model),
     get_dbn_layer_sizes(model),
     get_dbn_is_visible_layer_gaussian(model),
