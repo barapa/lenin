@@ -11,6 +11,7 @@ disp(sprintf('setting up paths...')) ;
   addpath(genpath('lib/shift/'));
   path('lib/HessianFree', path);
   path('lib/HessianFree/code', path);
+  path('lib/HessianFree/run_scripts', path);
   path('src/dbn', path) ;
   path('src/nn', path) ;
   path('src/postprocessing/', path) ;

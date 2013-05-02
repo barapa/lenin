@@ -64,7 +64,8 @@ function [ song_matrix, song_borders, one_hot_labels,...
 
   song_matrix = horzcat(song_data{:}) ;
 
-  if isfield(opt_preprocessing_params, 'epsilon')
+
+  if exist('opt_preprocessing_params') && isfield(opt_preprocessing_params, 'epsilon')
     disp('Generating whitening data parameters');
     [ X_avg, W ] = generate_whitening_params(...
         song_matrix, opt_preprocessing_params) ;
