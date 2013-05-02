@@ -30,7 +30,7 @@ dbn_num_epochs = 100;
 dbn_song_batch_size = 15;
 dbn_mini_batch_size = 25;
 dbn_momentum = .75;
-dbn_binary_learning_rate = .001;
+dbn_binary_learning_rate = .0001;
 dbn_gaussian_learning_rate = .00001;
 dbn_cdk = 1;
 % nn
