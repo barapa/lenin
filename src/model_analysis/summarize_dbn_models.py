@@ -11,18 +11,44 @@ import csv
 LENIN_DATA_PATH = os.environ['LENIN_DATA_PATH']
 SUMMARY_FILE_NAME = 'dbn_model_summary.csv'
 RBM_MODELS_DIR = 'rbm_dbn_models'
-MODEL_FIELDS = ['model_pathname', 'nn_error_rate', 'run', 'window_size',
-    'window_overlap', 'preprocessing_epsilon',
-    'preprocessing_k', 'dbn_train_percentage', 'dbn_layer_sizes', 
-    'dbn_is_visible_layer_gaussian', 'dbn_num_epochs', 'dbn_song_batch_size',
-    'dbn_mini_batch_size', 'dbn_momentum', 'dbn_binary_learning_rate',
-    'dbn_gaussian_learning_rate', 'nn_train_percentage', 'nn_song_batch_size',
-    'nn_num_epochs', 'nn_batch_size', 'nn_learning_rate',
-    'nn_activation_function', 'nn_momentum', 'nn_output',
-    'nn_scaling_learning_rate', 'nn_weight_penalty_L2',
-    'nn_non_sparsity_penalty', 'nn_sparsity_target',
-    'nn_input_zero_masked_fraction', 'nn_dropout_fraction', 'nn_layer_sizes',
-    'notes', 'dbn_cdk']
+MODEL_FIELDS = [
+    'model_pathname',
+    'is_chroma',
+    'nn_test_error_rate',
+    'nn_validation_error_rate',
+    'run',
+    'window_size',
+    'window_overlap',
+    'preprocessing_epsilon',
+    'preprocessing_k',
+    'left_frames',
+    'right_frames',
+    'dbn_cdk',
+    'dbn_train_percentage',
+    'dbn_layer_sizes', 
+    'dbn_is_visible_layer_gaussian',
+    'dbn_num_epochs',
+    'dbn_song_batch_size',
+    'dbn_mini_batch_size',
+    'dbn_momentum',
+    'dbn_binary_learning_rate',
+    'dbn_gaussian_learning_rate',
+    'nn_train_percentage',
+    'nn_song_batch_size',
+    'nn_num_epochs',
+    'nn_batch_size',
+    'nn_learning_rate',
+    'nn_activation_function',
+    'nn_momentum',
+    'nn_output',
+    'nn_scaling_learning_rate',
+    'nn_weight_penalty_L2',
+    'nn_non_sparsity_penalty',
+    'nn_sparsity_target',
+    'nn_input_zero_masked_fraction',
+    'nn_dropout_fraction',
+    'nn_layer_sizes',
+    'notes']
 
 def summarize_models_and_save():
   model_paths = get_model_file_paths()
@@ -66,12 +92,16 @@ def get_header_row():
 def get_model_row_str(model_path, model):
   return [
     model_path,
-    get_nn_error_rate(model),
+    get_is_chroma(model),
+    get_nn_test_error_rate(model),
+    get_nn_validation_error_rate(model),
     get_run(model),
     get_window_size(model),
     get_window_overlap(model),
     get_preprocessing_epsilon(model),
     get_preprocessing_k(model),
+    get_data_include_left(model),
+    get_data_include_right(model),
     get_dbn_cdk(model),
     get_data_include_left(model),
     get_data_include_right(model),
@@ -102,7 +132,15 @@ def get_model_row_str(model_path, model):
     get_notes(model)]
     
 @handle_missing_field
-def get_nn_error_rate(model):
+def get_is_chroma(model):
+  return str(model['is_chroma'])
+
+@handle_missing_field
+def get_nn_test_error_rate(model):
+  return str(model['test_class_error_rate'])
+
+@handle_missing_field
+def get_nn_validation_error_rate(model):
   return str(model['error_rate'])
 
 @handle_missing_field
