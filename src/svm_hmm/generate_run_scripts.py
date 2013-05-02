@@ -97,7 +97,7 @@ def get_new_models(model_type, model_dir, run_script_dir):
   new_models = \
       filter(lambda x: x not in existing_models_of_type, all_models_of_type)
   new_model_filenames = \
-      map(lambda x: "%s_%s.mat" % (model_type, x), new_models)
+      map(lambda x: "%s_%s" % (model_type, x), new_models)
   return zip(new_models, new_model_filenames)
 
 
@@ -110,10 +110,10 @@ def remove_non_run_scripts(existing_models):
 
 def convert_dbn_to_model_name(dbn_files):
   """
-  Convert dbn model filenames (e.g. rbm_dbn_20130422T000749.mat) into just
+  Convert dbn model filenames (e.g. rbm_dbn_20130422T000749) into just
   model names (e.g. 20130422T000749).
   """
-  return map(lambda x: x.split('_')[2].split('.')[0], dbn_files)
+  return map(lambda x: x.split('_')[2], dbn_files)
 
 
 def convert_sae_or_shf_to_model_name(sae_files):
