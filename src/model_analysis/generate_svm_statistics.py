@@ -124,25 +124,10 @@ if __name__ == "__main__":
   #new_models = get_new_models(existing_models)
   new_models = [ \
     # CHROMA svms:
-    'svm_hmm_data/rbm_dbn_20130426T114047.mat',
-    'svm_hmm_data/rbm_dbn_20130426T115242.mat',
-    'svm_hmm_data/rbm_dbn_20130426T113045.mat',
-    'svm_hmm_data/rbm_dbn_20130426T121558.mat',
-    'svm_hmm_data/rbm_dbn_20130426T125949.mat',
-    'svm_hmm_data/rbm_dbn_20130426T120405.mat',
-    'svm_hmm_data/rbm_dbn_20130426T122544.mat',
-    'svm_hmm_data/rbm_dbn_20130426T123710.mat',
-    'svm_hmm_data/rbm_dbn_20130426T111902.mat',
-    'svm_hmm_data/rbm_dbn_20130426T124818.mat',
-    'svm_hmm_data/rbm_dbn_20130428T042207.mat',
-    'svm_hmm_data/rbm_dbn_20130428T024456.mat',
-    'svm_hmm_data/rbm_dbn_20130428T010049.mat',
-    'svm_hmm_data/rbm_dbn_20130427T235546.mat',
-    'svm_hmm_data/rbm_dbn_20130427T224935.mat',
-    'svm_hmm_data/rbm_dbn_20130427T214046.mat',
-    'svm_hmm_data/rbm_dbn_20130427T203641.mat',
-    'svm_hmm_data/rbm_dbn_20130427T192740.mat',
-    'svm_hmm_data/rbm_dbn_20130427T183023.mat',
-    'svm_hmm_data/rbm_dbn_20130427T174436.mat']
+    'svm_hmm_data/rbm_dbn_20130501T192730',
+    'svm_hmm_data/rbm_dbn_20130501T201804',
+    'svm_hmm_data/rbm_dbn_20130501T210757',
+    'svm_hmm_data/rbm_dbn_20130501T215812',
+    'svm_hmm_data/rbm_dbn_20130501T224906']
   write_new_models(new_models, results_file)
   results_file.close()
