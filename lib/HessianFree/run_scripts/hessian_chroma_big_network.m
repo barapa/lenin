@@ -11,7 +11,7 @@ dbn_train_percentage = 90;
 maxepoch = 100;
 numchunks = 4;
 numchunks_test = 4;
-runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
+runDesc = ['OFFICIAL RUN: chroma_big_network'];
 layersizes = [800, 600, 50]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'
@@ -24,11 +24,11 @@ errtype = 'class';
 % autoencoder.
 
 weightcost = 2e-5; %standard L_2 weight-decay. Can set to 0.
-initlambda = 40; % should be set so rho after first epoch is between .75 and .95
+initlambda = 5; % should be set so rho after first epoch is between .75 and .95
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
-left_frames_network = 4;
+left_frames_network = 6;
 right_frames_network = 4;
 
 % Don't need to touch these                                                  
@@ -94,9 +94,9 @@ validation_one_hot_labels = validation_one_hot_labels(:, validation_frames_to_ke
 
 % create object with additional info for saving the best model as we learn
 save_params = create_save_params(...
-  train_song_names,...
-  validation_song_names,...
-  test_song_names,...
+  train_file_names,...
+  validation_file_names,...
+  test_file_names,...
   standardize_params,...
   run,...
   dbn_train_percentage,...
