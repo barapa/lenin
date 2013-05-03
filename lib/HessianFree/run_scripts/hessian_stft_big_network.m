@@ -131,12 +131,12 @@ right_frames_svm = 0;
 
 layers_for_svm = [2, 3, 4]
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
-    right_frames_svm);
+    right_frames_svm, 30);
 
 layers_for_svm = [1]
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
-    right_frames_svm);
+    right_frames_svm, 30);
 
 layers_for_svm = [1, 2, 3, 4]
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
-    right_frames_svm);
+    right_frames_svm, 30);

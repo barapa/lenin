@@ -28,8 +28,8 @@ initlambda = 40; % should be set so rho after first epoch is between .75 and .95
 
 % These are for feeding the network, NOT for SVMs. For SVMs, you would
 % have to do this first before adding more left and rights.
-left_frames_network = 4;
-right_frames_network = 4;
+left_frames_network = 6;
+right_frames_network = 2;
 
 % Don't need to touch these                                                  
 resumeFile = []; % set to resume from a previous model
@@ -120,12 +120,12 @@ right_frames_svm = 0;
 
 layers_for_svm = [2, 3, 4]
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
-    right_frames_svm);
+    right_frames_svm, 30);
 
 layers_for_svm = [1]
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
-    right_frames_svm);
+    right_frames_svm, 30);
 
 layers_for_svm = [1, 2, 3, 4]
 convert_trained_hf_net_to_svm(model_name, layers_for_svm, left_frames_svm,...
-    right_frames_svm);
+    right_frames_svm, 30);
