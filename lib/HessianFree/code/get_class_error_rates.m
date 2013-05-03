@@ -4,20 +4,9 @@
 function [train_err, validation_err, test_err] = get_class_error_rates(model_name)
 
 model = load_hf_model(model_name);
-train_song_names = model.train_song_names;
-test_song_names = model.test_song_names;
-validation_song_names = model.validation_song_names;
-
-% load in the chroma or stft data
-if model.is_chroma
-  train_file_names = append_chroma_paths(train_song_names);
-  test_file_names = append_chroma_paths(test_song_names);
-  validation_file_names = append_chroma_paths(validation_song_names);
-else
-  train_file_names = get_song_data_full_paths(train_song_names);
-  test_file_names = get_song_data_full_paths(test_song_names);
-  validation_file_names = get_song_data_full_paths(validation_song_names);
-end
+train_file_names = model.train_song_names;
+test_file_names = model.test_song_names;
+validation_file_names = model.validation_song_names;
 
 [train_data, train_borders, train_one_hot_labels] = load_songs(train_file_names);
 [test_data, test_borders, test_one_hot_labels] = load_songs(test_file_names);

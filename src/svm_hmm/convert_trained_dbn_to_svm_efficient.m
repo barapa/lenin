@@ -14,9 +14,12 @@
 %             layers are used be default.
 % left_frames: the number of left frames to append to each feature vector
 % right_frames: the number of right frames to append to each feature vector
+% percent_svm_train: optional
+%                    30, 60, or 90, to determine which songs to train
+%                    the SVM on
 
 function [ ] = convert_trained_dbn_to_svm_efficient( model_name, layers,...
-    left_frames, right_frames)
+    left_frames, right_frames, percent_svm_train)
 
 RBM_MODEL_PATH = '/var/data/lenin/rbm_dbn_models/';
 SVM_HMM_DATA_PATH = '/var/data/lenin/svm_hmm_data/';
@@ -49,7 +52,21 @@ end
 
 % TRAINING
 % do each song individually so we don't thrash
-train_song_names = model.train_nn_songs;
+
+% if different train percentage is passed in, train on those
+if exist('percent_svm_train')
+  [train_song_names, ~, ~] = load_run_data(model.run, percent_svm_train)
+  if model.is_chroma
+    train_song_names = append_chroma_paths(train_song_names)
+  else
+    train_song_names = get_song_data_full_paths(train_song_names,...
+      model.preprocessing_params.window_size,...
+      model.preprocessing_params.window_overlap,...
+      model.preprocessing_params.nfft)
+  end
+else
+  train_song_names = model.train_nn_songs;
+end
 disp('Computing SVM data for training songs...');
 for i = 1 : numel(train_song_names) 
     disp(['Computing SVM data for training song #' num2str(i)]);

@@ -8,7 +8,7 @@ rand('twister', seed + 1 );
 is_chroma = 1;
 %run = 1;
 dbn_train_percentage = 90;
-maxepoch = 100;
+maxepoch = 75;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
