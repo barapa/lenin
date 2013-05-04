@@ -27,7 +27,7 @@ stft_beatles_songs(window_size, window_overlap, nfft);
 % Parameters for network and training
 %run = 1;
 dbn_train_percentage = 60;
-maxepoch = 200;
+maxepoch = 40;
 numchunks = 4;
 numchunks_test = 4;
 runDesc = ['OFFICIAL RUN - STFT SMALL NETWORK' ];
