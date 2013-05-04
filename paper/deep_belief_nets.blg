@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: deep_belief_nets.aux
+The style file: icml2013.bst
+Database file #1: deep_belief_nets.bib
+You've used 9 entries,
+            2773 wiz_defined-function locations,
+            649 strings with 6598 characters,
+and the built_in function-call counts, 4640 in all, are:
+= -- 425
+> -- 257
+< -- 4
++ -- 87
+- -- 78
+* -- 377
+:= -- 700
+add.period$ -- 30
+call.type$ -- 9
+change.case$ -- 53
+chr.to.int$ -- 9
+cite$ -- 18
+duplicate$ -- 213
+empty$ -- 376
+format.name$ -- 87
+if$ -- 981
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 9
+newline$ -- 55
+num.names$ -- 36
+pop$ -- 102
+preamble$ -- 1
+purify$ -- 44
+quote$ -- 0
+skip$ -- 165
+stack$ -- 0
+substring$ -- 219
+swap$ -- 33
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 99
+warning$ -- 0
+while$ -- 42
+width$ -- 0
+write$ -- 127
