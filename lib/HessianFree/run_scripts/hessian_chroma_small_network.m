@@ -11,7 +11,7 @@ dbn_train_percentage = 90;
 maxepoch = 75;
 numchunks = 4;
 numchunks_test = 4;
-runDesc = ['seed = ' num2str(seed) ', Running it on chroma' ];
+runDesc = ['OFFICIAL RUN - CHROMA SMALL NETWORK' ];
 layersizes = [300, 200, 100]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'

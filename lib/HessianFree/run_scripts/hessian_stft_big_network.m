@@ -13,8 +13,14 @@ nfft = 2^10;
 preprocessing_epsilon = .00001;
 preprocessing_k = 2^8;
 preprocessing_k = min(preprocessing_k, nfft / 2 + 1);
+
+% These are for feeding the network, NOT for SVMs. For SVMs, you would
+% have to do this first before adding more left and rights.
+left_frames_network = 2;
+right_frames_network = 0;
 preprocessing_params = create_dbn_pre_processing_params(...
-  preprocessing_epsilon, preprocessing_k, window_size, window_overlap, nfft);
+  preprocessing_epsilon, preprocessing_k, window_size, window_overlap, nfft,...
+  left_frames_network, right_frames_network);
 
 stft_beatles_songs(window_size, window_overlap, nfft);
 
@@ -24,7 +30,7 @@ dbn_train_percentage = 60;
 maxepoch = 75;
 numchunks = 4;
 numchunks_test = 4;
-runDesc = ['seed = ' num2str(seed) 'stft' ];
+runDesc = ['OFFICIAL RUN - STFT BIG NETWORK'];
 layersizes = [800, 600, 50]; % do not include output or input layer
 
 % choices: 'logistic', 'softmax', 'linear'
@@ -40,10 +46,6 @@ errtype = 'class';
 weightcost = 2e-5; %standard L_2 weight-decay. Can set to 0.
 initlambda = 40;
 
-% These are for feeding the network, NOT for SVMs. For SVMs, you would
-% have to do this first before adding more left and rights.
-left_frames_network = 2;
-right_frames_network = 0;
 
 % Don't need to touch these                                                  
 resumeFile = []; % set to resume from a previous model
