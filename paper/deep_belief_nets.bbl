@@ -1,9 +1,16 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Altun et~al.(2003)Altun, Tsochantaridis, Hofmann,
+  et~al.]{altun2003hidden}
+Altun, Yasemin, Tsochantaridis, Ioannis, Hofmann, Thomas, et~al.
+\newblock Hidden markov support vector machines.
+\newblock In \emph{MACHINE LEARNING-INTERNATIONAL WORKSHOP THEN CONFERENCE-},
+  volume~20, pp.\ ~3, 2003.
 
 \bibitem[Bengio(2009)]{Bengio_learning}
 Bengio, Yoshua.
@@ -36,12 +43,29 @@ Hinton, G.E.
 \newblock Training products of experts by minimizing contrastive divergence.
 \newblock \emph{Neural Computation}, 14:\penalty0 1771--1800, 2002.
 
+\bibitem[Joachims et~al.(2009)Joachims, Finley, and Yu]{joachims2009cutting}
+Joachims, Thorsten, Finley, Thomas, and Yu, Chun-Nam~John.
+\newblock Cutting-plane training of structural svms.
+\newblock \emph{Machine Learning}, 77\penalty0 (1):\penalty0 27--59, 2009.
+
 \bibitem[Krizhevsky et~al.(2012)Krizhevsky, Sutskever, and
   Hinton]{krizhevsky2012imagenet}
 Krizhevsky, Alex, Sutskever, Ilya, and Hinton, Geoff.
 \newblock Imagenet classification with deep convolutional neural networks.
 \newblock In \emph{Advances in Neural Information Processing Systems 25}, pp.\
   1106--1114, 2012.
+
+\bibitem[Martens(2010)]{martens2010deep}
+Martens, James.
+\newblock Deep learning via hessian-free optimization.
+\newblock In \emph{Proceedings of the 27th International Conference on Machine
+  Learning (ICML)}, volume 951, pp.\  2010, 2010.
+
+\bibitem[Martens \& Sutskever(2012)Martens and Sutskever]{martens2012training}
+Martens, James and Sutskever, Ilya.
+\newblock Training deep and recurrent networks with hessian-free optimization.
+\newblock In \emph{Neural Networks: Tricks of the Trade}, pp.\  479--535.
+  Springer, 2012.
 
 \bibitem[Mnih et~al.(2012)Mnih, Larochelle, and Hinton]{mnih2012conditional}
 Mnih, Volodymyr, Larochelle, Hugo, and Hinton, Geoffrey~E.

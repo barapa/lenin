@@ -35,6 +35,8 @@
 % this with the following command.
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
+\DeclareMathOperator*{\argmax}{arg\,max}
+
 % Employ the following version of the ``usepackage'' statement for
 % submitting the draft version of the paper for review.  This will set
 % the note in the first column to ``Under review.  Do not distribute.''
@@ -77,7 +79,7 @@
 
 Feature selection plays a critical role in audio analysis, with most Music
 Information Retrieval (MIR) systems relying on a standard set of manually
-crafted domain-specific features sets. In this paper, we experiment with
+crafted domain-specific features sets. In this paper, we investigate
 unsupervised feature learning using Deep Belief Networks (DBN) in order to
 learn a set of features on which to perform audio chord recognition.
 Specifically, we train deep neural networks using the contrastive divergence
@@ -121,10 +123,13 @@ below it \cite{Bengio_learning}.
 
 In this work, we investigate using deep architectures, specifically
 Deep Belief Networks (DBN) in order to learn a set of features 
+TODO(ben): finish into
 
 \section{Dataset} 
+TODO(ben): describe beatles data set
 
 \subsection{Data Preprocessing}
+TODO(ben): describe STFT, chroma. 
 
 \section{Deep Belief Networks}
 
@@ -138,7 +143,7 @@ bipartite graph, where each visible node is connected to every hidden node, but
 is not connected to any other visible nodes, and vice versa for the hidden
 nodes.  This allows for a nice factorization of the conditional probability
 distributions, and allows for efficient computation without worrying about the
-'explaining away' phenomenon. Assuming each of these these vectors are binary,
+'explaining away' phenomenon. Assuming each of these vectors is binary,
 the RBM models the joint probability distribution
 
 \[
@@ -221,16 +226,17 @@ and obtaining samples for the visible units given hidden activations is
 
 where $\sigma$ is the logistic sigmoid function.
 
-We could compute the expectation under the model by running a Gibbs chain for 
-a long time, where we alternatively sample hidden states given visible states,
+We could compute the expectation under the model by running a Gibbs chain for a
+long time, where we alternatively sample hidden states given visible states,
 and visible states given hidden states repeatedly until we converged on the
-model distribution. However, the insight of Contrastive Divergence is that
-if we initialize the visible vector to a training vector, and only take a few
-Gibbs sampling steps, we can obtain an estimate of the model distribution
-called the ``reconstruction'' that works well empirically for estimating the
-gradient. In fact, good results can be obtained by simply taking a single
-Gibbs step to create this reconstruction. The learning rule with learning
-rate $\epsilon$ is then
+model distribution. However, the insight of Contrastive Divergence is that if
+we initialize the visible vector by clamping it to a training vector sampled
+from empirical data distribution, and only take a few Gibbs sampling steps, we
+can obtain an estimate of the model distribution called the ``reconstruction''
+that works well empirically for estimating the gradient. In fact, good results
+can be obtained by simply taking a single Gibbs step to create this
+reconstruction. The learning rule for updating a weight between two units
+with learning rate $\epsilon$ is then
 
 \[
   \triangle w_{ij} = \epsilon( 
@@ -249,7 +255,7 @@ from the distributions below it to initiate the visible vectors for
 Contrastive Divergence training.
 
 Once each layer has been trained, the final step for training the DBN is to
-unfold its layers into a standard, feed-froward neural network, and add a final
+unfold its layers into a standard, feed-forward neural network, and add a final
 softmax layer of output units that we can use for classification. We use the
 weights learned from the unsupervised Contrastive Divergence pretraining to
 then initialize this feed forward network, which we can train in a supervised
@@ -259,9 +265,178 @@ weights by potentially avoiding local minima, and let the supervised
 backpropogation training ``fine-tune'' the model to perform well on the
 classification task at hand.
 
-\subsection{Hessian Free}
+\subsection{Training a Deep Neural Network with Hessian Free Optimization}
+
+Hessian-Free optimization (HF) techniques belong to the class of approximate
+Newton methods for the minimization of real-valued smooth objective functions
+\cite{martens2012training}. In 2010, Martens introduced an algorithm for
+training deep neural networks using Hessian-Free optimization on only labeled
+data, without the need for unsupervised pre-training \cite{martens2010deep}.
+Using HF, Martens was able to obtain similar or even superior results for
+training deep networks than the standard methods described above. 
+
+The basic idea behind HF is derived from the classical Newton's method, where
+local quadratic approximations of the ojective function are iteratively
+optimized to produce updates to the parameters $\mathbf{\theta}$.  More
+precisely, at each step we optimize a local quadratic model
+$M_{k-1}(\mathbf{\delta)}$ of the objective function $f(\mathbf{\theta_{k-1}} +
+\mathbf{\delta})$ which is estimated using the gradient and curvature
+information local to $\mathbf{\theta_{k-1}}$ to produce a new parameter vector
+$\mathbf{\theta_k}$. The quadratic approximation is defined as
+
+\[
+  M_{k-1}(\mathbf{\delta}) = f(\mathbf{\theta}_{k-1})
+  + \nabla f(\mathbf{\theta_{k-1})^T \delta}
+  + \frac{1}{2} \mathbf{\delta^T B_{k-1} \delta}
+\]
+
+where $\mathbf{B_{k-1}}$ is the curvature matrix, which is the Hessian
+$\mathbf{H(\theta_{k-1})}$ of $f$ at $\mathbf{\theta_{k-1}}$ for the standard
+Newton's method. The updated parameters are then computed as
+$\mathbf{\theta_{k=1}} + \alpha_k \mathbf{\delta^{*}_{k}}$, where
+$\mathbf{\delta^{*}_{k}}$ is the minimizer of $M_{k-1}(\mathbf{\delta)}$ and
+$\alpha_k$ is a step-size chosen via a line-search.
+
+When the curvature matrix $\mathbf{B_{k-1}}$ is positive definite, the minimizer will
+exist and is given by
+
+\[
+  \mathbf{\delta^{*}_{k}} =
+  \mathbf{\theta_k} - \mathbf{B^{-1}_{k-1}} \nabla f(\mathbf{\theta_{k-1}}).
+\]
+
+However, using the Hessian as the curvature matrix makes this computation
+generally intractible as the Hessian itself is quadratic in the number
+of parameters, which in the case of deep neural networks is very large.
+Additionally, inverting the Hessian to solve for the minimizer has a computational
+complexity of $O(n^3)$.
+
+To avoid this computational cost of inversion, HF and other so-called
+Truncated-Newton methods approximately optimize the quadratic function $M$
+using the conjugate gradient algorithm in order to update $\theta$.
+
+Conjugate Gradient has the additional property that it only requires the use
+of matrix-vector products with the curvature matrix $\mathbf{B}$, which can
+be computed more efficiently than the entire matrix.
+
+In addition to providing a method to compute these matrix-vector products efficiently
+in the case of a deep neural network, Martens also recommends using a generalized
+Gauss-Newton matrix as the curvature matrix, as an estimation of the Hessian.
+A nice property of this curvature matrix is that it does not have some of the
+problems of indefiniteness that the true Hessian can have, which allows for 
+optimization via conjugate gradient to proceed properly. 
+
+For more details on this HF optimization method, we point the reader to
+Marten's work on the subject \cite{martens2010deep}. However, it has been noted
+that this method can be a more effective optimizer than normal gradient descent
+methods such as backpropogation, since it can use information about the curvature
+of the objective function to gauge its parameter updates. This may allow it
+to avoid pathological curvature in the parameter space, which seems to be an
+issue when training deep neural networks.
 
 \section{Large Margin Structured Predictions}
+
+Finally, to make predictions for the sequence of chord labels over a song,
+we turn to an extension of Support Vector Machines (SVM) that can support
+structured classification problems such as sequence prediction. Under this
+extension, the goal is to learn a function $F : X \times Y \rightarrow
+\mathbf{R}$ with weight vector $\mathbf{w}$ such that,
+
+\begin{equation*}
+f(\mathbf{x}) = \argmax_{y \in Y}F(\mathbf{x},\mathbf{y}\,;\,\mathbf{w})
+\end{equation*}
+
+correctly predicts the true label $y$. Given a series of $N$ data points
+$(\mathbf{x}^{(i)}, \mathbf{y}^{(i)})_{i=1}^{N}$, we can learn the weight
+vector $\mathbf{w}$ by imposing data-specific constraints of the following
+form,
+
+\begin{equation*}
+\begin{split}
+F(\mathbf{x}^{(i)}, \mathbf{y}^{(i)}\,;\,\mathbf{w}) -
+F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) \geq 1 \\
+\forall i \in 1\dots N,\,\mathbf{y}' \neq \mathbf{y}^{(i)}
+\end{split}
+\end{equation*}
+
+Learning is accomplished by minimizing $||\mathbf{w}||$ subject to the
+data-specific constraints. The optimization problem is thus,
+
+\[
+\begin{split}
+\min_{\mathbf{w}}\dfrac{1}{2}||\mathbf{w}||\quad\text{such that,} \\
+F(\mathbf{x}^{(i)}, \mathbf{y}^{(i)}\,;\,\mathbf{w}) -
+F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) \geq 1 \\
+\forall i \in 1\dots N, \,\mathbf{y}' \neq \mathbf{y}^{(i)}
+\end{split}
+\]
+
+When data is non-separable, additional slack variables are introduced to allow
+for a certain amount of disagreement between the predicted and true labels.
+  This enables the learning algorithm to effectively ignore hard-to-label
+  points. With the added $N$ slack variables, $\xi$, the optimization problem
+  becomes,
+
+\begin{align*}
+\begin{split}
+\min_{\mathbf{w, \xi}}\dfrac{1}{2}||\mathbf{w}|| +
+\dfrac{C}{N}\sum_{i=1}^{N}\xi^{(i)}
+\quad\text{such that,}&\\
+F(\mathbf{x}^{(i)}, \mathbf{y}^{(i)}\,;\,\mathbf{w}) -
+F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) \geq 1 - \xi^{(i)} \\
+\forall i \in 1\dots N, \,\mathbf{y}' \neq \mathbf{y}^{(i)}
+\end{split}
+\end{align*}
+
+Where $C$ is a tuneable parameter that represents the cost associated with
+using slack. When $C = \infty$, the optimization problem is the same as in
+the separable case.
+
+For sequence learning, the class $Y$ of possible labelings can be exponential
+in size, and therefore it is often infeasible to enumerate all of the
+data-specific constraints. Instead, the SVM$^{struct}$ algorithm uses an
+efficient cutting-plane approach to find a solution after adding only a
+polynomial number of constraints. This involves reformulating the problem from
+an $N$-slack problem ($N$ $\xi$ variables) to a 1-slack problem (only a single
+$\xi$ variable). This reformulation only requires that the calculation of
+$\hat{y} = \argmax_{y \in Y}$ be efficiently computible for all examples. The
+details can be found in \cite{joachims2009cutting}.
+
+\subsection{The SVM$^{hmm}$ model}
+
+The SVM$^{hmm}$ model is a particular formulation of SVM$^{struct}$ where the
+disciminant function is constructed to be isomorphic to a $k$th order Hidden
+Markov Model (HMM). This model was first described in
+\cite{altun2003hidden}. While this model does not have the same
+probabilistic interpretation as the HMM, by mimicking the structure of a
+traditional HMM, $\argmax_{y \in Y}$ becomes efficient to compute, as the same
+Markov property\footnote{Again, we stress that in the case of SVM$^{hmm}$ there
+is no probabilistic interpetation, we use the term "Markov property" loosely.}
+can be exploited, simplifying the algorithm. This enables the use of the
+cutting-plane method mentioned above..
+
+To mimic a $k$th order HMM, the function $F$ used by SVM$^{hmm}$ is of the
+form,
+
+  \[
+    \begin{split}
+    F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w}) = \\
+    \sum_{t=1}^{T} \left[
+      \sum_{k=1}^{K}\left(
+        \mathbf{x}_{t} \cdot
+        \mathbf{w}_{\mathbf{y}_{(t-k)} \dotsm \mathbf{y}_{t}} +
+        \phi_{\text{trans}}(y_{(t-k)},\dots,y_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+      \right)
+    \right] 
+  \end{split}
+  \]
+
+Where $T$ is the number of time frames in an individual example ($\mathbf{x}$,
+$\mathbf{y}$), $x_t$ is the $t^{\text{th}}$ frame of example $x$, $K$ is the
+order of dependencies, and $\phi_{\text{trans}}$ is an indicator vector that
+has exactly one entry 'on' (equal to 1) and all others 'off' (equal to 0),
+corresponding to the sequence $(y_{(t-k)},\dots,y_{t})$.
 
 \section{Results}
 
