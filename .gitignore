@@ -11,3 +11,7 @@ lib/svm_hmm
 *.swp
 *.m~
 .DS_Store
+*.log
+*.aux
+*.out
+deep_belief_nets.pdf
