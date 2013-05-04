@@ -1,0 +1,579 @@
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{color}
+\usepackage{url}
+\usepackage{fourier}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\Erf}{Erf}
+
+\newcommand{\dgg}[1]{{\color{red}Daniel says: #1}}
+\newcommand{\dsculley}[1]{{\color{red}D. says: #1}}
+\newcommand{\myoung}[1]{{\color{red}Michael says:#1}}
+\newcommand{\todo}[1]{{\color{red}TODO: #1}}
+
+\definecolor{darkblue}{rgb}{0,0,0.7}
+
+\newcommand{\defeq}{\equiv}  %
+\newcommand{\grad}{\nabla}
+\renewcommand{\implies}[0]{{\Rightarrow }}
+\newcommand{\set}[1] {\ensuremath{ \{ {#1} \} }}
+\newcommand{\myset}[2] {\ensuremath{ \{{#1}, \ldots, {#2} \} }}
+
+\newcommand{\R}[0]{{\ensuremath{\mathbb{R}}}}
+\newcommand{\Z}[0]{{\ensuremath{\mathbb{Z}}}}
+\newcommand{\F}{\mathcal{F}}
+
+\newcommand{\ti}{_{t+1}}
+\newcommand{\gh}{\hat{g}}
+\newcommand{\hb}{\hat{\beta}}
+\newcommand{\bs}{\beta^*}
+\newcommand{\eps}{\epsilon}
+
+\newcommand{\abs}[1]{|#1|}
+\newcommand{\babs}[1]{\left|#1\right|}
+\newcommand{\eqr}[1]{Eq.~\eqref{eq:#1}}
+
+\newcommand{\BO}{\mathcal{O}}
+\newcommand{\gam}{\gamma}
+\newcommand{\h}{\frac{1}{2}}
+\newcommand{\ifonlyif}{\Leftrightarrow}
+
+\newcommand{\cnt}{\tau} %
+\newcommand{\acnt}{\tilde{\tau}}  %
+\newcommand{\cntTi}{\mathlarger{\cnt}_{\mbox{\tiny\itshape T}, i}}
+\newcommand{\est}{\tilde{\tau}}
+
+\newcommand{\paren} [1] {\ensuremath{ \left( {#1} \right) }}
+\newcommand{\E}{\mathbf{E}}
+\newcommand{\prob}[1]{\ensuremath{\text{{\bf Pr}$\left[#1\right]$}}}
+\newcommand{\expct}[1]{\E \left[#1\right]}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil#1\right\rceil}}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
+
+\renewcommand{\dim} {\ensuremath{d}}
+\newcommand{\norm}[2] {\|#1\|_{#2}}
+\newcommand{\nrm}[1] {\|#1\|}
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{corollary}[lemma]{Corollary}
+
+\newcommand{\invlogit}[1]{\ensuremath{\sigma\!\paren{#1}}}
+\newcommand{\logit}[1]{\ensuremath{\operatorname{logit}\!\paren{#1}}}
+\newcommand{\predict}[1]{\ensuremath{p_{\beta}\paren{#1}}}
+\newcommand{\logloss}[1]{\ensuremath{\mathcal{L}(#1)}}
+
+
+\newcommand{\proj}[1]{\ensuremath{\operatorname{Project}\paren{{#1}}}}
+\newcommand{\Proj}{\operatorname{Project}}
+
+\newcommand{\Regret}{\operatorname{Regret}}
+
+
+\icmltitlerunning{\texttt{SVMstruct} for Chord Transcription of Music Audio $\cdot$ Samuel Messing}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{Structured Support Vector Machines for Chord Transcription of Music
+Audio}
+
+\icmlauthor{Samuel Messing}{sbm2158@columbia.edu}
+
+\icmladdress{Columbia University, New York City, New York}
+
+\vskip 0.2in
+]
+
+\begin{abstract} \emph{Your goal is to build a structured prediction system that can
+learn from the annotated training data to then label remaining Beatles songs
+with the appropriate chord transcriptions. In particular, you will recreate the
+results in Table 1. You only need to recreate the first column with 30\%
+training data.  Explore using linear Chroma features, quadratic Chroma
+features, and using windows of Chroma features (forward in time and backward in
+time by up to +3 and -3). Explore different settings of $C$ by
+cross-validation.  Your goal is try to get similar results as in the leftmost
+column of Table 1 in the paper.}  \end{abstract}
+
+\section{Structured Support Vector Machines}
+\label{sec:struct-svm}
+
+Recently Support Vector Machines (SVM) have been extended to handle learning
+structured classification problems such as sequence prediction. Under this
+extension, the goal is to learn a function $F : X \times Y \rightarrow
+\mathbf{R}$ with weight vector $\mathbf{w}$ such that,
+
+\begin{equation*}
+f(\mathbf{x}) = \argmax_{y \in Y}F(\mathbf{x},\mathbf{y}\,;\,\mathbf{w})
+\end{equation*}
+
+correctly predicts the true label $y$. Given a series of $N$ data points
+$(\mathbf{x}^{(i)}, \mathbf{y}^{(i)})_{i=1}^{N}$, we can learn the weight
+vector $\mathbf{w}$ by imposing data-specific constraints of the following
+form,
+
+\begin{equation*}
+F(\mathbf{x}^{(i)}, \mathbf{y}^{(i)}\,;\,\mathbf{w}) -
+F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) \geq 1 \quad
+\forall \left(i \in 1\dots N,\,\mathbf{y}' \neq \mathbf{y}^{(i)}\right)
+\end{equation*}
+
+Learning is accomplished by minimizing $||\mathbf{w}||$ subject to the
+data-specific constraints. The optimization problem is thus,
+
+\begin{align*}
+\min_{\mathbf{w}}\dfrac{1}{2}||\mathbf{w}||\quad\text{such that,}&\\
+F(\mathbf{x}^{(i)}, \mathbf{y}^{(i)}\,;\,\mathbf{w}) -
+F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) &\geq 1 \quad
+\forall \left(\, i \in 1\dots N, \,\mathbf{y}' \neq \mathbf{y}^{(i)}\right)
+\end{align*}
+
+When data is non-separable, additional slack variables are introduced to allow
+for a certain amount of disagreement between the predicted and true labels.
+  This enables the learning algorithm to effectively ignore hard-to-label
+  points. With the added $N$ slack variables, $\xi$, the optimization problem
+  becomes,
+
+\begin{align*}
+\min_{\mathbf{w, \xi}}\dfrac{1}{2}||\mathbf{w}|| +
+\dfrac{C}{N}\sum_{i=1}^{N}\xi^{(i)}
+\quad\text{such that,}&\\
+F(\mathbf{x}^{(i)}, \mathbf{y}^{(i)}\,;\,\mathbf{w}) -
+F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) \geq 1 - \xi^{(i)} &\quad
+\forall \left(\, i \in 1\dots N, \,\mathbf{y}' \neq \mathbf{y}^{(i)}\right)
+\end{align*}
+
+Where $C$ is a tuneable parameter that represents the cost associated with
+using slack. When $C = \infty$, the optimization problem is the same as in
+the separable case.
+
+For sequence learning, the class $Y$ of possible labelings can be exponential
+in size, and therefore it is often infeasible to enumerate all of the
+data-specific constraints. Instead, the SVM$^{struct}$ algorithm uses an
+efficient cutting-plane approach to find a solution after adding only a
+polynomial number of constraints. This involves reformulating the problem from
+an $N$-slack problem ($N$ $\xi$ variables) to a 1-slack problem (only a single
+$\xi$ variable). This reformulation only requires that the calculation of
+$\hat{y} = \argmax_{y \in Y}$ be efficiently computible for all examples. The
+details can be found in \cite{Joachims_cuttingplane}.
+
+\subsection{The SVM$^{hmm}$ model}
+
+The SVM$^{hmm}$ model is a particular formulation of SVM$^{struct}$ where the
+disciminant function is constructed to be isomorphic to a $k$th order Hidden
+Markov Model (HMM). This model was first described in
+\cite{Altun03hiddenmarkov}. While this model does not have the same
+probabilistic interpretation as the HMM, by mimicing the structure of a
+traditional HMM, $\argmax_{y \in Y}$ becomes efficient to compute, as the same
+Markov property\footnote{Again, we stress that in the case of SVM$^{hmm}$ there
+is no probabilistic interpetation, we use the term "Markov property" loosely.}
+can be exploited, simplifying the algorithm. This enables the use of the
+cutting-plane method mentioned above in \S \ref{sec:struct-svm}.
+
+To mimic a $k$th order HMM, the function $F$ used by SVM$^{hmm}$ is of the
+form,
+
+\begin{align*}
+    F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w}) &=  \\
+    \sum_{t=1}^{T}& \left[
+      \sum_{k=1}^{K}\left(
+        \mathbf{x}_{t} \cdot
+        \mathbf{w}_{\mathbf{y}_{(t-k)} \dotsm \mathbf{y}_{t}} +
+        \phi_{\text{trans}}(y_{(t-k)},\dots,y_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+      \right)
+    \right] \\
+\end{align*}
+
+Where $T$ is the number of time frames in an individual example ($\mathbf{x}$,
+$\mathbf{y}$), $x_t$ is the $t^{\text{th}}$ frame of example $x$, $K$ is the
+order of dependencies, and $\phi_{\text{trans}}$ is an indicator vector that
+has exactly one entry 'on' (equal to 1) and all others 'off' (equal to 0),
+corresponding to the sequence $(y_{(t-k)},\dots,y_{t})$.
+
+\subsection{Model Construction}
+
+The models used in this paper were all SVM$^{hmm}$ models with first-order
+transition dependencies (the current state depends only on the previous state)
+and zeroth-order emission dependencies (the current emission only depends on
+the current state). The function $F$ for these models corresponds to,
+
+\begin{align*}
+F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w}) &=
+    \sum_{t=1}^{T} \left[
+        \mathbf{x}_{t} \cdot
+        \mathbf{w}_{\mathbf{y}_{(t-1)},\mathbf{y}_{t}} +
+        \phi_{\text{trans}}(y_{(t-1)},y_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+    \right] \\
+\end{align*}
+
+All models were implemented using version 3.10 of the SVM$^{hmm}$ codebase
+written by Thorsten Joachims \cite{SVMHMM-codebase}. Models were trained with
+an epsilon value of $\epsilon = 0.1$.
+
+\begin{figure*}[h!]
+  \begin{equation*}
+  \hat{y} = \argmax_{y} \left\lbrace
+    \sum_{t=1}^{T} \left[
+      \sum_{k=1}^{K}\left(
+        \mathbf{x}_{t} \cdot \mathbf{w}_{y_{(t-k)}\dotsm y_{t}} +
+        \phi_{\text{trans}}(y_{(t-k)},\dots,y_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+      \right)
+    \right]
+  \right\rbrace
+  \end{equation*}
+  \caption{The linear discriminant function used in SVM$^{hmm}$.
+  $\phi_{\text{trans}}$ corresponds to an indicator vector with one 'on'
+  feature (equal to 1), with all remaining features 'off' (equal to 0)
+  corresponding to the tag sequence $y_{(t-k)},\dotsm,y_{t}$.}
+
+  \begin{align*}
+  \min_{\mathbf{w},\xi}\dfrac{1}{2}||\mathbf{w}|| +
+  \dfrac{C}{N}\sum_{i=1}^{N}\xi^{(i)}\quad\text{such that}\quad\forall y, & \\
+    \sum_{t=1}^{T} \left\lbrace
+        \mathbf{x}^{(1)}_{t} \cdot \mathbf{w}_{y^{(1)}_{t}} +
+        \phi_{\text{trans}}(y^{(1)}_{(t-1)},y^{(1)}_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+    \right\rbrace
+  & \geq
+    \sum_{t=1}^{T} \left\lbrace
+        \mathbf{x}^{(1)}_{t} \cdot \mathbf{w}_{y'_{t}} +
+        \phi_{\text{trans}}(y'_{(t-1)},y'_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+    \right\rbrace +
+    \Delta(y^{(1)}, y') - \xi^{(1)} \\
+  & \vdots \\
+    \sum_{t=1}^{T} \left\lbrace
+        \mathbf{x}^{(N)}_{t} \cdot \mathbf{w}_{y^{(N)}_{t}} +
+        \phi_{\text{trans}}(y^{(N)}_{(t-1)},y^{(N)}_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+    \right\rbrace
+  & \geq
+    \sum_{t=1}^{T} \left\lbrace
+        \mathbf{x}^{(N)}_{t} \cdot \mathbf{w}_{y'_{t}} +
+        \phi_{\text{trans}}(y'_{(t-1)},y'_{t}) \cdot
+        \mathbf{w}_{\text{trans}}
+    \right\rbrace +
+    \Delta(y^{(N)}, y') - \xi^{(N)} \\
+  \end{align*}
+  \caption{The SVM$^{hmm}$ optimization problem for a model with first-order
+  transition dependencies and zeroth-order emission dependencies.}
+
+\end{figure*}
+
+\section{Data Set}
+
+The data set used in these experiments corresponds to 180 songs by the Beatles
+that have been preprocessed into a convenient format. First, each song was
+converted into beat-synchronous frames (the average number of frames per song
+was 459, the shortest was 77 and the longest was 1806). Second, the
+dimensionality of individual frames was further reduced by replacing frequency
+bins with 12 bins corresponding to the 12 semitones found in Western music
+scales. The intensity of each note is estimated independent of octave, and is
+represented by a number in the range $[0, 1]$.
+
+Each song comes with a label vector of length $T$, with one element per frame
+in the song.  Labels are integers in the range $[1,25]$, with 24 labels
+corresponding to the major and minor chords for each of the 12 semitones, and
+one label to signify "no chord."
+
+\subsection{The Learning Problem}
+
+In this context, the learning problem becomes learning to predict the correct
+labeling for each frame of the individual songs.
+
+
+\section{Experiments}
+
+Models were trained with the incorporation of several different feature types
+(explained below). The same training procedure was used on all models. First,
+10 random permutations of the data set were constructed. Each model was trained
+using the same 10 random permutations. The last 10\% of the each permutation
+was reserved for validation and testing. For each model type, an individual
+model was trained with the first 30\%, 60\% and 90\% of each permuted data set.
+For the models trained with quadratic features, only the first 30\% was used to
+save on time. Models were trained for a variety of $C$ values: $0.001, 0.01,
+0.1, 1.0, 10.0$, and $100.0$. Performance metrics were generated by a validation
+procedure discussed in \S \ref{ssec:cross-validation}.
+
+\subsection{Features from Previous and Future Frames}
+
+The first models were built by incorporating features from previous or future
+time frames. For these models, the data set was expanded so that each frame
+contained the original 12 features for the given time frame, plus additional
+features concatenated from either previous or future frames. Model names are of
+the form \texttt{p[0-3]m[0-3]}, corresponding to the number of future frames
+included (\texttt{p}, for plus) and past frames included (\texttt{m}, for
+minus).
+
+\subsection{Qudratic Features}
+
+In addition to including features from previous or future time frames, models
+were built that included the quadratic cross-terms for each pairing of features
+already present in each frame. For \texttt{p0m0}, this corresponds to adding
+144 features corresponding to each pair $(x_{i} \times y_{j})^{q}$, where $q$
+is some power. Models with quadratic features have names of the form
+\texttt{p[0-3]m[0-3]\textbf{q[2-3]}}. For example, model \texttt{p0m1q2} has 24
+features corresponding to the original 12 features for each time frame and the
+12 features for the previous frame, and 576 features corresponding to each pair
+of the original 24 features multiplied together and squared (raised by $q =
+2$), for a total of 600 features. It is important to note that these models
+include redundant features (the same pair $(x_{i} \times y_{j})$  appears
+twice), due the method of construction. These redundant features don't change
+the model performance but have a negative impact on runtime, and a future
+optimization would be to not include them. To save on time, these models were
+only trained on 30\% of each training set.
+
+\subsection{Simplified Quadratic Features}
+
+In both an effort to recreate models found in
+\cite{Weller_structuredprediction} and to improve model training runtimes, a
+third class of models was considered.  Models of this type have names of the
+form \texttt{p[0-3]m[0-3]q[2-3]\textbf{s}}. These models add the last future or
+previous frames after computing the quadratic features, so that the features
+from the last future or previous frame are excluded from the cross-terms. For
+example, model \texttt{p0m2qs} corresponds to the model \texttt{Q+0-2} in
+\cite{Weller_structuredprediction}.\footnote{Please note that models in this
+paper are mislabeled, so the model \texttt{+X-Y} in their notation corresponds
+to \texttt{pYmX} in our notation.} This model includes each cross term for the
+features from the original frame and one frame in the past, plus an additional
+12 features from the frame two frames in the past, for a total of 24 + 24
+$\times$ 24 + 12 = 612 features. A full quadratic of all three 12-element
+frames would have 36 + 36 $\times$ 36 = 1332 features. To save on time, these
+models were only trained on 30\% of each training set.
+
+\section{Results}
+
+Hamming distance was used in evaluation, where the predicted chord was counted
+as correct when it exactly matched the true chord, and otherwise was counted
+incorrect. Frame accuracy was computed over the entire test set, which had
+a different number of frames based on the permutation of the data set. Average
+performance metrics were computed after a validation phase (see \S
+\ref{ssec:cross-validation} below), weighted by the total number of frames to
+give per-frame accuracy.
+
+\subsection{Cross-Validation of the $C$ Parameter}
+\label{ssec:cross-validation}
+
+SVM$^{struct}$ models depend on the estimation of $C$, the setting of which is
+likely to be very different from problem to problem. To generate average
+performance metrics, validation of $C$ was first performed. Each model was
+trained using a variety of values for $C$: 0.001, 0.01, 0.1, 1.0, 10.0, and
+100.0. For each value of $C$, a model was trained on each of the 10 random
+permutations of the data set. The test set for each run was split in half into
+sets A and B, and performance metrics were created for each model on each half.
+Average test perforamnce was estimated by averaging the performance on set B of
+the most performant model on set A with the performance on set A of the most
+performant model on set B, across the ten runs. The averaging was weighted by
+the number of frames in both sets, yielding accuarcy per frame.
+
+\subsection{\texttt{p*m*} models}
+\label{ssec:pm-models}
+
+Figures \ref{subfig:pm-model-chart} and \ref{subfig:pm-model-table} show
+average test performance for \texttt{p*m*} as computed after cross-validation.
+Comparing these models together, the most performant model was \texttt{p2m3},
+trained on 90\% of the data. This model achieved a per-frame accuracy of 61.7\%
+($\pm$ 6.5\%). This model narrowly beats out similar models (e.g.
+\texttt{p3m3}), but given the sample standard deviation on the per-frame
+accuracy the generalizability of these similar models should be considered
+equivalent.
+
+Overwhelmingly, training on more data increased the accuracy of these models.
+Models trained on 90\% of their data out performed their 30\% counterparts by
+as much as 4-5 percentage points. An interesting pattern is that the difference
+between 30\%, 60\% and 90\% versions of the same model increased as the more and
+more future and previous frames were included. While the sample standard
+deviations on the accuracy scores make it hard to say anything conclusively,
+this finding is in line with the notion that models with more complexity
+require more training data to properly learn the discriminant function.
+
+A surprising result from these models is the observed difference in the
+advantage of adding previous versus future frames. Adding future frames did not
+have a large effect on the accuracy of models. Consider the models
+\texttt{p0m0}, \texttt{p1m0}, \texttt{p2m0}, and \texttt{p3m0}. These models
+were the least performant at test, and were almost entirely indistinguishable
+in terms of accuracy scores. The accuracy scores of the ten models for
+\texttt{p0m0} trained at 30\% ($M = 0.520, SD = 0.066$) did not differ
+significantly from the accuracy scores for the ten models for \texttt{p3m0} ($M
+= 0.513, SD = 0.068$) trained at the same percentage ($t(22) = 0.5304,\, p =
+0.6012$). The pattern remained the same even when comparing across the
+percentage trained. Adding previous frames, however, had a significant impact
+on the accuracy of models. Consider the models \texttt{p0m0}, \texttt{p0m1},
+\texttt{p0m2}, and \texttt{p0m3}. Adding more previous frames almost always
+increased the performance of the model. The accuracy scores of the ten models
+for \texttt{p0m0} trained at 30\% differed significantly from their
+  \texttt{p0m3} ($M = 0.591, SD = 0.061$) counterparts ($t(22) = -3.233,\, p =
+  0.0038$).
+
+For models that included both future and previous frames, it appears that
+improvements are driven in general much more by including previous frames than
+future ones. This argument is suppoted by the fact that the accuracy scores for
+the ten \texttt{p0m3} models did not differ significantly from their
+\texttt{p3m3} ($M = 0.581, SD = 0.060$) counterparts ($t(22) = -0.175,\,p =
+0.8627$). This could indicate that what chords have been played already has more
+importance for predicting which chord is next rather than future ones. This is
+in-line with some patterns of chord progression found in Western music, which
+focus on tonal resolution (i.e. in the chord progression ii-V-I, e.g. Dmin
+$\rightarrow$ Gmaj $\rightarrow$ Cmaj, the transition ii-V creates tension that
+is resolved by playing I).
+
+
+
+\subsection{\texttt{p*m*q*} and \texttt{p*m*q*s} models}
+
+The inclusion of quadratic cross-terms into the model did not significantly
+impact accuracy rates. This result was somewhat surprising due to the
+improvement found in \cite{Weller_structuredprediction}, which was on the order
+of half a percentage point. Our intuition is that the differences found in
+\cite{Weller_structuredprediction} are small enough (for models trained at
+30\%) that they might be highly sensitive to different selections of 10 random
+permutations of the dataset, and that the overall generalizability of models
+constructed with and without quadratic cross-terms may be equivalent. Also,
+Weller et al. found a much larger relative difference between models with and
+without quadratic cross-terms trained at 60\% and 90\% of the training set.
+Given more time, it would be worthwhile to train models at higher precentages
+in order to see if a similar effect is observered. Additional support for the
+possibility of differences appearing for larger training sizes is found in the
+increase in the relative difference of models trained on 30\%, 60\% and 90\% as
+complexity in simple \texttt{p*m*} models increased, as discussed above in \S
+\ref{ssec:pm-models}. There it was found that performance was more
+distinguishable once models were trained on higher percentages of the training
+set.
+
+
+
+\begin{figure*}
+  \begin{minipage}[b]{0.45\textwidth}
+    \begin{centering}
+      \includegraphics[width=\textwidth]{img/pm_avg_acc_no_std_clean.pdf}
+    \end{centering}
+    \caption{ Average performance of \texttt{p*m*} models trained on 30\%
+    (triangles) , 60\% (circles), and 90\% (squares) of available data.
+    Performance was averaged across 10 models trained on 10 random permutations
+    of the data. Accuracy scores were generated using the cross-validation
+    method described in \S \ref{ssec:cross-validation}.}
+    \label{subfig:pm-model-chart}
+  \end{minipage}
+  \hspace{0.5cm}
+  \begin{minipage}[b]{0.45\textwidth}
+    \begin{centering}
+    \begin{tabular}{ l | c c c }
+    & \textbf{30\% trained} & \textbf{60\% trained} & \textbf{90\% trained} \\
+    \hline
+    \texttt{ p0m0 } &   0.520 $\pm$ 0.066 & 0.527 $\pm$ 0.069 & 0.532 $\pm$ 0.065 \\
+    \texttt{ p0m1 } &   0.585 $\pm$ 0.065 & 0.601 $\pm$ 0.068 & 0.607 $\pm$ 0.065 \\
+    \texttt{ p0m2 } &   0.594 $\pm$ 0.062 & 0.610 $\pm$ 0.065 & \textbf{0.616} $\pm$ 0.066 \\
+    \texttt{ p0m3 } &   0.591 $\pm$ 0.061 & 0.611 $\pm$ 0.063 & \textbf{0.616} $\pm$ 0.067 \\
+    \hline
+    \texttt{ p1m0 } &   0.521 $\pm$ 0.066 & 0.529 $\pm$ 0.070 & 0.536 $\pm$ 0.064 \\
+    \texttt{ p1m1 } &   0.582 $\pm$ 0.066 & 0.602 $\pm$ 0.065 & 0.607 $\pm$ 0.065 \\
+    \texttt{ p1m2 } &   0.590 $\pm$ 0.062 & 0.610 $\pm$ 0.064 & 0.615 $\pm$ 0.067 \\
+    \texttt{ p1m3 } &   0.590 $\pm$ 0.063 & 0.611 $\pm$ 0.063 & \textbf{0.616} $\pm$ 0.066 \\
+    \hline
+    \texttt{ p2m0 } &   0.519 $\pm$ 0.067 & 0.531 $\pm$ 0.070 & 0.536 $\pm$ 0.062 \\
+    \texttt{ p2m1 } &   0.579 $\pm$ 0.067 & 0.600 $\pm$ 0.064 & 0.607 $\pm$ 0.063 \\
+    \texttt{ p2m2 } &   0.586 $\pm$ 0.063 & 0.609 $\pm$ 0.064 & \textbf{0.616} $\pm$ 0.066 \\
+    \texttt{ p2m3 } &   0.586 $\pm$ 0.060 & 0.611 $\pm$ 0.061 & \textbf{0.617} $\pm$ 0.065 \\
+    \hline
+    \texttt{ p3m0 } &   0.513 $\pm$ 0.068 & 0.531 $\pm$ 0.068 & 0.537 $\pm$ 0.062 \\
+    \texttt{ p3m1 } &   0.577 $\pm$ 0.065 & 0.597 $\pm$ 0.062 & 0.605 $\pm$ 0.063 \\
+    \texttt{ p3m2 } &   0.582 $\pm$ 0.061 & 0.607 $\pm$ 0.062 & 0.614 $\pm$ 0.065 \\
+    \texttt{ p3m3 } &   0.581 $\pm$ 0.060 & 0.609 $\pm$ 0.059 & \textbf{0.616} $\pm$ 0.065 \\
+    \end{tabular}
+    \end{centering}
+    \vspace{0.225in}
+    \caption{Average accuracies, along with sample standard deviations. The
+    top six performant runs are embolded.}
+    \label{subfig:pm-model-table}
+    \vspace{0.575in}
+  \end{minipage}
+\end{figure*}
+
+
+\begin{figure}
+  \centering
+  \begin{tabular}{l | c c}
+     & Avg. Accuracy & Std. Dev \\
+    \hline
+    \texttt{p0m0} & 0.527 & 0.069 \\
+    \texttt{p0m0q2} & 0.522 & 0.071 \\
+    \texttt{p0m0q3} & 0.521 & 0.065 \\
+    \texttt{p0m1} & 0.585 & 0.065 \\
+    \texttt{p0m1q2s} & 0.587 & 0.065 \\
+    \texttt{p0m1q2} & 0.587 & 0.066 \\
+    \texttt{p0m1q3} & 0.586 & 0.065 \\
+    \texttt{p0m2} & 0.594 & 0.062 \\
+    \texttt{p0m2q2} & 0.593 & 0.063 \\
+    \texttt{p0m2q2s} & 0.593 & 0.063 \\
+  \end{tabular}
+
+  \caption{ Average performance of \texttt{p*m*q*[s]} models trained on 30\% of
+  available data.  Performance was averaged across 10 models trained on 10
+  random permutations of the data. Accuracy scores were generated using the
+  cross-validation method described in \S \ref{ssec:cross-validation}.}
+  \label{subfig:pmq-model-chart}
+
+\end{figure}
+
+\section{Discussion}
+
+Comparing predictions to their true labels, it is clear that many of the errors
+generated by the models are caused by predicting the same chord one too many
+times (e.g., for the true chord sequence: 4--4--5--5, the model might predict
+4--4--4--5).\footnote{Please see the additional documents \texttt{song\_1.pdf}
+and \texttt{song\_2.pdf} for labelings generated by the model \texttt{p2m3} on
+two sample songs.} A lot of other errors are predicting the minor version of
+the chord when the major version was the true chord (e.g.  predicting Amin when
+the true cord was Amajor). As mentioned in \cite{Weller_structuredprediction},
+a more accurate performance metric would be the triad overlap metric (TOM),
+which gives a score for the number of notes in common between the predicted and
+true chord. This metric would weigh down mistakes due to minor/major confusion,
+while weighing more heavily guessing randomly.
+
+Another thing worth considering is that often in Western music chord
+progressions are used which \emph{imply} a third chord. For instance, the chord
+progression IV-V builds tension that is resolved by playing the I chord.  As a
+twist that forestalls resolution, musicians may play the ii chord instead.
+Predicting I in such a case should not be considered as inappropriate as
+predicting a chord from a different key, as the progression IV-V develops a
+clear expectation for the chord I to be played next, even though by both
+hamming distance and the TOM metric, this would be considered a large error. By
+allowing models to make mistakes as long as they are sound from a music theory
+point of view, it might be possible to make models that generate appropriate
+chord progressions for a given song, even if it was not exactly what was played
+originally.
+
+\section{Conclusion and Future Work}
+
+The SVM$^{hmm}$ formulation allows for the adaptation of SVM$^{struct}$ to
+sequence prediction with minimal changes to the problem's construction. Even
+fairly simple models were able to achieve impressive performance on the task of
+sequence labeling chord progressions. Possible extensions to the work mentioned
+here would include additional preprocessing stages, such as the removal of
+percussive sound as done in \cite{Ono_separation}, using higher-order HMMs in
+the discriminant fuction based on the time signature of the song (e.g.
+using 4th-order models for songs with 4 beats in a measure, 8th-order models
+for songs with 8 beats in a measure, etc), and non-linear kernels.
+
+
+\clearpage
+\begin{small}
+\bibliography{write_up}
+\bibliographystyle{icml2013}
+\end{small}
+
+
+\end{document}
