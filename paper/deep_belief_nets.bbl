@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -37,6 +37,12 @@ Dahl, George~E, Ranzato, M, Mohamed, A, and Hinton, GE.
   machine.
 \newblock \emph{Advances in neural information processing systems},
   23:\penalty0 469--477, 2010.
+
+\bibitem[Harte(2010)]{harte2010towards}
+Harte, Christopher.
+\newblock \emph{Towards automatic extraction of harmony information from music
+  signals}.
+\newblock PhD thesis, University of London, 2010.
 
 \bibitem[Hinton(2002)]{hinton_contrastivedivergence}
 Hinton, G.E.
@@ -81,6 +87,11 @@ Mohamed, A., Dahl, G.E., and Hinton, G.
   20\penalty0 (1):\penalty0 14--22, 2012.
 \newblock ISSN 1558-7916.
 \newblock \doi{10.1109/TASL.2011.2109382}.
+
+\bibitem[Palm(2012)]{IMM2012-06284}
+Palm, R.~B.
+\newblock Prediction as a candidate for learning deep hierarchical models of
+  data, 2012.
 
 \bibitem[Rifai et~al.(2011)Rifai, Dauphin, Vincent, Bengio, and
   Muller]{rifai2011manifold}

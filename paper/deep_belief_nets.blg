@@ -3,46 +3,48 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: deep_belief_nets.aux
 The style file: icml2013.bst
 Database file #1: deep_belief_nets.bib
+Warning--entry type for "IMM2012-06284" isn't style-file defined
+--line 242 of file deep_belief_nets.bib
 Warning--can't use both volume and number fields in altun2003hidden
-You've used 13 entries,
+You've used 15 entries,
             2773 wiz_defined-function locations,
-            671 strings with 7248 characters,
-and the built_in function-call counts, 6693 in all, are:
-= -- 611
-> -- 356
-< -- 11
-+ -- 121
-- -- 108
-* -- 530
-:= -- 991
-add.period$ -- 43
-call.type$ -- 13
-change.case$ -- 74
-chr.to.int$ -- 13
-cite$ -- 27
-duplicate$ -- 326
-empty$ -- 556
-format.name$ -- 123
-if$ -- 1438
+            679 strings with 7479 characters,
+and the built_in function-call counts, 7253 in all, are:
+= -- 661
+> -- 376
+< -- 13
++ -- 129
+- -- 114
+* -- 559
+:= -- 1083
+add.period$ -- 48
+call.type$ -- 15
+change.case$ -- 81
+chr.to.int$ -- 15
+cite$ -- 31
+duplicate$ -- 357
+empty$ -- 610
+format.name$ -- 131
+if$ -- 1553
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 13
-newline$ -- 75
-num.names$ -- 52
-pop$ -- 150
+newline$ -- 84
+num.names$ -- 60
+pop$ -- 169
 preamble$ -- 1
-purify$ -- 61
+purify$ -- 67
 quote$ -- 0
-skip$ -- 253
+skip$ -- 279
 stack$ -- 0
-substring$ -- 288
-swap$ -- 63
+substring$ -- 292
+swap$ -- 65
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 143
+type$ -- 165
 warning$ -- 1
-while$ -- 61
+while$ -- 67
 width$ -- 0
-write$ -- 182
-(There was 1 warning)
+write$ -- 205
+(There were 2 warnings)

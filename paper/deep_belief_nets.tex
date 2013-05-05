@@ -126,10 +126,22 @@ Deep Belief Networks (DBN) in order to learn a set of features
 TODO(ben): finish into
 
 \section{Dataset} 
-TODO(ben): describe beatles data set
+The training and evaluation of our techniques were performed over a set of 180
+hand-labeled Beatles songs \cite{harte2010towards}. The set of chord labels
+was restricted to just the traids, 12 for major triads, 12 for minor triads,
+and a final label representing 'no chord', leading to a total of 25 possible
+chord labels.
 
-\subsection{Data Preprocessing}
-TODO(ben): describe STFT, chroma. 
+\subsection{Chroma}
+The labeled data was offered in the Chroma format, in which a song is split into
+beat-synchronous frames, each containing 12 features that represent the
+intensity of each semitone, irrespective of octave. Each of these features
+is constrained to be in the range [0,1].
+
+\subsection{Short Time Fourier Transform}
+We also took the raw audio data for the songs 
+TODO(SAM): Can you describe how we did this part? Window size, sampling rates,
+DFTs, absolute values, final input dimension, etc.
 
 \section{Deep Belief Networks}
 
@@ -226,17 +238,27 @@ and obtaining samples for the visible units given hidden activations is
 
 where $\sigma$ is the logistic sigmoid function.
 
+If the visible units are real-valued, instead of binary, we can use a
+Gaussian-Bernoulli RBM by simply changing the sampling equation for the visible
+vector to be:
+\[
+  p (v_i | \mathbf{h}) = \mathcal{N} \left( b_{i}^{v} +
+    \sigma_i \sum_j h_j w_{ij} \,,\, \sigma_i^2 \right),
+\]
+
+where we generally normalize the data such that $\sigma = 1$.
+
 We could compute the expectation under the model by running a Gibbs chain for a
 long time, where we alternatively sample hidden states given visible states,
 and visible states given hidden states repeatedly until we converged on the
 model distribution. However, the insight of Contrastive Divergence is that if
 we initialize the visible vector by clamping it to a training vector sampled
-from empirical data distribution, and only take a few Gibbs sampling steps, we
-can obtain an estimate of the model distribution called the ``reconstruction''
-that works well empirically for estimating the gradient. In fact, good results
-can be obtained by simply taking a single Gibbs step to create this
-reconstruction. The learning rule for updating a weight between two units
-with learning rate $\epsilon$ is then
+from the empirical data distribution, and only take a few Gibbs sampling steps,
+we can obtain an estimate of the model distribution called the
+``reconstruction'' that works well empirically for estimating the gradient. In
+fact, good results can be obtained by simply taking a single Gibbs step to
+create this reconstruction. The learning rule for updating a weight between two
+units with learning rate $\epsilon$ is then
 
 \[
   \triangle w_{ij} = \epsilon( 
@@ -411,26 +433,24 @@ Markov Model (HMM). This model was first described in
 probabilistic interpretation as the HMM, by mimicking the structure of a
 traditional HMM, $\argmax_{y \in Y}$ becomes efficient to compute, as the same
 Markov property\footnote{Again, we stress that in the case of SVM$^{hmm}$ there
-is no probabilistic interpetation, we use the term "Markov property" loosely.}
+is no probabilistic interpetation, we use the term ``Markov property'' loosely.}
 can be exploited, simplifying the algorithm. This enables the use of the
 cutting-plane method mentioned above..
 
 To mimic a $k$th order HMM, the function $F$ used by SVM$^{hmm}$ is of the
 form,
 
-  \[
-    \begin{split}
-    F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w}) = \\
-    \sum_{t=1}^{T} \left[
+\begin{flalign*}
+  &{F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w})} =& \\
+    & \sum_{t=1}^{T} \left[
       \sum_{k=1}^{K}\left(
         \mathbf{x}_{t} \cdot
         \mathbf{w}_{\mathbf{y}_{(t-k)} \dotsm \mathbf{y}_{t}} +
         \phi_{\text{trans}}(y_{(t-k)},\dots,y_{t}) \cdot
         \mathbf{w}_{\text{trans}}
       \right)
-    \right] 
-  \end{split}
-  \]
+    \right]  &
+\end{flalign*}
 
 Where $T$ is the number of time frames in an individual example ($\mathbf{x}$,
 $\mathbf{y}$), $x_t$ is the $t^{\text{th}}$ frame of example $x$, $K$ is the
@@ -455,28 +475,32 @@ corresponding to the sequence $(y_{(t-k)},\dots,y_{t})$.
 \vskip -0.2in
 \end{figure} 
 
-\subsection{Figures}
- 
-You may want to include figures in the paper to help readers visualize
-your approach and your results. Such artwork should be centered,
-legible, and separated from the text. Lines should be dark and at
-least 0.5~points thick for purposes of reproduction, and text should
-not appear on a gray background.
+\subsection{Methods}
 
-Label all distinct components of each figure. If the figure takes the
-form of a graph, then give a name for each axis and include a legend
-that briefly describes each curve. Do not include a title inside the
-figure; instead, the caption should serve this function.
+For all of our methods, we tried using the chroma as the inputs, as well
+the raw STFTs. For the STFTs, we would perform a PCA whitening step to the data
+so that the input vectors had zero mean, and spherical identity variance. 
+We would also prepend and append surrounding frames to the frames we wanted
+to classify to give more contextual information to the algorithms.
 
-Number figures sequentially, placing the figure number and caption
-{\it after\/} the graphics, with at least 0.1~inches of space before
-the caption and 0.1~inches after it, as in
-Figure~\ref{icml-historical}.  The figure caption should be set in
-9~point type and centered unless it runs two or more lines, in which
-case it should be flush left.  You may float figures to the top or
-bottom of a column, and you may set wide figures across both columns
-(use the environment {\tt figure*} in \LaTeX), but always place
-two-column figures at the top or bottom of the page.
+We took the chosen inputs, and trained a deep network using either the
+Contrastive Divergence unsupervised training followed by supervised 
+backpropogation, or by training the entire network in a supervised fashion using
+the HF technique. For the CD learning, we made use of a library provided
+by Rasmus Berg Palm \cite{IMM2012-06284}. For the HF technique, we used code
+provided by Martens \cite{martens2010deep}.
+
+After training, the test data was then either classified directly by the
+trained discriminative network, or it was used to detmine network activations
+which were then fed into the structured SVM classifier. For every experiment,
+5 random permutations of the songs were used for training, with 10\% of the
+total song corpus reserved for training, and 10\% used as a validation set
+for when to stop the network training. All results report the average of
+these 5 permutations.
+
+For all SVM training, we set $epsilon$ to 1 and $C$ to 100. Additionally,
+even when we trained the networks on 80\% of the data, we only trained the
+SVM on 30\% of the data, due to computational costs.
 
 \subsection{Algorithms}
 

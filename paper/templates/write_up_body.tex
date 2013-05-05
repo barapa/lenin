@@ -109,7 +109,9 @@ column of Table 1 in the paper.}  \end{abstract}
 \label{sec:struct-svm}
 
 Recently Support Vector Machines (SVM) have been extended to handle learning
-structured classification problems such as sequence prediction. Under this
+structured classification problems such as sequence prediction. 
+
+Under this
 extension, the goal is to learn a function $F : X \times Y \rightarrow
 \mathbf{R}$ with weight vector $\mathbf{w}$ such that,
 
@@ -184,15 +186,15 @@ To mimic a $k$th order HMM, the function $F$ used by SVM$^{hmm}$ is of the
 form,
 
 \begin{align*}
-    F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w}) &=  \\
-    \sum_{t=1}^{T}& \left[
+  \makebox[2em][1]{ TEST F(\mathbf{x}, \mathbf{y}\,;\,\mathbf{w})} & \\
+    &= \sum_{t=1}^{T}& \left[
       \sum_{k=1}^{K}\left(
         \mathbf{x}_{t} \cdot
         \mathbf{w}_{\mathbf{y}_{(t-k)} \dotsm \mathbf{y}_{t}} +
         \phi_{\text{trans}}(y_{(t-k)},\dots,y_{t}) \cdot
         \mathbf{w}_{\text{trans}}
       \right)
-    \right] \\
+    \right]
 \end{align*}
 
 Where $T$ is the number of time frames in an individual example ($\mathbf{x}$,
