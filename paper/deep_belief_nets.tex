@@ -79,16 +79,17 @@
 
 Feature selection plays a critical role in audio analysis, with most Music
 Information Retrieval (MIR) systems relying on a standard set of manually
-crafted domain-specific features sets. In this paper, we investigate
-unsupervised feature learning using Deep Belief Networks (DBN) in order to
-learn a set of features on which to perform audio chord recognition.
-Specifically, we train deep neural networks using the contrastive divergence
-unsupervised method, as well as supervised Hessian Free optimization techniques.
-The activations of these networks are then fed into a structured support
-vector machine (SVMStruct) in order to make chord predictions over entire
-song sequences.
+crafted domain-specific features sets. In this paper, we survey a number of
+methods related to training and constructing Deep Belief Networks in order to
+perform unsupervised feature learning as well as classification in order t
+recognize chord sequences in audio signals. Specifically, we train deep neural
+networks using the contrastive divergence unsupervised method, supervised
+backpropogation optimization, as well as supervised Hessian Free optimization
+techniques. The activations of these networks are then fed into a structured
+support vector machine (SVMStruct) in order to make chord predictions over
+entire song sequences.
 
-TODO(ben): What did we find?
+TODO(ben): what were our general results?
 
 \end{abstract} 
 
@@ -116,19 +117,19 @@ others.
 
 Deep Belief Networks are a type of deep neural network that has multiple hidden
 layers. Recent advances in training these deep networks has shown that they are
-capable of learning highly complex representations of their input. It has been
-shown that these these networks model their inputs such that each hidden layer
-captures information at a potentially higher level of abstraction than the one
-below it \cite{Bengio_learning}. 
+capable of learning highly complex non-linear representations of their input.
+It has been shown that these these networks model their inputs such that each
+hidden layer captures information at a potentially higher level of abstraction
+than the one below it \cite{Bengio_learning}. 
 
 In this work, we investigate using deep architectures, specifically
-Deep Belief Networks (DBN) in order to learn a set of features 
-TODO(ben): finish into
+Deep Belief Networks (DBN) in order to
+TODO(ben): finish intro
 
 \section{Dataset} 
 The training and evaluation of our techniques were performed over a set of 180
 hand-labeled Beatles songs \cite{harte2010towards}. The set of chord labels
-was restricted to just the traids, 12 for major triads, 12 for minor triads,
+was restricted to just the triads, 12 for major triads, 12 for minor triads,
 and a final label representing 'no chord', leading to a total of 25 possible
 chord labels.
 
@@ -298,7 +299,7 @@ Using HF, Martens was able to obtain similar or even superior results for
 training deep networks than the standard methods described above. 
 
 The basic idea behind HF is derived from the classical Newton's method, where
-local quadratic approximations of the ojective function are iteratively
+local quadratic approximations of the objective function are iteratively
 optimized to produce updates to the parameters $\mathbf{\theta}$.  More
 precisely, at each step we optimize a local quadratic model
 $M_{k-1}(\mathbf{\delta)}$ of the objective function $f(\mathbf{\theta_{k-1}} +
@@ -458,146 +459,34 @@ order of dependencies, and $\phi_{\text{trans}}$ is an indicator vector that
 has exactly one entry 'on' (equal to 1) and all others 'off' (equal to 0),
 corresponding to the sequence $(y_{(t-k)},\dots,y_{t})$.
 
-\section{Results}
-
-
-\begin{figure}[ht]
-\vskip 0.2in
-\begin{center}
-\centerline{\includegraphics[width=\columnwidth]{icml_numpapers}}
-\caption{Historical locations and number of accepted papers for International
-  Machine Learning Conferences (ICML 1993 -- ICML 2008) and
-  International Workshops on Machine Learning (ML 1988 -- ML
-  1992). At the time this figure was produced, the number of
-  accepted papers for ICML 2008 was unknown and instead estimated.}
-\label{icml-historical}
-\end{center}
-\vskip -0.2in
-\end{figure} 
-
-\subsection{Methods}
+\section{Methods}
 
 For all of our methods, we tried using the chroma as the inputs, as well
-the raw STFTs. For the STFTs, we would perform a PCA whitening step to the data
-so that the input vectors had zero mean, and spherical identity variance. 
-We would also prepend and append surrounding frames to the frames we wanted
+the raw STFTs. For the STFTs, we perform a PCA whitening step to the data
+so that the input vectors have zero mean, and spherical identity variance. 
+We would concatenate surrounding frames to the input vectors we want
 to classify to give more contextual information to the algorithms.
 
 We took the chosen inputs, and trained a deep network using either the
-Contrastive Divergence unsupervised training followed by supervised 
-backpropogation, or by training the entire network in a supervised fashion using
-the HF technique. For the CD learning, we made use of a library provided
-by Rasmus Berg Palm \cite{IMM2012-06284}. For the HF technique, we used code
-provided by Martens \cite{martens2010deep}.
+Contrastive Divergence unsupervised training followed by supervised
+backpropogation, or by training the entire network in a supervised fashion
+using the Hessian Free technique. For the Contrastive Divergence learning, we
+made use of a library provided by Rasmus Berg Palm \cite{IMM2012-06284}. For
+the HF technique, we used code provided by Martens \cite{martens2010deep}.
 
-After training, the test data was then either classified directly by the
-trained discriminative network, or it was used to detmine network activations
-which were then fed into the structured SVM classifier. For every experiment,
-5 random permutations of the songs were used for training, with 10\% of the
-total song corpus reserved for training, and 10\% used as a validation set
-for when to stop the network training. All results report the average of
-these 5 permutations.
+After training, the test data was then either classified directly by the output
+layer of the trained discriminative network, or it was used to detmine network
+activations which were then fed into the structured SVM classifier. For every
+experiment, 5 random permutations of the songs were used for training, with
+10\% of the total song corpus reserved for training, and 10\% used as a
+validation set for when to stop the network training. All results report the
+average of these 5 permutations.
 
 For all SVM training, we set $epsilon$ to 1 and $C$ to 100. Additionally,
 even when we trained the networks on 80\% of the data, we only trained the
 SVM on 30\% of the data, due to computational costs.
 
-\subsection{Algorithms}
-
-If you are using \LaTeX, please use the ``algorithm'' and ``algorithmic'' 
-environments to format pseudocode. These require 
-the corresponding stylefiles, algorithm.sty and 
-algorithmic.sty, which are supplied with this package. 
-Algorithm~\ref{alg:example} shows an example. 
-
-\begin{algorithm}[tb]
-   \caption{Bubble Sort}
-   \label{alg:example}
-\begin{algorithmic}
-   \STATE {\bfseries Input:} data $x_i$, size $m$
-   \REPEAT
-   \STATE Initialize $noChange = true$.
-   \FOR{$i=1$ {\bfseries to} $m-1$}
-   \IF{$x_i > x_{i+1}$} 
-   \STATE Swap $x_i$ and $x_{i+1}$
-   \STATE $noChange = false$
-   \ENDIF
-   \ENDFOR
-   \UNTIL{$noChange$ is $true$}
-\end{algorithmic}
-\end{algorithm}
- 
-\subsection{Tables} 
- 
-You may also want to include tables that summarize material. Like 
-figures, these should be centered, legible, and numbered consecutively. 
-However, place the title {\it above\/} the table with at least 
-0.1~inches of space before the title and the same after it, as in 
-Table~\ref{sample-table}. The table title should be set in 9~point 
-type and centered unless it runs two or more lines, in which case it
-should be flush left.
-
-% Note use of \abovespace and \belowspace to get reasonable spacing 
-% above and below tabular lines. 
-
-\begin{table}[t]
-\caption{Classification accuracies for naive Bayes and flexible 
-Bayes on various data sets.}
-\label{sample-table}
-\vskip 0.15in
-\begin{center}
-\begin{small}
-\begin{sc}
-\begin{tabular}{lcccr}
-\hline
-\abovespace\belowspace
-Data set & Naive & Flexible & Better? \\
-\hline
-\abovespace
-Breast    & 95.9$\pm$ 0.2& 96.7$\pm$ 0.2& $\surd$ \\
-Cleveland & 83.3$\pm$ 0.6& 80.0$\pm$ 0.6& $\times$\\
-Glass2    & 61.9$\pm$ 1.4& 83.8$\pm$ 0.7& $\surd$ \\
-Credit    & 74.8$\pm$ 0.5& 78.3$\pm$ 0.6&         \\
-Horse     & 73.3$\pm$ 0.9& 69.7$\pm$ 1.0& $\times$\\
-Meta      & 67.1$\pm$ 0.6& 76.5$\pm$ 0.5& $\surd$ \\
-Pima      & 75.1$\pm$ 0.6& 73.9$\pm$ 0.5&         \\
-\belowspace
-Vehicle   & 44.9$\pm$ 0.6& 61.5$\pm$ 0.4& $\surd$ \\
-\hline
-\end{tabular}
-\end{sc}
-\end{small}
-\end{center}
-\vskip -0.1in
-\end{table}
-
-Tables contain textual material that can be typeset, as contrasted 
-with figures, which contain graphical material that must be drawn. 
-Specify the contents of each row and column in the table's topmost
-row. Again, you may float tables to a column's top or bottom, and set
-wide tables across both columns, but place two-column tables at the
-top or bottom of the page.
- 
-
-
-% Acknowledgements should only appear in the accepted version. 
-\section*{Acknowledgments} 
- 
-\textbf{Do not} include acknowledgements in the initial version of
-the paper submitted for blind review.
-
-If a paper is accepted, the final camera-ready version can (and
-probably should) include acknowledgements. In this case, please
-place such acknowledgements in an unnumbered section at the
-end of the paper. Typically, this will include thanks to reviewers
-who gave useful comments, to colleagues who contributed to the ideas, 
-and to funding agencies and corporate sponsors that provided financial 
-support.  
-
-
-% In the unusual situation where you want a paper to appear in the
-% references without citing it in the main text, use \nocite
-%\nocite{langley00}
+\section{Results}
 
 \bibliography{deep_belief_nets}
 \bibliographystyle{icml2013}
