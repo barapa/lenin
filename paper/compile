@@ -1,0 +1,6 @@
+bibtex deep_belief_nets.aux
+pdflatex deep_belief_nets.tex
+bibtex deep_belief_nets.aux
+pdflatex deep_belief_nets.tex
+pdflatex deep_belief_nets.tex
+open deep_belief_nets.pdf

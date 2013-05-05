@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: deep_belief_nets.aux
+The style file: icml2013.bst
+Database file #1: deep_belief_nets.bib
+Warning--entry type for "IMM2012-06284" isn't style-file defined
+--line 242 of file deep_belief_nets.bib
+Warning--can't use both volume and number fields in altun2003hidden
+Warning--empty journal in joachims1999making
+You've used 16 entries,
+            2773 wiz_defined-function locations,
+            684 strings with 7584 characters,
+and the built_in function-call counts, 7550 in all, are:
+= -- 686
+> -- 386
+< -- 14
++ -- 133
+- -- 117
+* -- 574
+:= -- 1131
+add.period$ -- 51
+call.type$ -- 16
+change.case$ -- 85
+chr.to.int$ -- 16
+cite$ -- 34
+duplicate$ -- 376
+empty$ -- 640
+format.name$ -- 135
+if$ -- 1614
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 14
+newline$ -- 89
+num.names$ -- 64
+pop$ -- 180
+preamble$ -- 1
+purify$ -- 70
+quote$ -- 0
+skip$ -- 292
+stack$ -- 0
+substring$ -- 294
+swap$ -- 65
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 176
+warning$ -- 2
+while$ -- 70
+width$ -- 0
+write$ -- 216
+(There were 3 warnings)

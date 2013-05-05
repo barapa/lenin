@@ -1,0 +1,109 @@
+\begin{thebibliography}{16}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Altun et~al.(2003)Altun, Tsochantaridis, Hofmann,
+  et~al.]{altun2003hidden}
+Altun, Yasemin, Tsochantaridis, Ioannis, Hofmann, Thomas, et~al.
+\newblock Hidden markov support vector machines.
+\newblock In \emph{MACHINE LEARNING-INTERNATIONAL WORKSHOP THEN CONFERENCE-},
+  volume~20, pp.\ ~3, 2003.
+
+\bibitem[Bengio(2009)]{Bengio_learning}
+Bengio, Yoshua.
+\newblock Learning deep architectures for ai.
+\newblock \emph{Foundations and Trends in Machine Learning}, 2:\penalty0
+  1--127, 2009.
+
+\bibitem[Boulanger-Lewandowski et~al.(2012)Boulanger-Lewandowski, Bengio, and
+  Vincent]{boulanger2012modeling}
+Boulanger-Lewandowski, Nicolas, Bengio, Yoshua, and Vincent, Pascal.
+\newblock Modeling temporal dependencies in high-dimensional sequences:
+  Application to polyphonic music generation and transcription.
+\newblock \emph{arXiv preprint arXiv:1206.6392}, 2012.
+
+\bibitem[Ciresan et~al.(2012)Ciresan, Meier, and Schmidhuber]{ciresan2012multi}
+Ciresan, Dan, Meier, Ueli, and Schmidhuber, J{\"u}rgen.
+\newblock Multi-column deep neural networks for image classification.
+\newblock In \emph{Computer Vision and Pattern Recognition (CVPR), 2012 IEEE
+  Conference on}, pp.\  3642--3649. IEEE, 2012.
+
+\bibitem[Dahl et~al.(2010)Dahl, Ranzato, Mohamed, and Hinton]{dahl2010phone}
+Dahl, George~E, Ranzato, M, Mohamed, A, and Hinton, GE.
+\newblock Phone recognition with the mean-covariance restricted boltzmann
+  machine.
+\newblock \emph{Advances in neural information processing systems},
+  23:\penalty0 469--477, 2010.
+
+\bibitem[Harte(2010)]{harte2010towards}
+Harte, Christopher.
+\newblock \emph{Towards automatic extraction of harmony information from music
+  signals}.
+\newblock PhD thesis, University of London, 2010.
+
+\bibitem[Hinton(2002)]{hinton_contrastivedivergence}
+Hinton, G.E.
+\newblock Training products of experts by minimizing contrastive divergence.
+\newblock \emph{Neural Computation}, 14:\penalty0 1771--1800, 2002.
+
+\bibitem[Joachims(1999)]{joachims1999making}
+Joachims, Thorsten.
+\newblock Making large scale svm learning practical.
+\newblock 1999.
+
+\bibitem[Joachims et~al.(2009)Joachims, Finley, and Yu]{joachims2009cutting}
+Joachims, Thorsten, Finley, Thomas, and Yu, Chun-Nam~John.
+\newblock Cutting-plane training of structural svms.
+\newblock \emph{Machine Learning}, 77\penalty0 (1):\penalty0 27--59, 2009.
+
+\bibitem[Krizhevsky et~al.(2012)Krizhevsky, Sutskever, and
+  Hinton]{krizhevsky2012imagenet}
+Krizhevsky, Alex, Sutskever, Ilya, and Hinton, Geoff.
+\newblock Imagenet classification with deep convolutional neural networks.
+\newblock In \emph{Advances in Neural Information Processing Systems 25}, pp.\
+  1106--1114, 2012.
+
+\bibitem[Martens(2010)]{martens2010deep}
+Martens, James.
+\newblock Deep learning via hessian-free optimization.
+\newblock In \emph{Proceedings of the 27th International Conference on Machine
+  Learning (ICML)}, volume 951, pp.\  2010, 2010.
+
+\bibitem[Martens \& Sutskever(2012)Martens and Sutskever]{martens2012training}
+Martens, James and Sutskever, Ilya.
+\newblock Training deep and recurrent networks with hessian-free optimization.
+\newblock In \emph{Neural Networks: Tricks of the Trade}, pp.\  479--535.
+  Springer, 2012.
+
+\bibitem[Mnih et~al.(2012)Mnih, Larochelle, and Hinton]{mnih2012conditional}
+Mnih, Volodymyr, Larochelle, Hugo, and Hinton, Geoffrey~E.
+\newblock Conditional restricted boltzmann machines for structured output
+  prediction.
+\newblock \emph{arXiv preprint arXiv:1202.3748}, 2012.
+
+\bibitem[Mohamed et~al.(2012)Mohamed, Dahl, and
+  Hinton]{Mohamed_acousticmodeling}
+Mohamed, A., Dahl, G.E., and Hinton, G.
+\newblock Acoustic modeling using deep belief networks.
+\newblock \emph{Audio, Speech, and Language Processing, IEEE Transactions on},
+  20\penalty0 (1):\penalty0 14--22, 2012.
+\newblock ISSN 1558-7916.
+\newblock \doi{10.1109/TASL.2011.2109382}.
+
+\bibitem[Palm(2012)]{IMM2012-06284}
+Palm, R.~B.
+\newblock Prediction as a candidate for learning deep hierarchical models of
+  data, 2012.
+
+\bibitem[Rifai et~al.(2011)Rifai, Dauphin, Vincent, Bengio, and
+  Muller]{rifai2011manifold}
+Rifai, Salah, Dauphin, Yann, Vincent, Pascal, Bengio, Yoshua, and Muller,
+  Xavier.
+\newblock The manifold tangent classifier.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  24:\penalty0 2294--2302, 2011.
+
+\end{thebibliography}

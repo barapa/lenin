@@ -1,0 +1,3 @@
+run_small_stft_networks_hf;
+run_big_chroma_networks_hf;
+run_big_stft_networks_hf;
