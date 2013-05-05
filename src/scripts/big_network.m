@@ -18,18 +18,18 @@ window_size = 2^13;
 window_overlap = 2^12;
 nfft = 2^10;
 preprocessing_epsilon = .00001;
-preprocessing_k = 300; % Cannot be larger than nfft / 2 + 1
+preprocessing_k = 2^8; % Cannot be larger than nfft / 2 + 1
 data_include_left = 2;
 data_include_right = 0;
 
 % dbn
 dbn_train_percentage = 60; % 30, 60, or 90
-dbn_layer_sizes = [800 600 50];
+dbn_layer_sizes = [800 600 300 50];
 dbn_is_visible_layer_gaussian = 1;
 dbn_num_epochs = 100;
 dbn_song_batch_size = 30;
 dbn_mini_batch_size = 100;
-dbn_momentum = .75;
+dbn_momentum = .9;
 dbn_binary_learning_rate = .0001;
 dbn_gaussian_learning_rate = .00001;
 dbn_cdk = 1;
@@ -99,20 +99,24 @@ model_filename = create_train_save_beatles_dbn_nn_model(...
 %layers = [2, 3, 4, 5];
 left_frames = 2 ;
 right_frames = 0 ;
+train_percentage = 30;
 
 layers = [2, 3, 4];
 convert_trained_dbn_to_svm_efficient(...
     model_filename,...
     layers,...
     left_frames,...
-    right_frames);
+    right_frames,...
+    train_percentage);
+
 
 layers = [1];
 convert_trained_dbn_to_svm_efficient(...
     model_filename,...
     layers,...
     left_frames,...
-    right_frames);
+    right_frames,...
+    train_percentage);
 
 
 layers = [1, 2, 3, 4];
@@ -120,6 +124,7 @@ convert_trained_dbn_to_svm_efficient(...
     model_filename,...
     layers,...
     left_frames,...
-    right_frames);
+    right_frames,...
+    train_percentage);
 
 

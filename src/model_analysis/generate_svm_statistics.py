@@ -96,7 +96,7 @@ def write_new_models(new_models, results_file):
     print 'working on %s' % model
     model_path = "/var/data/lenin/%s/test" % model
     listings = os.listdir(model_path)
-    listings = filter(lambda x: 'model' in x, listings)
+    listings = filter(lambda x: 'predictions' in x, listings)
     true_labels_filename = "%s/true_labels.dat" % model_path
     true_labels_file = open(true_labels_filename, 'r')
     true_labels = true_labels_file.readlines()

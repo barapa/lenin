@@ -57,7 +57,7 @@ def write_model_run_script(
         (layers, C, E))
     run_script.write("TEST_PATH=\"${MODEL_PATH}/test/%s\"\n" % input_file)
     run_script.write(
-        "PREDICTIONS_SAVE_PATH=\"${MODEL_PATH}/test/%s_c_%d_e_%f.model\"\n" %
+        "PREDICTIONS_SAVE_PATH=\"${MODEL_PATH}/test/%s_c_%d_e_%f.predictions\"\n" %
         (layers, C, E))
     run_script.write("\n")
     run_script.write(
