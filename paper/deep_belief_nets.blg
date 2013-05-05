@@ -6,45 +6,46 @@ Database file #1: deep_belief_nets.bib
 Warning--entry type for "IMM2012-06284" isn't style-file defined
 --line 242 of file deep_belief_nets.bib
 Warning--can't use both volume and number fields in altun2003hidden
-You've used 15 entries,
+Warning--empty journal in joachims1999making
+You've used 16 entries,
             2773 wiz_defined-function locations,
-            679 strings with 7479 characters,
-and the built_in function-call counts, 7253 in all, are:
-= -- 661
-> -- 376
-< -- 13
-+ -- 129
-- -- 114
-* -- 559
-:= -- 1083
-add.period$ -- 48
-call.type$ -- 15
-change.case$ -- 81
-chr.to.int$ -- 15
-cite$ -- 31
-duplicate$ -- 357
-empty$ -- 610
-format.name$ -- 131
-if$ -- 1553
+            684 strings with 7584 characters,
+and the built_in function-call counts, 7550 in all, are:
+= -- 686
+> -- 386
+< -- 14
++ -- 133
+- -- 117
+* -- 574
+:= -- 1131
+add.period$ -- 51
+call.type$ -- 16
+change.case$ -- 85
+chr.to.int$ -- 16
+cite$ -- 34
+duplicate$ -- 376
+empty$ -- 640
+format.name$ -- 135
+if$ -- 1614
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 13
-newline$ -- 84
-num.names$ -- 60
-pop$ -- 169
+missing$ -- 14
+newline$ -- 89
+num.names$ -- 64
+pop$ -- 180
 preamble$ -- 1
-purify$ -- 67
+purify$ -- 70
 quote$ -- 0
-skip$ -- 279
+skip$ -- 292
 stack$ -- 0
-substring$ -- 292
+substring$ -- 294
 swap$ -- 65
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 165
-warning$ -- 1
-while$ -- 67
+type$ -- 176
+warning$ -- 2
+while$ -- 70
 width$ -- 0
-write$ -- 205
-(There were 2 warnings)
+write$ -- 216
+(There were 3 warnings)

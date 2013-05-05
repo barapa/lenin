@@ -476,11 +476,11 @@ the HF technique, we used code provided by Martens \cite{martens2010deep}.
 
 After training, the test data was then either classified directly by the output
 layer of the trained discriminative network, or it was used to detmine network
-activations which were then fed into the structured SVM classifier. For every
-experiment, 5 random permutations of the songs were used for training, with
-10\% of the total song corpus reserved for training, and 10\% used as a
-validation set for when to stop the network training. All results report the
-average of these 5 permutations.
+activations which were then fed into the structured SVM classifier
+\cite{joachims1999making}. For every experiment, 5 random permutations of the
+songs were used for training, with 10\% of the total song corpus reserved for
+training, and 10\% used as a validation set for when to stop the network
+training. All results report the average of these 5 permutations.
 
 For all SVM training, we set $epsilon$ to 1 and $C$ to 100. Additionally,
 even when we trained the networks on 80\% of the data, we only trained the
