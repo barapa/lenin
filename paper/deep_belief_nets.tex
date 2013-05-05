@@ -146,6 +146,16 @@ DFTs, absolute values, final input dimension, etc.
 
 \section{Deep Belief Networks}
 
+\begin{figure}[ht]
+\vskip 0.2in
+\begin{center}
+\centerline{\includegraphics[width=\columnwidth]{images/deep_network_arch.pdf}}
+\caption{The general architecture of a DBN as a series of stacked RBMs}
+\label{dbn-arch}
+\end{center}
+\vskip -0.2in
+\end{figure}
+
 \subsection{Restricted Boltzmann Machines}
 
 The main building block of a Deep Belief Network is the Restricted Boltzmann
@@ -209,6 +219,7 @@ and the gradient
   \sum_{\mathbf{v'}}\frac{\partial F(\mathbf{v'})}{\partial \theta}
                   p(\mathbf{v})
 \]
+
 
 \subsection{Contrastive Divergence}
 
