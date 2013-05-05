@@ -79,54 +79,72 @@
 
 Feature selection plays a critical role in audio analysis, with most Music
 Information Retrieval (MIR) systems relying on a standard set of manually
-crafted domain-specific features sets. In this paper, we survey a number of
-methods related to training and constructing Deep Belief Networks in order to
-perform unsupervised feature learning as well as classification in order t
-recognize chord sequences in audio signals. Specifically, we train deep neural
-networks using the contrastive divergence unsupervised method, supervised
-backpropogation optimization, as well as supervised Hessian Free optimization
-techniques. The activations of these networks are then fed into a structured
-support vector machine (SVMStruct) in order to make chord predictions over
-entire song sequences.
-
-TODO(ben): what were our general results?
+crafted, domain-specific features. In this paper, we explore the possiblity of
+using Deep Belief Networks (DBNs) to discover better features through an
+unsupervised training procedure as part of a chord-recognition system.
+Specifically, we explore training DBNs using a number of methods including the
+Contrastive Divergence algorithm, error backpropagation and a new technique
+called Hessian-Free optimization. We evaluate the learned features by comparing
+the performance of Structured Suport Vector Machines (StructSVMs) trained on
+the DBN-learned features to StructSVMs trained on a standard human-engineered
+feature set, called Chroma. We also explore the possibility of training DBNs to
+perform chord-recognition directly.
 
 \end{abstract} 
 
 \section{Introduction}
+\label{sec:intro}
 
-The success and failure of many machine learning techniques is often
-strongly influenced by the representations of the data used for learning.
-Historically, this has meant that a lot of effort has gone into feature
-engineering, where domain-specific expertise and human enginuity have been
-used to manually craft a set of preprocessing steps in order to get the data
-into a proper format for the learning task at hand. However, more recently,
-the field of automated feature learning, or deep learning, has shown that
-more general methods can be used to preprocess data and lead to highly effective
-and often state-of-the-art learning performance.
+The success and failure of many machine learning techniques is often strongly
+influenced by the representations of data used for learning.  Historically,
+this has motivated a large focus on feature engineering, wherein
+domain-specific expertise and human ingenuity is used to design a series of
+preprocessing steps to transform the original input data into a form that is
+easy to learn from. Recently, with the advent of efficient algorithms for
+training many-layered (deep) neural networks, researches have begun to explore
+using neural networks to learn a set of features directly from the data itself.
+This process is often called "deep learning".
 
-One of the most popular and successful methods for feature selection has been
-to use Deep Belief Networks (DBN) to learn a set of features that can then
-be used for classification tasks. This technique has been used to achieve
-state-of-the-art performance on a number of standard learning tasks across
-multiple mediums. These include tasks in speech recognition 
-\cite{Mohamed_acousticmodeling, dahl2010phone}, polyphonic music transciption
-\cite{boulanger2012modeling}, and object recognition 
-\cite{krizhevsky2012imagenet, ciresan2012multi, rifai2011manifold}, among
-others.
+One of the most popular and successful methods for unsupervised feature
+learning has been the use of Deep Belief Networks (DBN), a specific class of
+neural networks, to learn a set of features that can then be used for
+classification tasks. This technique has been used to achieve state-of-the-art
+performance on a number of standard learning tasks across multiple modalities,
+including speech recognition \cite{Mohamed_acousticmodeling, dahl2010phone},
+polyphonic music transciption \cite{boulanger2012modeling}, and object
+recognition \cite{krizhevsky2012imagenet, ciresan2012multi, rifai2011manifold}.
 
-Deep Belief Networks are a type of deep neural network that has multiple hidden
-layers. Recent advances in training these deep networks has shown that they are
-capable of learning highly complex non-linear representations of their input.
-It has been shown that these these networks model their inputs such that each
-hidden layer captures information at a potentially higher level of abstraction
-than the one below it \cite{Bengio_learning}. 
+Interest in the use of neural networks for unsupervised feature learning has
+increased in the last few years with the development of efficient training
+algorithms \cite{Hinton06afast}. Research and evaluation of these algorithms
+suggest that they enable the hidden layers of a network to pick up on
+statistical relationships across many different levels of abstraction. It is
+thought that the training algorithms also help networks to avoid bad local
+minima and provide a better set of initial weights to be used with standard
+error backpropagation training \cite{Bengio_learning}.
 
-In this work, we investigate using deep architectures, specifically
-Deep Belief Networks (DBN) in order to
-TODO(ben): finish intro
+In this work, we investigate the use of Deep Belief Networks for automatically
+learning a set of features for use in automatically identifying chords played
+in songs. The task is somewhat simple: given a song, produce a list of
+(timestamp, chord) labels to indicate which chords are played. We attempt to
+accomplish this task in two ways. First, we explore using DBNs to learn a set
+of features to use as input into a Structured Support Vector Machine, which is
+capable of learning how to make structured predictions.  Second, we explore
+using DBNs to label the chords of songs directly.
+
+The paper is structured as follows: in \S \ref{sec:dataset}, we briefly cover
+the input dataset as well as the human-engineered feature set which we will be
+comparing our results to. In \S \ref{sec:DBN} we discuss the theory motivating
+Deep Belief Networks and overview the algorithms we use to train them. \S
+\ref{sec:svms} discusses the Structured Support Vector Machine model. In \S
+\ref{sec:methods} we overview the different models and methods used in our
+experiments. Lastly, in \S \ref{sec:results} we present the performance of our
+models and compare them to models trained with human-engineered features
+directly.
+
 
 \section{Dataset} 
+\label{sec:dataset}
 The training and evaluation of our techniques were performed over a set of 180
 hand-labeled Beatles songs \cite{harte2010towards}. The set of chord labels
 was restricted to just the triads, 12 for major triads, 12 for minor triads,
@@ -145,6 +163,7 @@ TODO(SAM): Can you describe how we did this part? Window size, sampling rates,
 DFTs, absolute values, final input dimension, etc.
 
 \section{Deep Belief Networks}
+\label{sec:DBN}
 
 \begin{figure}[ht]
 \vskip 0.2in
@@ -369,6 +388,7 @@ to avoid pathological curvature in the parameter space, which seems to be an
 issue when training deep neural networks.
 
 \section{Large Margin Structured Predictions}
+\label{sec:svms}
 
 Finally, to make predictions for the sequence of chord labels over a song,
 we turn to an extension of Support Vector Machines (SVM) that can support
@@ -471,6 +491,7 @@ has exactly one entry 'on' (equal to 1) and all others 'off' (equal to 0),
 corresponding to the sequence $(y_{(t-k)},\dots,y_{t})$.
 
 \section{Methods}
+\label{sec:methods}
 
 For all of our methods, we tried using the chroma as the inputs, as well
 the raw STFTs. For the STFTs, we perform a PCA whitening step to the data
@@ -498,6 +519,7 @@ even when we trained the networks on 80\% of the data, we only trained the
 SVM on 30\% of the data, due to computational costs.
 
 \section{Results}
+\label{sec:results}
 
 \bibliography{deep_belief_nets}
 \bibliographystyle{icml2013}

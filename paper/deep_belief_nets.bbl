@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -48,6 +48,11 @@ Harte, Christopher.
 Hinton, G.E.
 \newblock Training products of experts by minimizing contrastive divergence.
 \newblock \emph{Neural Computation}, 14:\penalty0 1771--1800, 2002.
+
+\bibitem[Hinton \& Osindero(2006)Hinton and Osindero]{Hinton06afast}
+Hinton, Geoffrey~E. and Osindero, Simon.
+\newblock A fast learning algorithm for deep belief nets.
+\newblock \emph{Neural Computation}, 18:\penalty0 2006, 2006.
 
 \bibitem[Joachims(1999)]{joachims1999making}
 Joachims, Thorsten.
