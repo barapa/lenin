@@ -22,10 +22,10 @@ import sys
 # These are paramters for the SVM_HMM model.
 # C is the cost of slack (higher means we use less slack, and solutions take
 # longer to be found).
-C = 100
+C = 10
 # E (epsilon) is the convergence parameter for the
 # quadratic program that is being solved.
-E = 0.1
+E = 0.5
 
 BASH='/bin/bash'
 
@@ -61,10 +61,13 @@ def write_model_run_script(
         (layers, C, E))
     run_script.write("\n")
     run_script.write(
+        'echo "svm_hmm_learn -c %d -e %f ${TRAIN_PATH} ${MODEL_SAVE_PATH}"\n' %
+        (C, E))
+    run_script.write(
         "svm_hmm_learn -c %d -e %f ${TRAIN_PATH} ${MODEL_SAVE_PATH}\n" %
         (C, E))
-    run_script.write("svm_hmm_classify ${TEST_PATH} " + \
-        "${MODEL_SAVE_PATH} ${PREDICTIONS_SAVE_PATH}\n")
+    run_script.write('echo "svm_hmm_classify ${TEST_PATH} ${MODEL_SAVE_PATH} ${PREDICTIONS_SAVE_PATH}"\n')
+    run_script.write("svm_hmm_classify ${TEST_PATH} ${MODEL_SAVE_PATH} ${PREDICTIONS_SAVE_PATH}\n")
     run_script.write("\n")
 
   run_script.close()
