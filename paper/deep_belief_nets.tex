@@ -157,10 +157,23 @@ beat-synchronous frames, each containing 12 features that represent the
 intensity of each semitone, irrespective of octave. Each of these features
 is constrained to be in the range [0,1].
 
-\subsection{Short Time Fourier Transform}
-We also took the raw audio data for the songs 
-TODO(SAM): Can you describe how we did this part? Window size, sampling rates,
-DFTs, absolute values, final input dimension, etc.
+\subsection{Short-Time Fourier Transform}
+
+In addition to the human-engineered chroma features, we investigated the
+performance of both DBNs and StructSVMs on raw audio input. To transform a raw
+audio signal into a convenient format for our models, we took the following
+preprocessing steps: First, the raw audio signal of each song was downsampled
+to 44kHz. Second, a Short-Time Fourier Transform (STFT) was performed with a
+hamming window of 186ms (8192 samples) with a 50\% overlap between windows. The
+transform was computed for 1024 frequencies, of which we only kept the absolute
+values and thus considering the symmetry of the FT were left with 512
+frequencies. As a final preprocessing step, Principal Component Analysis (PCA)
+whitening was appied to the spectrograms to further reduce the dimensionality
+(using 256 components) of our input data.\footnote{The testing dataset was
+  always left out of the calculations required for PCA whitening, including the
+  calculation of the centroid vector and whitening matrix.  Instead these were
+calculated using only the training set. The test data were then whitened using
+the pre-generated centroid vector and whitening matrix.}
 
 \section{Deep Belief Networks}
 \label{sec:DBN}
