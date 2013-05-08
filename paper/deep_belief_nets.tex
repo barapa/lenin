@@ -540,10 +540,13 @@ SVM on 30\% of the data, due to computational costs.
 \section{Results}
 \label{sec:results}
 
-\subsection{DBN Softmax Performance}
+\subsection{DBN with CD Pre-training Softmax Performance}
+
+The first thing we attempted was to train DBN using the standard Contrastive
+Divergence approach discussed above. 
 
 \begin{figure*}
-  \begin{center}
+\begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc. (avg.) \\
 \hline
@@ -552,6 +555,7 @@ Chroma & 12$\rightarrow$300$\rightarrow$300$\rightarrow$25 & 14.20\% ($\pm$ 1.42
 STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
 STFTs & 513 $\rightarrow$300$\rightarrow$300$\rightarrow$25 & 42.30\% ($\pm$ 2.6) \\
 \end{tabular}
+\label{fig:dbn:softmax}
 \end{center}
 
 \caption{Average softmax prediction accuracy for DBNs trained on 30\% of the
