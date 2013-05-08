@@ -542,7 +542,8 @@ SVM on 30\% of the data, due to computational costs.
 
 \subsection{DBN Softmax Performance}
 
-\begin{figure}
+\begin{figure*}
+  \begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc. (avg.) \\
 \hline
@@ -551,15 +552,17 @@ Chroma & 12$\rightarrow$300$\rightarrow$300$\rightarrow$25 & 14.20\% ($\pm$ 1.42
 STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
 STFTs & 513 $\rightarrow$300$\rightarrow$300$\rightarrow$25 & 42.30\% ($\pm$ 2.6) \\
 \end{tabular}
+\end{center}
 
 \caption{Average softmax prediction accuracy for DBNs trained on 30\% of the
 training data using CD pre-training and error backpropagation fine-tuning.
 Results were calculated by training and evaluating individual models on 10
 different permutations of the training data.}
 
-\end{figure}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}
+  \begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc. (avg.) \\
 \hline
@@ -568,6 +571,7 @@ Chroma L6R2 & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 
 STFT L2R0 & 1539$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 49.38\% ($\pm$ 1.85) \\
 STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 50.37\% ($\pm$ 2.51) \\
 \end{tabular}
+\end{center}
 \caption{
   Average softmax prediction accuracy for Deep Neural Networks trained with the
   Hessian Free method on 80\% of the training data. L and R values represent
@@ -577,9 +581,10 @@ STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 &
   testing.
 }
 
-\end{figure}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}
+  \begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc (avg.) \\
 \hline
@@ -588,6 +593,7 @@ Chroma & 108$\rightarrow$100$\rightarrow$100$\rightarrow$50$\rightarrow$25  & 55
 STFTs & 768$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 48.8\% ($\pm$ 2.6) \\
 STFTs & 768$\rightarrow$300$\rightarrow$300$\rightarrow$50$\rightarrow$25 & 42.8\% ($\pm$ 3.1) \\
 \end{tabular}
+\end{center}
 
 \caption{Average softmax prediction accuracy for DBNs trained on 80\% of the
   training data using CD pre-training and error backpropagation fine-tuning.
@@ -597,7 +603,7 @@ more temporal context.  For models trained on raw STFTs, the 2 consecutive
 previous frames were appended. Results were calculated by training and
 evaluating individual models on 5 different permutations of the training data.}
 
-\end{figure}
+\end{figure*}
 
 \subsection{SVM Performance}
 
@@ -606,6 +612,10 @@ evaluating individual models on 5 different permutations of the training data.}
 
 \section{Conclusion}
 \label{sec:conclusion}
+
+\newpage
+$\,$
+\newpage
 
 \bibliography{deep_belief_nets}
 \bibliographystyle{icml2013}
