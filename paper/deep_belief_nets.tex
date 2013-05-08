@@ -179,7 +179,7 @@ centroid vector and whitening matrix.  Instead these were calculated using only
 the training set. The test data were then whitened using the pre-generated
 centroid vector and whitening matrix.}
 
-\begin{figure}[ht]
+\begin{figure}
 \vskip 0.2in
 \begin{center}
 \centerline{\includegraphics[width=\columnwidth]{images/deep_network_arch.pdf}}
@@ -551,7 +551,7 @@ Figure \ref{fig:dbn:softmax}, and correspond to 10 individual models trained on
 the training data. The most performant of these models achieved an average
 accuracy of 42.3\% at test.
 
-\begin{figure*}
+\begin{figure}
 \begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc. (avg.) \\
@@ -569,7 +569,7 @@ training data using CD pre-training and error backpropagation fine-tuning.
 Results were calculated by training and evaluating individual models on 10
 different permutations of the training data.}
 
-\end{figure*}
+\end{figure}
 
 Next, we trained another set of models using larger layers sizes since this
 seemed to help networks do better. For this second set of models, we trained
@@ -583,7 +583,7 @@ best network from this set achieved an average accuracy of 55.9\% at test, a
 large improvement over the first set.
 
 
-\begin{figure*}
+\begin{figure}
   \begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc (avg.) \\
@@ -604,7 +604,7 @@ more temporal context.  For models trained on raw STFTs, the 2 consecutive
 previous frames were appended. Results were calculated by training and
 evaluating individual models on 5 different permutations of the training data.}
 
-\end{figure*}
+\end{figure}
 
 
 \subsection{SVM Performance}
@@ -647,6 +647,28 @@ within the time limit for this paper. However, individual results were in-line
 with the results of SVMs trained on Chroma features and Chroma-trained DBN
 activations.
 
+\begin{figure*}[!ht]
+  \begin{center}
+\begin{tabular}{c|c|l}
+Input & Structure & Acc. (avg.) \\
+\hline
+Chroma & 108$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 65.46\% ($\pm$ 1.67) \\
+Chroma & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 65.60\% ($\pm$ 2.10) \\
+STFT & 1539$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 49.38\% ($\pm$ 1.85) \\
+STFT & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 50.37\% ($\pm$ 2.51) \\
+\end{tabular}
+\end{center}
+\caption{
+  Average softmax prediction accuracy for Deep Neural Networks trained with the
+  Hessian Free method on 80\% of the training data. The input for the chromas
+  included 6 frames to the left and 2 frames to the right of the frame to be
+  labeled. For the STFT, we used 2 frames to the left and no frames to the
+  right.  A validation set of 10\% of the data was used to determine when to
+  stop training in order to avoid overfitting. The final 10\% was used for
+  testing.
+}
+\label{fig:hf:softmax}
+\end{figure*}
 
 \subsection{Deep Network Softmax Performance with HF training}
 
@@ -671,27 +693,6 @@ significantly lower.
 We found that compared to the CD training, HF training was faster, less prone
 to overfitting, and generally led to better results on the test sets.
 
-\begin{figure*}
-  \begin{center}
-\begin{tabular}{c|c|l}
-Input & Structure & Acc. (avg.) \\
-\hline
-Chroma L6R2 & 108$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 65.46\% ($\pm$ 1.67) \\
-Chroma L6R2 & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 65.60\% ($\pm$ 2.10) \\
-STFT L2R0 & 1539$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 49.38\% ($\pm$ 1.85) \\
-STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 50.37\% ($\pm$ 2.51) \\
-\end{tabular}
-\end{center}
-\caption{
-  Average softmax prediction accuracy for Deep Neural Networks trained with the
-  Hessian Free method on 80\% of the training data. L and R values represent
-  frames included from the left and the right of each center window as input to
-  the network. A validation set of 10\% of the data was used to determine when
-  to stop training in order to avoid overfitting. The final 10\% was used for
-  testing.
-}
-\label{fig:hf:softmax}
-\end{figure*}
 
 \section{Future Work}
 \label{sec:future_work}
