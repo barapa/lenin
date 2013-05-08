@@ -79,7 +79,7 @@
 
 Feature selection plays a critical role in audio analysis, with most Music
 Information Retrieval (MIR) systems relying on a standard set of manually
-crafted, domain-specific features. In this paper, we explore the possiblity of
+crafted, domain-specific features. In this paper, we explore the possibility of
 using Deep Belief Networks (DBNs) to discover better features through an
 unsupervised training procedure as part of a chord-recognition system.
 Specifically, we explore training DBNs using a number of methods including the
@@ -111,7 +111,7 @@ neural networks, to learn a set of features that can then be used for
 classification tasks. This technique has been used to achieve state-of-the-art
 performance on a number of standard learning tasks across multiple modalities,
 including speech recognition \cite{Mohamed_acousticmodeling, dahl2010phone},
-polyphonic music transciption \cite{boulanger2012modeling}, and object
+polyphonic music transcription \cite{boulanger2012modeling}, and object
 recognition \cite{krizhevsky2012imagenet, ciresan2012multi, rifai2011manifold}.
 
 Interest in the use of neural networks for unsupervised feature learning has
@@ -171,12 +171,13 @@ hamming window of 186ms (8192 samples) with a 50\% overlap between windows. The
 transform was computed for 1024 frequencies, of which we only kept the absolute
 values and thus considering the symmetry of the FT were left with 512
 frequencies. As a final preprocessing step, Principal Component Analysis (PCA)
-whitening was appied to the spectrograms to further reduce the dimensionality
-(using 256 components) of our input data.\footnote{The testing dataset was
-  always left out of the calculations required for PCA whitening, including the
-  calculation of the centroid vector and whitening matrix.  Instead these were
-calculated using only the training set. The test data were then whitened using
-the pre-generated centroid vector and whitening matrix.}
+whitening was applied to the spectrograms to further reduce the dimensionality
+(using 256 components) of our input data and make the variance
+spherical.\footnote{The testing dataset was always left out of the
+  calculations required for PCA whitening, including the calculation of the
+centroid vector and whitening matrix.  Instead these were calculated using only
+the training set. The test data were then whitened using the pre-generated
+centroid vector and whitening matrix.}
 
 \begin{figure}[ht]
 \vskip 0.2in
@@ -201,8 +202,8 @@ is a bipartite graph, where each visible node is connected to every hidden
 node, but no other visible nodes, and vice versa for the hidden nodes. This
 allows for both $p(\mathbf{h}|\mathbf{v})$ and $p(\mathbf{v}|\mathbf{h})$ to
 factor over the variables, allowing inference to be computed efficiently while
-avoiding the ``explaining away'' phenomenon (the set of visble or hidden
-variables are indpenedent of each other given the other set). Assuming each of
+avoiding the ``explaining away'' phenomenon (the set of visible or hidden
+variables are independent of each other given the other set). Assuming each of
 these vectors is binary, the RBM models the joint probability distribution
 
 \[
@@ -272,7 +273,7 @@ training vector with respect to a given weight vector $\mathbf{W}$ as,
 \begin{equation}
   \label{eq:cd}
   \frac{\partial \log p(\mathbf{v})}{\partial w_{ij}} = 
-  \langle v_i h_j \rangle_{data} - \langle v_i h_j \rangle_{model}
+  \langle v_i h_j \rangle_{data} - \langle v_i h_j \rangle_{model},
 \end{equation}
 
 where the angle brackets indicate expectations under the specified
@@ -281,10 +282,10 @@ units given visible activations can be accomplished using the following
 equation,
 
 \[
-  p (h_j = 1 | \mathbf{v}) = \sigma\left(b_{j}^{h} + \sum_i v_{i} w_{ij}\right).
+  p (h_j = 1 | \mathbf{v}) = \sigma\left(b_{j}^{h} + \sum_i v_{i} w_{ij}\right),
 \]
 
-where $\sigma$ is the logitistic sigmoid function. To obtain samples for the
+where $\sigma$ is the logistic sigmoid function. To obtain samples for the
 visible units given hidden activations, we make a similar computation,
 
 \[
@@ -322,7 +323,7 @@ rule for updating a weight between two units with learning rate $\eta$ is then
 which as opposed to Equation \ref{eq:rbm:grad} can be computed efficiently for
 all sizes of RBMs.
 
-\subsection{Training a DBN with Constrastive Divergence and Supervised Fine-Tuning}
+\subsection{Training a DBN with Contrastive Divergence and Supervised Fine-Tuning}
 
 We can construct an arbitrarily deep neural network by stacking a series of
 RBMs on top of each other. To train the DBN, we train each one of the stacked
@@ -395,7 +396,7 @@ minimizer will exist and is given by
 \]
 
 
-For neural networks, it is intractible to compute the Hessian of the objective
+For neural networks, it is intractable to compute the Hessian of the objective
 function directly as the matrix is $\mathcal{O}(n^2)$ in the number of
 parameters, $n$. In addition to calculating the Hessian, inverting the matrix
 in order to solve for the minimizer is even more costly, requiring
@@ -461,32 +462,32 @@ F(\mathbf{x}^{(i)}, \mathbf{y}'\,;\,\mathbf{w}) \geq 1 - \xi^{(i)} \\
 \end{split}
 \end{align*}
 
-Where $C$ is a tuneable parameter that represents the cost associated with
+Where $C$ is a tunable parameter that represents the cost associated with
 using slack. When $C = \infty$, the optimization problem is the same as in
 the separable case.
 
-For sequence learning, the class $Y$ of possible labelings can be exponential
+For sequence learning, the class $Y$ of possible labellings can be exponential
 in size, and therefore it is often infeasible to enumerate all of the
 data-specific constraints. Instead, the SVM$^{struct}$ algorithm uses an
 efficient cutting-plane approach to find a solution after adding only a
 polynomial number of constraints. This involves reformulating the problem from
 an $N$-slack problem ($N$ $\xi$ variables) to a 1-slack problem (only a single
 $\xi$ variable). This reformulation only requires that the calculation of
-$\hat{y} = \argmax_{y \in Y}$ be efficiently computible for all examples. The
+$\hat{y} = \argmax_{y \in Y}$ be efficiently computable for all examples. The
 details can be found in \cite{joachims2009cutting}.
 
 \subsection{The SVM$^{hmm}$ model}
 
 The SVM$^{hmm}$ model is a particular formulation of SVM$^{struct}$ where the
-disciminant function is constructed to be isomorphic to a $k$th order Hidden
-Markov Model (HMM). This model was first described in
-\cite{altun2003hidden}. While this model does not have the same
-probabilistic interpretation as the HMM, by mimicking the structure of a
-traditional HMM, $\argmax_{y \in Y}$ becomes efficient to compute, as the same
-Markov property\footnote{Again, we stress that in the case of SVM$^{hmm}$ there
-is no probabilistic interpetation, we use the term ``Markov property'' loosely.}
-can be exploited, simplifying the algorithm. This enables the use of the
-cutting-plane method mentioned above..
+discriminant function is constructed to be isomorphic to a $k$th order Hidden
+Markov Model (HMM). This model was first described in \cite{altun2003hidden}.
+While this model does not have the same probabilistic interpretation as the
+HMM, by mimicking the structure of a traditional HMM, $\argmax_{y \in Y}$
+becomes efficient to compute, as the same Markov property\footnote{Again, we
+  stress that in the case of SVM$^{hmm}$ there is no probabilistic
+interpretation, we use the term ``Markov property'' loosely.} can be exploited,
+simplifying the algorithm. This enables the use of the cutting-plane method
+mentioned above..
 
 To mimic a $k$th order HMM, the function $F$ used by SVM$^{hmm}$ is of the
 form,
@@ -512,26 +513,24 @@ corresponding to the sequence $(y_{(t-k)},\dots,y_{t})$.
 \section{Methods}
 \label{sec:methods}
 
-For all of our methods, we tried using the chroma as the inputs, as well
-the raw STFTs. For the STFTs, we perform a PCA whitening step to the data
-so that the input vectors have zero mean, and spherical identity variance. 
-We would concatenate surrounding frames to the input vectors we want
-to classify to give more contextual information to the algorithms.
+For all of our models, we experimented with using both Chroma and raw STFTs
+as the input data. We also experimented with concatenating surrounding frames
+of each input vector we wanted to classify to give more contextual information
+to the models.
 
-We took the chosen inputs, and trained a deep network using either the
-Contrastive Divergence unsupervised training followed by supervised
-backpropogation, or by training the entire network in a supervised fashion
-using the Hessian Free technique. For the Contrastive Divergence learning, we
+We trained deep belief networks using either Contrastive Divergence (CD)
+unsupervised pre-training followed by supervised error backpropagation, or
+using the Hessian Free (HF) technique with no pre-training. For CD learning, we
 made use of a library provided by Rasmus Berg Palm \cite{IMM2012-06284}. For
-the HF technique, we used code provided by Martens \cite{martens2010deep}.
+the HF technique, we used a library provided by Martens \cite{martens2010deep}.
 
 After training, the test data was then either classified directly by the output
-layer of the trained discriminative network, or it was used to detmine network
-activations which were then fed into the structured SVM classifier
-\cite{joachims1999making}. For every experiment, 5 random permutations of the
-songs were used for training, with 10\% of the total song corpus reserved for
-training, and 10\% used as a validation set for when to stop the network
-training. All results report the average of these 5 permutations.
+layer of the trained network, or was used to compute network activations which
+were then fed into the structured SVM classifier \cite{joachims1999making}. For
+every experiment, 5 random permutations of the songs were used for training,
+with 10\% of the total song corpus reserved for training, and 10\% used as a
+validation set to decide when to stop network training. All results reported
+are an average of models trained on each of these 5 permutations.
 
 For all SVM training, we set $epsilon$ to 1 and $C$ to 100. Additionally,
 even when we trained the networks on 80\% of the data, we only trained the
