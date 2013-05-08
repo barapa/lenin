@@ -654,19 +654,19 @@ With the limited performance of DBNs trained with Contrastive Divergence and
 the poor running time of the SVMs, we lastly turned our attention to the
 Hessian-Free technique for training Deep Networks. This last technique resulted
 in a dramatic increase in performance over our previous techniques. The results
-reported in \ref{fig:hf:softmax} are average performances over 5 random
+reported in Figure \ref{fig:hf:softmax} are average performances over 5 random
 permutations of the training and testing data. Specifically, for each
 permutation, 80\% of the songs were used to train the network, 10\% was used
 as validation for choosing when to stop training as to avoid overfitting, 
 and the final 10\% was used for testing.
 
-The best performace was on a network trained on Chroma features, where inputs
-included 6 frames to the left and 2 frames to the right of the center frame to
-be labeled. The network architecture was input\_layer $\rightarrow$ 800
-$\rightarrow$ 600 $\rightarrow$ 50 $\rightarrow$ 25, and resulted in
-a classification accuracy of 65.60\%. Results for training on STFTs are also
-reported, though the accuracy achieved on these features was significantly
-lower.
+The best performance was achieved via a network trained on Chroma features,
+where inputs included 6 frames to the left and 2 frames to the right of the
+center frame to be labeled. The network architecture was input\_layer
+$\rightarrow$ 800 $\rightarrow$ 600 $\rightarrow$ 50 $\rightarrow$ 25, and
+resulted in a classification accuracy of 65.60\%. Results for training on STFTs
+are also reported, though the accuracy achieved on these features was
+significantly lower.
 
 We found that compared to the CD training, HF training was faster, less prone
 to overfitting, and generally led to better results on the test sets.
@@ -681,7 +681,6 @@ Chroma L6R2 & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 
 STFT L2R0 & 1539$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 49.38\% ($\pm$ 1.85) \\
 STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 50.37\% ($\pm$ 2.51) \\
 \end{tabular}
-\label{fig:hf:softmax}
 \end{center}
 \caption{
   Average softmax prediction accuracy for Deep Neural Networks trained with the
@@ -691,7 +690,7 @@ STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 &
   to stop training in order to avoid overfitting. The final 10\% was used for
   testing.
 }
-
+\label{fig:hf:softmax}
 \end{figure*}
 
 \section{Future Work}
