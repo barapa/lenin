@@ -4,48 +4,48 @@ The top-level auxiliary file: deep_belief_nets.aux
 The style file: icml2013.bst
 Database file #1: deep_belief_nets.bib
 Warning--entry type for "IMM2012-06284" isn't style-file defined
---line 251 of file deep_belief_nets.bib
+--line 270 of file deep_belief_nets.bib
 Warning--can't use both volume and number fields in altun2003hidden
 Warning--empty journal in joachims1999making
-You've used 17 entries,
+You've used 18 entries,
             2773 wiz_defined-function locations,
-            690 strings with 7699 characters,
-and the built_in function-call counts, 7961 in all, are:
-= -- 723
-> -- 407
-< -- 15
-+ -- 140
-- -- 123
-* -- 605
-:= -- 1195
-add.period$ -- 54
-call.type$ -- 17
-change.case$ -- 90
+            699 strings with 7867 characters,
+and the built_in function-call counts, 8381 in all, are:
+= -- 768
+> -- 417
+< -- 16
++ -- 145
+- -- 126
+* -- 643
+:= -- 1261
+add.period$ -- 60
+call.type$ -- 18
+change.case$ -- 94
 chr.to.int$ -- 17
-cite$ -- 36
-duplicate$ -- 396
-empty$ -- 676
-format.name$ -- 144
-if$ -- 1701
-int.to.chr$ -- 1
+cite$ -- 38
+duplicate$ -- 416
+empty$ -- 714
+format.name$ -- 148
+if$ -- 1788
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 15
-newline$ -- 94
-num.names$ -- 68
-pop$ -- 187
+missing$ -- 16
+newline$ -- 102
+num.names$ -- 72
+pop$ -- 191
 preamble$ -- 1
-purify$ -- 74
+purify$ -- 77
 quote$ -- 0
-skip$ -- 308
+skip$ -- 317
 stack$ -- 0
-substring$ -- 308
-swap$ -- 66
+substring$ -- 329
+swap$ -- 70
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 187
+type$ -- 198
 warning$ -- 2
-while$ -- 74
+while$ -- 79
 width$ -- 0
-write$ -- 229
+write$ -- 248
 (There were 3 warnings)

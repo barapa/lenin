@@ -22,10 +22,10 @@ import sys
 # These are paramters for the SVM_HMM model.
 # C is the cost of slack (higher means we use less slack, and solutions take
 # longer to be found).
-C = 100
+C = 10
 # E (epsilon) is the convergence parameter for the
 # quadratic program that is being solved.
-E = 0.1
+E = 0.5
 
 BASH='/bin/bash'
 

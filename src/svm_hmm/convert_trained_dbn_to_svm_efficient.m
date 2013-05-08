@@ -56,7 +56,7 @@ end
 % if different train percentage is passed in, train on those
 if exist('percent_svm_train')
   [train_song_names, ~, ~] = load_run_data(model.run, percent_svm_train)
-  if model.is_chroma
+  if isfield(model, 'is_chroma') && model.is_chroma
     train_song_names = append_chroma_paths(train_song_names);
   else
     train_song_names = get_song_data_full_paths(train_song_names,...

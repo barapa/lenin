@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,11 +12,20 @@ Altun, Yasemin, Tsochantaridis, Ioannis, Hofmann, Thomas, et~al.
 \newblock In \emph{MACHINE LEARNING-INTERNATIONAL WORKSHOP THEN CONFERENCE-},
   volume~20, pp.\ ~3, 2003.
 
-\bibitem[Bengio(2009)]{Bengio_learning}
+\bibitem[Bengio(2009{\natexlab{a}})]{Bengio:2009:LDA}
+Bengio, Yoshua.
+\newblock Learning deep architectures for ai.
+\newblock \emph{Found. Trends Mach. Learn.}, 2\penalty0 (1):\penalty0 1--127,
+  January 2009{\natexlab{a}}.
+\newblock ISSN 1935-8237.
+\newblock \doi{10.1561/2200000006}.
+\newblock URL \url{http://dx.doi.org/10.1561/2200000006}.
+
+\bibitem[Bengio(2009{\natexlab{b}})]{Bengio_learning}
 Bengio, Yoshua.
 \newblock Learning deep architectures for ai.
 \newblock \emph{Foundations and Trends in Machine Learning}, 2:\penalty0
-  1--127, 2009.
+  1--127, 2009{\natexlab{b}}.
 
 \bibitem[Boulanger-Lewandowski et~al.(2012)Boulanger-Lewandowski, Bengio, and
   Vincent]{boulanger2012modeling}

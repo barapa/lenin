@@ -145,17 +145,20 @@ directly.
 
 \section{Dataset} 
 \label{sec:dataset}
-The training and evaluation of our techniques were performed over a set of 180
-hand-labeled Beatles songs \cite{harte2010towards}. The set of chord labels
-was restricted to just the triads, 12 for major triads, 12 for minor triads,
-and a final label representing 'no chord', leading to a total of 25 possible
-chord labels.
+
+The training and evaluation of our techniques was performed on a set of 180
+hand-labeled Beatles songs \cite{harte2010towards}. The set of chord labels was
+restricted to triads: 12 labels for each of the major triads (e.g. C major, D
+major), 12 for each of the minor triads (e.g. C minor, D minor), and a final
+label representing 'no chord', for a total of 25 possible chord labels.
 
 \subsection{Chroma}
-The labeled data was offered in the Chroma format, in which a song is split into
-beat-synchronous frames, each containing 12 features that represent the
-intensity of each semitone, irrespective of octave. Each of these features
-is constrained to be in the range [0,1].
+
+The first feature class we explored was Chroma, a human-engineered feature
+class. To compute chroma, a song is first split into beat-synchronous frames.
+For each frame, 12 features are computed, representing the intensity of each
+semitone of the Western music scale, irrespective of octave. Each of these
+features is constrained to be in the range [0,1].
 
 \subsection{Short-Time Fourier Transform}
 
@@ -175,9 +178,6 @@ whitening was appied to the spectrograms to further reduce the dimensionality
 calculated using only the training set. The test data were then whitened using
 the pre-generated centroid vector and whitening matrix.}
 
-\section{Deep Belief Networks}
-\label{sec:DBN}
-
 \begin{figure}[ht]
 \vskip 0.2in
 \begin{center}
@@ -188,18 +188,22 @@ the pre-generated centroid vector and whitening matrix.}
 \vskip -0.2in
 \end{figure}
 
+\section{Deep Belief Networks}
+\label{sec:DBN}
+
 \subsection{Restricted Boltzmann Machines}
 
 The main building block of a Deep Belief Network is the Restricted Boltzmann
-Machine (RBM). An RBM is an undirected graphical model that represents a
-generative joint probability distribution over a visible vector $\mathbf{v}$
-and a hidden vector $\mathbf{h}$ \cite{mnih2012conditional}. The RBM forms a
-bipartite graph, where each visible node is connected to every hidden node, but
-is not connected to any other visible nodes, and vice versa for the hidden
-nodes.  This allows for a nice factorization of the conditional probability
-distributions, and allows for efficient computation without worrying about the
-'explaining away' phenomenon. Assuming each of these vectors is binary,
-the RBM models the joint probability distribution
+Machine (RBM). An RBM is an undirected graphical model defining a joint
+probability distribution over a vector of observed variables, $\mathbf{v}$ and
+a vector of hidden variables, $\mathbf{h}$ \cite{mnih2012conditional}. The RBM
+is a bipartite graph, where each visible node is connected to every hidden
+node, but no other visible nodes, and vice versa for the hidden nodes. This
+allows for both $p(\mathbf{h}|\mathbf{v})$ and $p(\mathbf{v}|\mathbf{h})$ to
+factor over the variables, allowing inference to be computed efficiently while
+avoiding the ``explaining away'' phenomenon (the set of visble or hidden
+variables are indpenedent of each other given the other set). Assuming each of
+these vectors is binary, the RBM models the joint probability distribution
 
 \[
   p \left( \mathbf{v}, \mathbf{h} \right) = 
@@ -235,7 +239,7 @@ $\mathbf{h}$
                 &= \dfrac{\exp(-F(\mathbf{v}))}{Z}. \\
 \end{align*}
 
-An RBM can then be trained using gradient descent of the negative
+An RBM can be trained using gradient descent of the negative
 log-likelihood, where the log-likelihood is defined as:
 
 \begin{align*}
@@ -243,46 +247,52 @@ log-likelihood, where the log-likelihood is defined as:
             &= -F(\mathbf{v}) - \log \sum_{\mathbf{v'}} \exp \left(-F(\mathbf{v'})\right), \\
 \end{align*}
 
-and the gradient
+which yields the following gradient,
 
-\[
+\begin{equation}
+  \label{eq:rbm:grad}
   \frac{- \partial l(\theta)}{\partial \theta}
   = \frac{\partial F(\mathbf{v})}{\partial \theta} - 
   \sum_{\mathbf{v'}}\frac{\partial F(\mathbf{v'})}{\partial \theta}
                   p(\mathbf{v})
-\]
+\end{equation}
+
+While this method works in theory, Equation \ref{eq:rbm:grad} is intractable to
+compute for all but the smallest of models, as the second term on the
+right-hand side is an expectation over the model distribution $p(\mathbf{v})$.
 
 
 \subsection{Contrastive Divergence}
 
-The gradient described prevously cannot be computed tractably for large models,
-as it requires computing an expectation over the model distribution
-$p(\mathbf{v})$.  However, we can still train RBMs efficiently using a
-technique introduced by Hinton called Contrastive Divergence
-\cite{hinton_contrastivedivergence}. The derivative of the log probability of a
-training vector with respect to a weight in $\mathbf{W}$ is 
+In 2002, Geoff Hinton introduced an efficient method for training RMBs called
+Contrastive Divergence \cite{hinton_contrastivedivergence, Hinton06afast}. In
+this method, we calculate the derivative of the log probability for a particular
+training vector with respect to a given weight vector $\mathbf{W}$ as,
 
-\[
+\begin{equation}
+  \label{eq:cd}
   \frac{\partial \log p(\mathbf{v})}{\partial w_{ij}} = 
   \langle v_i h_j \rangle_{data} - \langle v_i h_j \rangle_{model}
-\]
+\end{equation}
 
-where the angle brackets indicate expectaions under the specified distributions.
-Because the RBM is bipartite, obtaining samples from the hidden units given
-visible activations is simply
+where the angle brackets indicate expectations under the specified
+distributions.  Because the RBM is bipartite, obtaining samples from the hidden
+units given visible activations can be accomplished using the following
+equation,
 
 \[
-  p (h_j = 1 | \mathbf{v}) = \sigma\left(b_{j}^{h} + \sum_i v_{i} w_{ij}\right)
+  p (h_j = 1 | \mathbf{v}) = \sigma\left(b_{j}^{h} + \sum_i v_{i} w_{ij}\right).
 \]
 
-and obtaining samples for the visible units given hidden activations is
+where $\sigma$ is the logitistic sigmoid function. To obtain samples for the
+visible units given hidden activations, we make a similar computation,
+
 \[
   p (v_i = 1 | \mathbf{h}) = \sigma\left(b_{i}^{v} + \sum_j h_j w_{ij}\right).
 \]
 
-where $\sigma$ is the logistic sigmoid function.
 
-If the visible units are real-valued, instead of binary, we can use a
+If the visible units are real-valued instead of binary, we can use a
 Gaussian-Bernoulli RBM by simply changing the sampling equation for the visible
 vector to be:
 \[
@@ -300,105 +310,101 @@ we initialize the visible vector by clamping it to a training vector sampled
 from the empirical data distribution, and only take a few Gibbs sampling steps,
 we can obtain an estimate of the model distribution called the
 ``reconstruction'' that works well empirically for estimating the gradient. In
-fact, good results can be obtained by simply taking a single Gibbs step to
-create this reconstruction. The learning rule for updating a weight between two
-units with learning rate $\eta$ is then
+fact, good results can be obtained by taking a single Gibbs step.  The learning
+rule for updating a weight between two units with learning rate $\eta$ is then
 
 \[
   \triangle w_{ij} = \eta( 
   \langle v_i h_j \rangle_{data} - \langle v_i h_j \rangle_{recon}
   )
 \]
-which can be computed very efficiently.
 
-\subsection{Training a DBN with Constrastive Divergence and Supervised Fine Tuning}
+which as opposed to Equation \ref{eq:rbm:grad} can be computed efficiently for
+all sizes of RBMs.
 
-By stacking a series of RBMs, we can use this Constrastive Divergence technique
-to train each RBM separately in a greedy, layer-wise fashion in order to train
-a deep architecture. With these stacked RBMs, the hidden layer of one RBM
-becomes the visible layer of the RBM above it, and each is trained by sampling
-from the distributions below it to initiate the visible vectors for
-Contrastive Divergence training.
+\subsection{Training a DBN with Constrastive Divergence and Supervised Fine-Tuning}
+
+We can construct an arbitrarily deep neural network by stacking a series of
+RBMs on top of each other. To train the DBN, we train each one of the stacked
+RBMs individually using the Contrastive Divergence (CD) technique. Starting at
+with the bottommost visible layer, we train successive layers in a bottom-up
+fashion, using the hidden layer of the previous layer's RBM as the visible
+layer for the RBM above it (we initialize the visible vector of the first layer
+using our input data). Each RBM is trained by sampling from the distributions
+below it to initialize the visible vectors for CD training.
 
 Once each layer has been trained, the final step for training the DBN is to
 unfold its layers into a standard, feed-forward neural network, and add a final
-softmax layer of output units that we can use for classification. We use the
-weights learned from the unsupervised Contrastive Divergence pretraining to
-then initialize this feed forward network, which we can train in a supervised
-manner using standard backpropogation on a set of labeled examples. In this
-manner we allow the unsupervised phase to find a good initialization of the
-weights by potentially avoiding local minima, and let the supervised
-backpropogation training ``fine-tune'' the model to perform well on the
-classification task at hand.
+softmax layer of output units that can be used for classification. We use the
+weights learned from the unsupervised CD pre-training to initialize the weights
+of the feed forward network, which are then fine-tuned in a supervised manner
+using error backpropagation on a set of labeled examples. It is thought that
+the unsupervised pre-training helps to find a good initialization of the weights
+of the feed-forward network by avoiding local minima \cite{Bengio:2009:LDA}.
 
 \subsection{Training a Deep Neural Network with Hessian Free Optimization}
 
-Hessian-Free optimization (HF) techniques belong to the class of approximate
-Newton methods for the minimization of real-valued smooth objective functions
-\cite{martens2012training}. In 2010, Martens introduced an algorithm for
-training deep neural networks using Hessian-Free optimization on only labeled
-data, without the need for unsupervised pre-training \cite{martens2010deep}.
-Using HF, Martens was able to obtain similar or even superior results for
-training deep networks than the standard methods described above. 
+Recently, Martens has proposed an alternative approach to the one presented
+above that can achieve similar performance and requires no pre-training
+\cite{martens2010deep}.  As opposed to traditional error backpropagation, this
+technique relies on a second-order method called Hessian-Free (HF)
+optimization. Using HF, Martens was able to obtain similar and sometimes
+superior results for training deep networks than the methods described above.
 
-The basic idea behind HF is derived from the classical Newton's method, where
-local quadratic approximations of the objective function are iteratively
-optimized to produce updates to the parameters $\mathbf{\theta}$.  More
-precisely, at each step we optimize a local quadratic model
+Second-order optimization techniques can be more effective than normal gradient
+descent methods because they take into account information about the local
+curvature of the objective function when performing parameter updates. This
+additional information allows these techniques to avoid the trappings of
+pathological curvature in the parameter space, which has been known for some
+time to be a major issue with training deep neural networks. By taking
+second-order information into account, these learning methods also have fewer
+adjustable parameters than traditional first-order methods, as details such as
+the step size for a particular update can be computed using a line search,
+rather than being defined by a fixed constant.
+
+HF techniques belong to the class of approximate Newton methods for the
+minimization of real-valued, smooth-objective functions
+\cite{martens2012training}. The basic idea behind HF is derived from Newton's
+method, where local quadratic approximations of the objective function are
+iteratively optimized to produce updates to the parameters $\mathbf{\theta}$.
+More precisely, at each step we optimize a local quadratic model
 $M_{k-1}(\mathbf{\delta)}$ of the objective function $f(\mathbf{\theta_{k-1}} +
-\mathbf{\delta})$ which is estimated using the gradient and curvature
-information local to $\mathbf{\theta_{k-1}}$ to produce a new parameter vector
-$\mathbf{\theta_k}$. The quadratic approximation is defined as
+\mathbf{\delta})$, which is estimated using the gradient and curvature
+information local to $\mathbf{\theta_{k-1}}$, to produce a new parameter vector
+$\mathbf{\theta_k}$. The quadratic approximation is defined as,
 
 \[
   M_{k-1}(\mathbf{\delta}) = f(\mathbf{\theta}_{k-1})
   + \nabla f(\mathbf{\theta_{k-1})^T \delta}
-  + \frac{1}{2} \mathbf{\delta^T B_{k-1} \delta}
+  + \frac{1}{2} \mathbf{\delta^T B_{k-1} \delta},
 \]
 
 where $\mathbf{B_{k-1}}$ is the curvature matrix, which is the Hessian
-$\mathbf{H(\theta_{k-1})}$ of $f$ at $\mathbf{\theta_{k-1}}$ for the standard
-Newton's method. The updated parameters are then computed as
-$\mathbf{\theta_{k=1}} + \alpha_k \mathbf{\delta^{*}_{k}}$, where
-$\mathbf{\delta^{*}_{k}}$ is the minimizer of $M_{k-1}(\mathbf{\delta)}$ and
-$\alpha_k$ is a step-size chosen via a line-search.
+$\mathbf{H(\theta_{k-1})}$ of $f$ at $\mathbf{\theta_{k-1}}$ for Newton's
+method. The updated parameters are then computed as $\mathbf{\theta_{k-1}} +
+\alpha_k \mathbf{\delta^{*}_{k}}$, where $\mathbf{\delta^{*}_{k}}$ is the
+minimizer of $M_{k-1}(\mathbf{\delta)}$ and $\alpha_k$ is the step-size chosen
+via line search.
 
-When the curvature matrix $\mathbf{B_{k-1}}$ is positive definite, the minimizer will
-exist and is given by
+When the curvature matrix $\mathbf{B_{k-1}}$ is positive definite, the
+minimizer will exist and is given by
 
 \[
   \mathbf{\delta^{*}_{k}} =
   \mathbf{\theta_k} - \mathbf{B^{-1}_{k-1}} \nabla f(\mathbf{\theta_{k-1}}).
 \]
 
-However, using the Hessian as the curvature matrix makes this computation
-generally intractible as the Hessian itself is quadratic in the number
-of parameters, which in the case of deep neural networks is very large.
-Additionally, inverting the Hessian to solve for the minimizer has a computational
-complexity of $O(n^3)$.
 
-To avoid this computational cost of inversion, HF and other so-called
-Truncated-Newton methods approximately optimize the quadratic function $M$
-using the conjugate gradient algorithm in order to update $\theta$.
-
-Conjugate Gradient has the additional property that it only requires the use
-of matrix-vector products with the curvature matrix $\mathbf{B}$, which can
-be computed more efficiently than the entire matrix.
-
-In addition to providing a method to compute these matrix-vector products efficiently
-in the case of a deep neural network, Martens also recommends using a generalized
-Gauss-Newton matrix as the curvature matrix, as an estimation of the Hessian.
-A nice property of this curvature matrix is that it does not have some of the
-problems of indefiniteness that the true Hessian can have, which allows for 
-optimization via conjugate gradient to proceed properly. 
-
-For more details on this HF optimization method, we point the reader to
-Marten's work on the subject \cite{martens2010deep}. However, it has been noted
-that this method can be a more effective optimizer than normal gradient descent
-methods such as backpropogation, since it can use information about the curvature
-of the objective function to gauge its parameter updates. This may allow it
-to avoid pathological curvature in the parameter space, which seems to be an
-issue when training deep neural networks.
+For neural networks, it is intractible to compute the Hessian of the objective
+function directly as the matrix is $\mathcal{O}(n^2)$ in the number of
+parameters, $n$. In addition to calculating the Hessian, inverting the matrix
+in order to solve for the minimizer is even more costly, requiring
+$\mathcal{O}(n^3)$ computations. To avoid computing and inverting the Hessian,
+HF and other so-called truncated Newton methods approximately optimize the
+quadratic function $M$ using the conjugate gradient (CG) algorithm to update
+$\theta$ at each step. This alternative is efficient because CG only requires
+matrix-vector products with the curvature matrix $\mathbf{B}$, which can be
+computed efficiently.
 
 \section{Large Margin Structured Predictions}
 \label{sec:svms}
