@@ -547,8 +547,8 @@ SVM on 30\% of the data, due to computational costs.
 Input & Structure & Acc. (avg.) \\
 \hline
 Chroma & 12$\rightarrow$12$\rightarrow$25$\rightarrow$25 & 39.36\% ($\pm$ 2.25) \\
-STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
 Chroma & 12$\rightarrow$300$\rightarrow$300$\rightarrow$25 & 14.20\% ($\pm$ 1.42) \\
+STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
 STFTs & 513 $\rightarrow$300$\rightarrow$300$\rightarrow$25 & 42.30\% ($\pm$ 2.6) \\
 \end{tabular}
 
@@ -559,6 +559,25 @@ different permutations of the training data.}
 
 \end{figure}
 
+\begin{figure}
+\begin{tabular}{c|c|l}
+Input & Structure & Acc. (avg.) \\
+\hline
+Chroma L6R2 & 108$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 65.46\% ($\pm$ 1.67) \\
+Chroma L6R2 & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 65.60\% ($\pm$ 2.10) \\
+STFT L2R0 & 1539$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 49.38\% ($\pm$ 1.85) \\
+STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 50.37\% ($\pm$ 2.51) \\
+\end{tabular}
+\caption{
+  Average softmax prediction accuracy for Deep Neural Networks trained with the
+  Hessian Free method on 80\% of the training data. L and R values represent
+  frames included from the left and the right of each center window as input to
+  the network. A validation set of 10\% of the data was used to determine when
+  to stop training in order to avoid overfitting. The final 10\% was used for
+  testing.
+}
+
+\end{figure}
 
 \begin{figure}
 \begin{tabular}{c|c|l}
