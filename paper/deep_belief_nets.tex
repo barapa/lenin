@@ -529,8 +529,9 @@ layer of the trained network, or was used to compute network activations which
 were then fed into the structured SVM classifier \cite{joachims1999making}. For
 every experiment, 5 random permutations of the songs were used for training,
 with 10\% of the total song corpus reserved for training, and 10\% used as a
-validation set to decide when to stop network training. All results reported
-are an average of models trained on each of these 5 permutations.
+validation set to decide when to stop network training. All results reported,
+unless specified otherwise, are an average of models trained on each of these 5
+permutations.
 
 For all SVM training, we set $epsilon$ to 1 and $C$ to 100. Additionally,
 even when we trained the networks on 80\% of the data, we only trained the
@@ -538,6 +539,54 @@ SVM on 30\% of the data, due to computational costs.
 
 \section{Results}
 \label{sec:results}
+
+\subsection{DBN Softmax Performance}
+
+\begin{figure}
+\begin{tabular}{c|c|l}
+Input & Structure & Acc. (avg.) \\
+\hline
+Chroma & 12$\rightarrow$12$\rightarrow$25$\rightarrow$25 & 39.36\% ($\pm$ 2.25) \\
+STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
+Chroma & 12$\rightarrow$300$\rightarrow$300$\rightarrow$25 & 14.20\% ($\pm$ 1.42) \\
+STFTs & 513 $\rightarrow$300$\rightarrow$300$\rightarrow$25 & 42.30\% ($\pm$ 2.6) \\
+\end{tabular}
+
+\caption{Average softmax prediction accuracy for DBNs trained on 30\% of the
+training data using CD pre-training and error backpropagation fine-tuning.
+Results were calculated by training and evaluating individual models on 10
+different permutations of the training data.}
+
+\end{figure}
+
+
+\begin{figure}
+\begin{tabular}{c|c|l}
+Input & Structure & Acc (avg.) \\
+\hline
+Chroma & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 46.2\% ($\pm$ 2.34) \\
+Chroma & 108$\rightarrow$100$\rightarrow$100$\rightarrow$50$\rightarrow$25  & 55.9\% ($\pm$ 2.05) \\
+STFTs & 768$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 48.8\% ($\pm$ 2.6) \\
+STFTs & 768$\rightarrow$300$\rightarrow$300$\rightarrow$50$\rightarrow$25 & 42.8\% ($\pm$ 3.1) \\
+\end{tabular}
+
+\caption{Average softmax prediction accuracy for DBNs trained on 80\% of the
+  training data using CD pre-training and error backpropagation fine-tuning.
+  For models trained on chroma, the 4 consecutive previous and 4 consecutive
+  future frames were append to each individual frame to provide models with
+more temporal context.  For models trained on raw STFTs, the 2 consecutive
+previous frames were appended. Results were calculated by training and
+evaluating individual models on 5 different permutations of the training data.}
+
+\end{figure}
+
+\subsection{SVM Performance}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
 
 \bibliography{deep_belief_nets}
 \bibliographystyle{icml2013}
