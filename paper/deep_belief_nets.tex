@@ -536,24 +536,27 @@ validation set to decide when to stop network training. All results reported,
 unless specified otherwise, are an average of models trained on each of these 5
 permutations.
 
-For all SVM training, we set $epsilon$ to 1 and $C$ to 100. Additionally,
-even when we trained the networks on 80\% of the data, we only trained the
-SVM on 30\% of the data, due to computational costs.
-
 \section{Results}
 \label{sec:results}
 
 \subsection{DBN with CD Pre-training Softmax Performance}
 
-The first thing we attempted was to train DBN using the standard Contrastive
-Divergence approach discussed above. 
+The first thing we attempted was to train DBNs using the standard Contrastive
+Divergence approach discussed above. We focused on getting models to be
+performant at predicting chord labels for individual frames alone. Based on
+preliminary results, we trained a set of models on both Chroma and raw STFTs
+using similar architectures.  Average performance results are presented in
+Figure \ref{fig:dbn:softmax}, and correspond to 10 individual models trained on
+10 differnt permutations of the Beatles set. All models were trained on 30\% of
+the training data. The most performant of these models achieved an average
+accuracy of 42.3\% at test.
 
 \begin{figure*}
 \begin{center}
 \begin{tabular}{c|c|l}
 Input & Structure & Acc. (avg.) \\
 \hline
-Chroma & 12$\rightarrow$12$\rightarrow$25$\rightarrow$25 & 39.36\% ($\pm$ 2.25) \\
+Chroma & 12$\rightarrow$50$\rightarrow$25$\rightarrow$25 & 39.36\% ($\pm$ 2.25) \\
 Chroma & 12$\rightarrow$300$\rightarrow$300$\rightarrow$25 & 14.20\% ($\pm$ 1.42) \\
 STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
 STFTs & 513 $\rightarrow$300$\rightarrow$300$\rightarrow$25 & 42.30\% ($\pm$ 2.6) \\
@@ -567,6 +570,87 @@ Results were calculated by training and evaluating individual models on 10
 different permutations of the training data.}
 
 \end{figure*}
+
+Next, we trained another set of models using larger layers sizes since this
+seemed to help networks do better. For this second set of models, we trained
+networks with 80\% of the training set instead of 30\%. In addition, we
+concatenated a number of previous and future frames to the input data to add
+more temporal context. For Chroma networks, we included the four consecutive
+previous and four consecutive future frames. For STFT networks, because the
+original size is much larger, we concatenated just the previous two frames.
+Figure \ref{fig:dbn:softmax:2} shows averaged results for these models. The
+best network from this set achieved an average accuracy of 55.9\% at test, a
+large improvement over the first set.
+
+
+\begin{figure*}
+  \begin{center}
+\begin{tabular}{c|c|l}
+Input & Structure & Acc (avg.) \\
+\hline
+Chroma & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 46.2\% ($\pm$ 2.34) \\
+Chroma & 108$\rightarrow$100$\rightarrow$100$\rightarrow$50$\rightarrow$25  & 55.9\% ($\pm$ 2.05) \\
+STFTs & 768$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 48.8\% ($\pm$ 2.6) \\
+STFTs & 768$\rightarrow$300$\rightarrow$300$\rightarrow$50$\rightarrow$25 & 42.8\% ($\pm$ 3.1) \\
+\end{tabular}
+\label{fig:dbn:softmax:2}
+\end{center}
+
+\caption{Average softmax prediction accuracy for DBNs trained on 80\% of the
+  training data using CD pre-training and error backpropagation fine-tuning.
+  For models trained on chroma, the 4 consecutive previous and 4 consecutive
+  future frames were append to each individual frame to provide models with
+more temporal context.  For models trained on raw STFTs, the 2 consecutive
+previous frames were appended. Results were calculated by training and
+evaluating individual models on 5 different permutations of the training data.}
+
+\end{figure*}
+
+
+\subsection{SVM Performance}
+
+\begin{figure}
+  \begin{center}
+  \begin{tabular}{c|c|c|c}
+    Layers & $C$ & $\epsilon$ & Avg. Accuracy \\
+    \hline
+    Chroma & 100 & 0.1 & 60.5\% ($\pm$ 2.6) \\
+    All Layers & 10 & 0.5 & 57.6\% ($\pm$ 2.0) \\
+  \end{tabular}
+  \end{center}
+  \label{fig:svms}
+\end{figure}
+
+Figure \ref{fig:svms} compares the average performance of SVMs trained on the
+Chroma features directly to SVMs trained on the activations of a DBN previously
+trained on the Chroma features. The network structure used for the DBN was
+input\_layer $\rightarrow$ 100 $\rightarrow$ 100 $\rightarrow$ 50 $\rightarrow$
+25. These networks were trained on 80\% of the Beatles data set. The SVMs
+trained on DBN activations were outperformed by SVMs trained on the Chroma
+features directly.  The average accuracy for SVMs trained on DBN activations
+was 57.6\%, while the average accuracy of SVMs trained on Chroma features was
+60.5\%. While less performant, the SVMs trained on DBN activations still
+outperformed the original DBN softmax prediction accuracy, which for this
+network as 55.9\%.
+
+We attempted to also collect data for SVMs trained on the raw STFTs, but had
+not anticipated the dramatic increase in training time required. While the
+Chroma feature set breaks songs into approximately 200-300 frames of 12
+features each, our STFT preprocessing generated on average 1000-2000
+frames per song, with 256 features per frame. In order to reduce the training
+time, we had to relaxed our original target goals for $C$ values as well as
+$\epsilon$, but it wasn't enough to generated a full set of averaged results
+within the time limit for this paper. However, individual results were in-line
+with the results of SVMs trained on Chroma features and Chroma-trained DBN
+activations.
+
+
+\subsection{DBN Softmax Performance with HF training}
+
+With the limited performance of DBNs trained with Contrastive Divergence and
+the poor running time of the SVMs, we lastly turned our attention to the
+Hessian-Free technique for training DBNs. This last technique resulted in a
+dramatic increase in performance over our previous techniques.
 
 \begin{figure*}
   \begin{center}
@@ -590,38 +674,26 @@ STFT L2R0 & 1539$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 &
 
 \end{figure*}
 
-\begin{figure*}
-  \begin{center}
-\begin{tabular}{c|c|l}
-Input & Structure & Acc (avg.) \\
-\hline
-Chroma & 108$\rightarrow$800$\rightarrow$600$\rightarrow$50$\rightarrow$25 & 46.2\% ($\pm$ 2.34) \\
-Chroma & 108$\rightarrow$100$\rightarrow$100$\rightarrow$50$\rightarrow$25  & 55.9\% ($\pm$ 2.05) \\
-STFTs & 768$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 48.8\% ($\pm$ 2.6) \\
-STFTs & 768$\rightarrow$300$\rightarrow$300$\rightarrow$50$\rightarrow$25 & 42.8\% ($\pm$ 3.1) \\
-\end{tabular}
-\end{center}
+\section{Future Work}
+\label{sec:future_work}
 
-\caption{Average softmax prediction accuracy for DBNs trained on 80\% of the
-  training data using CD pre-training and error backpropagation fine-tuning.
-  For models trained on chroma, the 4 consecutive previous and 4 consecutive
-  future frames were append to each individual frame to provide models with
-more temporal context.  For models trained on raw STFTs, the 2 consecutive
-previous frames were appended. Results were calculated by training and
-evaluating individual models on 5 different permutations of the training data.}
+Moving forward, the most natural extension of the work presented here would be
+to train Recurrent Neural Networks (RNN) using the Hessian-Free method. RNNs
+are similar to DBNs except each layer receives activation both from the layer
+below it, and an additional layer which corresponds to the activation of the
+particular layer at the previous time step. Neural networks constructed in this
+way include a natural temporal element, which enables the networks to be much
+more adept at structured prediction problems. We anticipate that this extension
+would improve on the best models presented here.
 
-\end{figure*}
+In addition, given more time, it would be interesting to train networks using
+the Contrastive Divergence method on a much larger training set than the
+Beatles data set. Most state-of-the-art results involving Contrastive
+Divergence required training networks on hundreds of thousands (and sometimes
+millions) of unlabeled examples. We anticipate that doing the same thing in
+this context may lead to a dramatic increase in performance of our DBNs, as the
+additional unlabeled data will help the DBNs to generalize correctly.
 
-\subsection{SVM Performance}
-
-\section{Discussion}
-\label{sec:discussion}
-
-\section{Conclusion}
-\label{sec:conclusion}
-
-\newpage
-$\,$
 \newpage
 
 \bibliography{deep_belief_nets}
