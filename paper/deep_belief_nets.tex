@@ -103,7 +103,7 @@ preprocessing steps to transform the original input data into a form that is
 easy to learn from. Recently, with the advent of efficient algorithms for
 training many-layered (deep) neural networks, researchers have begun to explore
 using neural networks to learn a set of features directly from the data itself.
-This process is often called "deep learning".
+This process is often called ``deep learning.''
 
 One of the most popular and successful methods for unsupervised feature
 learning has been the use of Deep Belief Networks (DBN), a specific class of
@@ -124,7 +124,7 @@ minima and provide a better set of initial weights to be used with standard
 error backpropagation training \cite{Bengio_learning}.
 
 In this work, we investigate the use of Deep Belief Networks for automatically
-learning a set of features for use in automatically identifying chords played
+learning a set of features for use in identifying chords played
 in songs. The task is somewhat simple: given a song, produce a list of
 (timestamp, chord) labels to indicate which chords are played. We attempt to
 accomplish this task in two ways. First, we explore using DBNs to learn a set
@@ -133,13 +133,13 @@ capable of learning how to make structured predictions.  Second, we explore
 using DBNs to label the chords of songs directly.
 
 The paper is structured as follows: in \S \ref{sec:dataset}, we briefly cover
-the input dataset as well as the human-engineered feature set which we will be
-comparing our results to. In \S \ref{sec:DBN} we discuss the theory motivating
-Deep Belief Networks and overview the algorithms we use to train them. \S
-\ref{sec:svms} discusses the Structured Support Vector Machine model. In \S
-\ref{sec:methods} we overview the different models and methods used in our
-experiments. Lastly, in \S \ref{sec:results} we present the performance of our
-models and compare them to models trained with human-engineered features
+the input dataset as well as the human-engineered feature set to which we will
+be comparing our results. In \S \ref{sec:DBN} we discuss the theory
+motivating Deep Belief Networks and overview the algorithms we use to train
+them. \S \ref{sec:svms} discusses the Structured Support Vector Machine model.
+In \S \ref{sec:methods} we overview the different models and methods used in
+our experiments. Lastly, in \S \ref{sec:results} we present the performance of
+our models and compare them to models trained with human-engineered features
 directly.
 
 
@@ -150,7 +150,7 @@ The training and evaluation of our techniques was performed on a set of 180
 hand-labeled Beatles songs \cite{harte2010towards}. The set of chord labels was
 restricted to triads: 12 labels for each of the major triads (e.g. C major, D
 major), 12 for each of the minor triads (e.g. C minor, D minor), and a final
-label representing 'no chord', for a total of 25 possible chord labels.
+label representing `no chord,' for a total of 25 possible chord labels.
 
 \subsection{Chroma}
 
@@ -162,7 +162,7 @@ features is constrained to be in the range [0,1].
 
 \subsection{Short-Time Fourier Transform}
 
-In addition to the human-engineered chroma features, we investigated the
+In addition to the human-engineered Chroma features, we investigated the
 performance of both DBNs and StructSVMs on raw audio input. To transform a raw
 audio signal into a convenient format for our models, we took the following
 preprocessing steps: First, the raw audio signal of each song was downsampled
@@ -172,12 +172,12 @@ transform was computed for 1024 frequencies, of which we only kept the absolute
 values and thus considering the symmetry of the FT were left with 512
 frequencies. As a final preprocessing step, Principal Component Analysis (PCA)
 whitening was applied to the spectrograms to further reduce the dimensionality
-(using 256 components) of our input data and make the variance
-spherical.\footnote{The testing dataset was always left out of the
-  calculations required for PCA whitening, including the calculation of the
-centroid vector and whitening matrix.  Instead these were calculated using only
-the training set. The test data were then whitened using the pre-generated
-centroid vector and whitening matrix.}
+(using 256 components) of our input data and to make the variance
+spherical.\footnote{The testing dataset was always left out of the calculations
+  required for PCA whitening, including the calculation of the centroid vector
+and whitening matrix.  Instead these were calculated using only the training
+set. The test data were then whitened using the pre-generated centroid vector
+and whitening matrix.}
 
 \begin{figure}
 \vskip 0.2in
@@ -196,7 +196,7 @@ centroid vector and whitening matrix.}
 
 The main building block of a Deep Belief Network is the Restricted Boltzmann
 Machine (RBM). An RBM is an undirected graphical model defining a joint
-probability distribution over a vector of observed variables, $\mathbf{v}$ and
+probability distribution over a vector of observed variables, $\mathbf{v}$, and
 a vector of hidden variables, $\mathbf{h}$ \cite{mnih2012conditional}. The RBM
 is a bipartite graph, where each visible node is connected to every hidden
 node, but no other visible nodes, and vice versa for the hidden nodes. This
@@ -223,7 +223,8 @@ $\mathbf{v}$ and $\mathbf{h}$, $\mathbf{b^v}$ are the biases for the visible
 vector elements, and $\mathbf{b^h}$ are the biases for the hidden vector
 elements.
 
-If we define the free energy $F(\mathbf{v})$ as
+If we define the free energy $F(\mathbf{v})$ as,
+
 \begin{align*}
   F \left( \mathbf{v} \right) &= -\log \sum_{\mathbf{h}} \exp \left( -E \left( \mathbf{v,h} \right) \right) \\
   &= \mathbf{v^Tb^v} - \sum_{\mathbf{j}} \log
@@ -233,7 +234,7 @@ If we define the free energy $F(\mathbf{v})$ as
 \end{align*}
 
 then we can obtain the distribution $p(\mathbf{v})$ by marginalizing over
-$\mathbf{h}$
+$\mathbf{h}$,
 
 \begin{align*}
   p(\mathbf{v}) &= \dfrac{\sum_{\mathbf{h}} \exp(-E(\mathbf{v, h}))}{Z} \\
@@ -273,7 +274,7 @@ training vector with respect to a given weight vector $\mathbf{W}$ as,
 \begin{equation}
   \label{eq:cd}
   \frac{\partial \log p(\mathbf{v})}{\partial w_{ij}} = 
-  \langle v_i h_j \rangle_{data} - \langle v_i h_j \rangle_{model},
+  \langle v_i h_j \rangle_{\text{data}} - \langle v_i h_j \rangle_{\text{model}},
 \end{equation}
 
 where the angle brackets indicate expectations under the specified
@@ -305,7 +306,7 @@ where we generally normalize the data such that $\sigma = 1$.
 
 We could compute the expectation under the model by running a Gibbs chain for a
 long time, where we alternatively sample hidden states given visible states,
-and visible states given hidden states repeatedly until we converged on the
+and visible states given hidden states repeatedly until we converge on the
 model distribution. However, the insight of Contrastive Divergence is that if
 we initialize the visible vector by clamping it to a training vector sampled
 from the empirical data distribution, and only take a few Gibbs sampling steps,
@@ -315,8 +316,8 @@ fact, good results can be obtained by taking a single Gibbs step.  The learning
 rule for updating a weight between two units with learning rate $\eta$ is then
 
 \[
-  \triangle w_{ij} = \eta( 
-  \langle v_i h_j \rangle_{data} - \langle v_i h_j \rangle_{recon}
+  \delta w_{ij} = \eta( 
+  \langle v_i h_j \rangle_{\text{data}} - \langle v_i h_j \rangle_{\text{recon}}
   )
 \]
 
@@ -327,7 +328,7 @@ all sizes of RBMs.
 
 We can construct an arbitrarily deep neural network by stacking a series of
 RBMs on top of each other. To train the DBN, we train each one of the stacked
-RBMs individually using the Contrastive Divergence (CD) technique. Starting at
+RBMs individually using the Contrastive Divergence (CD) technique. Starting
 with the bottommost visible layer, we train successive layers in a bottom-up
 fashion, using the hidden layer of the previous layer's RBM as the visible
 layer for the RBM above it (we initialize the visible vector of the first layer
@@ -338,7 +339,7 @@ Once each layer has been trained, the final step for training the DBN is to
 unfold its layers into a standard, feed-forward neural network, and add a final
 softmax layer of output units that can be used for classification. We use the
 weights learned from the unsupervised CD pre-training to initialize the weights
-of the feed forward network, which are then fine-tuned in a supervised manner
+of the feed-forward network, which are then fine-tuned in a supervised manner
 using error backpropagation on a set of labeled examples. It is thought that
 the unsupervised pre-training helps to find a good initialization of the weights
 of the feed-forward network by avoiding local minima \cite{Bengio:2009:LDA}.
@@ -417,7 +418,7 @@ Finally, to make predictions for the sequence of chord labels over a song,
 we turn to an extension of Support Vector Machines (SVM) that can support
 structured classification problems such as sequence prediction. Under this
 extension, the goal is to learn a function $F : X \times Y \rightarrow
-\mathbf{R}$ with weight vector $\mathbf{w}$ such that,
+\mathbb{R}$ with weight vector $\mathbf{w}$ such that,
 
 \begin{equation*}
 f(\mathbf{x}) = \argmax_{y \in Y}F(\mathbf{x},\mathbf{y}\,;\,\mathbf{w})
@@ -471,7 +472,7 @@ the separable case.
 
 For sequence learning, the class $Y$ of possible labellings can be exponential
 in size, and therefore it is often infeasible to enumerate all of the
-data-specific constraints. Instead, the SVM$^{struct}$ algorithm uses an
+data-specific constraints. Instead, the StructSVM algorithm uses an
 efficient cutting-plane approach to find a solution after adding only a
 polynomial number of constraints. This involves reformulating the problem from
 an $N$-slack problem ($N$ $\xi$ variables) to a 1-slack problem (only a single
@@ -479,20 +480,20 @@ $\xi$ variable). This reformulation only requires that the calculation of
 $\hat{y} = \argmax_{y \in Y}$ be efficiently computable for all examples. The
 details can be found in \cite{joachims2009cutting}.
 
-\subsection{The SVM$^{hmm}$ model}
+\subsection{The SVM-HMM model}
 
-The SVM$^{hmm}$ model is a particular formulation of SVM$^{struct}$ where the
+The SVM-HMM model is a particular formulation of StrcutSVM where the
 discriminant function is constructed to be isomorphic to a $k$th order Hidden
 Markov Model (HMM). This model was first described in \cite{altun2003hidden}.
 While this model does not have the same probabilistic interpretation as the
 HMM, by mimicking the structure of a traditional HMM, $\argmax_{y \in Y}$
 becomes efficient to compute, as the same Markov property\footnote{Again, we
-  stress that in the case of SVM$^{hmm}$ there is no probabilistic
+  stress that in the case of SVM-HMM there is no probabilistic
 interpretation, we use the term ``Markov property'' loosely.} can be exploited,
 simplifying the algorithm. This enables the use of the cutting-plane method
-mentioned above..
+mentioned above.
 
-To mimic a $k$th order HMM, the function $F$ used by SVM$^{hmm}$ is of the
+To mimic a $k$th order HMM, the function $F$ used by SVM-HMM is of the
 form,
 
 \begin{flalign*}
@@ -521,7 +522,7 @@ as the input data. We also experimented with concatenating surrounding frames
 of each input vector we wanted to classify to give more contextual information
 to the models.
 
-We trained deep belief networks using either Contrastive Divergence (CD)
+We trained Deep Belief Networks using either Contrastive Divergence (CD)
 unsupervised pre-training followed by supervised error backpropagation, or
 using the Hessian Free (HF) technique with no pre-training. For CD learning, we
 made use of a library provided by Rasmus Berg Palm \cite{IMM2012-06284}. For
@@ -529,12 +530,12 @@ the HF technique, we used a library provided by Martens \cite{martens2010deep}.
 
 After training, the test data was then either classified directly by the output
 layer of the trained network, or was used to compute network activations which
-were then fed into the structured SVM classifier \cite{joachims1999making}. For
-every experiment, 5 random permutations of the songs were used for training,
-with 10\% of the total song corpus reserved for training, and 10\% used as a
-validation set to decide when to stop network training. All results reported,
-unless specified otherwise, are an average of models trained on each of these 5
-permutations.
+were then fed into the structured SVM classifier \cite{joachims1999making}.
+Unless otherwise specified, for every experiment 5 random permutations of the
+Beatles dataset were used for training, with 10\% of the total song corpus
+reserved for training, and 10\% used as a validation set to decide when to stop
+network training. All results reported, unless specified otherwise, are an
+average of models trained on each of these 5 permutations.
 
 \section{Results}
 \label{sec:results}
@@ -547,8 +548,8 @@ performant at predicting chord labels for individual frames alone. Based on
 preliminary results, we trained a set of models on both Chroma and raw STFTs
 using similar architectures.  Average performance results are presented in
 Figure \ref{fig:dbn:softmax}, and correspond to 10 individual models trained on
-10 differnt permutations of the Beatles set. All models were trained on 30\% of
-the training data. The most performant of these models achieved an average
+10 different permutations of the Beatles dataset. All models were trained on 30\%
+of the training data. The most performant of these models achieved an average
 accuracy of 42.3\% at test.
 
 \begin{figure}
@@ -561,13 +562,13 @@ Chroma & 12$\rightarrow$300$\rightarrow$300$\rightarrow$25 & 14.20\% ($\pm$ 1.42
 STFTs & 513 $\rightarrow$50$\rightarrow$25$\rightarrow$25 & 32.11\% ($\pm$ 1.55) \\
 STFTs & 513 $\rightarrow$300$\rightarrow$300$\rightarrow$25 & 42.30\% ($\pm$ 2.6) \\
 \end{tabular}
-\label{fig:dbn:softmax}
 \end{center}
 
 \caption{Average softmax prediction accuracy for DBNs trained on 30\% of the
 training data using CD pre-training and error backpropagation fine-tuning.
 Results were calculated by training and evaluating individual models on 10
 different permutations of the training data.}
+\label{fig:dbn:softmax}
 
 \end{figure}
 
@@ -575,12 +576,12 @@ Next, we trained another set of models using larger layers sizes since this
 seemed to help networks do better. For this second set of models, we trained
 networks with 80\% of the training set instead of 30\%. In addition, we
 concatenated a number of previous and future frames to the input data to add
-more temporal context. For Chroma networks, we included the four consecutive
-previous and four consecutive future frames. For STFT networks, because the
-original size is much larger, we concatenated just the previous two frames.
-Figure \ref{fig:dbn:softmax:2} shows averaged results for these models. The
-best network from this set achieved an average accuracy of 55.9\% at test, a
-large improvement over the first set.
+more temporal context. For Chroma networks, we included the four previous and
+four future frames. For STFT networks, because the original size is much
+larger, we concatenated just the previous two frames.  Figure
+\ref{fig:dbn:softmax:2} shows averaged results for these models. The best
+network from this set achieved an average accuracy of 55.9\% at test, a large
+improvement over the first set.
 
 
 \begin{figure}
@@ -593,17 +594,15 @@ Chroma & 108$\rightarrow$100$\rightarrow$100$\rightarrow$50$\rightarrow$25  & 55
 STFTs & 768$\rightarrow$300$\rightarrow$200$\rightarrow$100$\rightarrow$25 & 48.8\% ($\pm$ 2.6) \\
 STFTs & 768$\rightarrow$300$\rightarrow$300$\rightarrow$50$\rightarrow$25 & 42.8\% ($\pm$ 3.1) \\
 \end{tabular}
-\label{fig:dbn:softmax:2}
 \end{center}
 
 \caption{Average softmax prediction accuracy for DBNs trained on 80\% of the
   training data using CD pre-training and error backpropagation fine-tuning.
-  For models trained on chroma, the 4 consecutive previous and 4 consecutive
-  future frames were append to each individual frame to provide models with
-more temporal context.  For models trained on raw STFTs, the 2 consecutive
-previous frames were appended. Results were calculated by training and
-evaluating individual models on 5 different permutations of the training data.}
-
+  For models trained on Chroma, the 4 previous and 4 future frames were append
+  to each individual frame to provide models with more temporal context.  For
+models trained on raw STFTs, the 2 previous frames were appended.
+Results were calculated by training and evaluating individual models on 5
+different permutations of the training data.} \label{fig:dbn:softmax:2}
 \end{figure}
 
 
@@ -639,13 +638,12 @@ network as 55.9\%.
 We attempted to also collect data for SVMs trained on the raw STFTs, but had
 not anticipated the dramatic increase in training time required. While the
 Chroma feature set breaks songs into approximately 200-300 frames of 12
-features each, our STFT preprocessing generated on average 1000-2000
-frames per song, with 256 features per frame. In order to reduce the training
-time, we had to relaxed our original target goals for $C$ values as well as
-$\epsilon$, but it wasn't enough to generated a full set of averaged results
-within the time limit for this paper. However, individual results were in-line
-with the results of SVMs trained on Chroma features and Chroma-trained DBN
-activations.
+features each, our STFT preprocessing generated on average 1000-2000 frames per
+song, with 256 features per frame. In order to reduce the training time, we had
+to relaxed our original target goals for both $C$ and $\epsilon$ values, but it
+wasn't enough to generate a full set of averaged results within the time limit
+for this paper. However, individual results were in-line with the results of
+SVMs trained on Chroma features and Chroma-trained DBN activations.
 
 \begin{figure*}[!ht]
   \begin{center}
@@ -676,19 +674,19 @@ With the limited performance of DBNs trained with Contrastive Divergence and
 the poor running time of the SVMs, we lastly turned our attention to the
 Hessian-Free technique for training Deep Networks. This last technique resulted
 in a dramatic increase in performance over our previous techniques. The results
-reported in Figure \ref{fig:hf:softmax} are average performances over 5 random
-permutations of the training and testing data. Specifically, for each
-permutation, 80\% of the songs were used to train the network, 10\% was used
-as validation for choosing when to stop training as to avoid overfitting, 
-and the final 10\% was used for testing.
+reported in Figure \ref{fig:hf:softmax} are the average performance of models
+based on 5 random permutations of the training and testing data. Specifically,
+for each permutation, 80\% of the songs were used to train the network, 10\%
+was used as validation for choosing when to stop training as to avoid
+overfitting, and the final 10\% was used for testing.
 
 The best performance was achieved via a network trained on Chroma features,
-where inputs included 6 frames to the left and 2 frames to the right of the
-center frame to be labeled. The network architecture was input\_layer
-$\rightarrow$ 800 $\rightarrow$ 600 $\rightarrow$ 50 $\rightarrow$ 25, and
-resulted in a classification accuracy of 65.60\%. Results for training on STFTs
-are also reported, though the accuracy achieved on these features was
-significantly lower.
+where inputs included 6 previous frames and 2 future frames in addition to the
+frame to be labeled. The network architecture was input\_layer $\rightarrow$
+800 $\rightarrow$ 600 $\rightarrow$ 50 $\rightarrow$ 25, and resulted in a
+classification accuracy of 65.60\%. Results for training on STFTs are also
+reported, though the accuracy achieved on these features was significantly
+lower.
 
 We found that compared to the CD training, HF training was faster, less prone
 to overfitting, and generally led to better results on the test sets.
@@ -700,7 +698,7 @@ to overfitting, and generally led to better results on the test sets.
 Moving forward, the most natural extension of the work presented here would be
 to train Recurrent Neural Networks (RNN) using the Hessian-Free method. RNNs
 are similar to DBNs except each layer receives activation both from the layer
-below it, and an additional layer which corresponds to the activation of the
+below it and an additional layer which corresponds to the activation of the
 particular layer at the previous time step. Neural networks constructed in this
 way include a natural temporal element, which enables the networks to be much
 more adept at structured prediction problems. We anticipate that this extension
